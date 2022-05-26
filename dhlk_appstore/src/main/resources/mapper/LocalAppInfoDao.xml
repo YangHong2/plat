@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dhlk.appstore.dao.LocalAppInfoDao">
+
+    <resultMap id="LocalAppInfo" type="com.dhlk.entity.app.LocalAppInfo">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="appName" jdbcType="VARCHAR" column="app_name"/>
+        <result property="appAddress" jdbcType="VARCHAR" column="app_address"/>
+        <result property="appLogo" jdbcType="VARCHAR" column="app_logo"/>
+        <result property="other" jdbcType="VARCHAR" column="other"/>
+        <result property="createTime" jdbcType="TIMESTAMP"   column="create_time"/>
+        <result property="tenantId" jdbcType="INTEGER" column="tenant_id"/>
+        <result property="storeAppId" jdbcType="INTEGER" column="store_app_id"/>
+        <result property="tokenParameters" jdbcType="INTEGER" column="token_parameters"/>
+        <result property="putAdvertising" jdbcType="INTEGER" column="put_advertising"/>
+    </resultMap>
+
+
+    <insert id="insert" parameterType="com.dhlk.entity.app.LocalAppInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into dhlk_local_app_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="appName != null  and appName != ''">app_name,</if>
+            <if test="appAddress != null  and appAddress != ''">app_address,</if>
+            <if test="appLogo != null  and appLogo != ''">app_logo,</if>
+            <if test="other != null  and other != ''">other,</if>
+            <if test="storeAppId != null  and storeAppId != ''">store_app_id,</if>
+            <if test="tokenParameters != null">token_parameters,</if>
+            <if test="putAdvertising != null">put_advertising,</if>
+            tenant_id
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="appName != null  and appName != ''">#{appName},</if>
+            <if test="appAddress != null  and appAddress != ''">#{appAddress},</if>
+            <if test="appLogo != null  and appLogo != ''">#{appLogo},</if>
+            <if test="other != null  and other != ''">#{other},</if>
+            <if test="storeAppId != null  and storeAppId != ''">#{storeAppId},</if>
+            <if test="tokenParameters != null">#{tokenParameters},</if>
+            <if test="putAdvertising != null">#{putAdvertising},</if>
+            #{tenantId}
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.dhlk.entity.app.LocalAppInfo">
+        update dhlk_local_app_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appName != null  and appName != ''">app_name = #{appName},</if>
+            <if test="appAddress != null  and appAddress != ''">app_address = #{appAddress},</if>
+            <if test="appLogo != null  and appLogo != ''">app_logo = #{appLogo},</if>
+            <if test="other != null  and other != ''">other = #{other},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="integer" resultMap="LocalAppInfo">
+
+        select
+        id,app_name,app_address,other,create_time,token_parameters,put_advertising
+        from dhlk_local_app_info
+        where id = #{id}
+
+    </select>
+
+    <select id="selectByName" parameterType="com.dhlk.entity.app.LocalAppInfo" resultMap="LocalAppInfo">
+
+         select
+        id,app_name,app_address,other,create_time,token_parameters,put_advertising
+        from dhlk_local_app_info
+        where app_name = #{appName} and tenant_id=#{tenantId}
+
+    </select>
+
+    <select id="findList" parameterType="integer" resultMap="LocalAppInfo">
+        select
+        id,app_name,app_address,app_logo,other,create_time,token_parameters,put_advertising
+        from dhlk_local_app_info
+        where 1=1
+        <if test="tenantId != null  and tenantId != ''">
+            and tenant_id = #{tenantId}
+        </if>
+        order by  create_time desc
+    </select>
+
+    <delete id="delete" parameterType="integer">
+        delete from dhlk_local_app_info where id = #{id}
+    </delete>
+</mapper>

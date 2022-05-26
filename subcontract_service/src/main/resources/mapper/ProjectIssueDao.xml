@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.ProjectIssueDao">
+    <resultMap type="com.dhlk.entity.sub.ProjectIssue" id="ProjectIssueMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projectName" column="project_name" jdbcType="VARCHAR"/>
+        <result property="isApproval" column="is_approval" jdbcType="INTEGER"/>
+        <result property="projectCycle" column="project_cycle" jdbcType="INTEGER"/>
+        <result property="deliveryMethod" column="delivery_method" jdbcType="VARCHAR"/>
+        <result property="paymentMethod" column="payment_method" jdbcType="INTEGER"/>
+        <result property="otherRequired" column="other_required" jdbcType="VARCHAR"/>
+        <result property="projectManagerr" column="project_managerr" jdbcType="VARCHAR"/>
+        <result property="paymentProduct" column="payment_product" jdbcType="VARCHAR"/>
+        <result property="validity" column="validity" jdbcType="TIMESTAMP"/>
+        <result property="contactWay" column="contact_way" jdbcType="VARCHAR"/>
+        <result property="projectBudget" column="project_budget" jdbcType="INTEGER"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="projectType" column="project_type" jdbcType="INTEGER"/>
+        <result property="projectRelated" column="project_related" jdbcType="INTEGER"/>
+        <result property="fundsType" column="funds_type" jdbcType="INTEGER"/>
+        <result property="demandIntroduce" column="demand_introduce" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="attachmentAddr" column="attachment_addr" jdbcType="VARCHAR"/>
+        <result property="companyId" column="company_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="auditResult" column="audit_result" jdbcType="INTEGER"/>
+        <result property="noReason" column="no_reason" jdbcType="VARCHAR"/>
+        <collection property="file"  column="attachment_addr" select="com.dhlk.subcontract.dao.AttachmentDao.findByDataId"/>
+    </resultMap>
+
+    <resultMap type="com.dhlk.entity.sub.ProjectIssue" id="ProjectIssueRelevanceMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projectName" column="project_name" jdbcType="VARCHAR"/>
+        <result property="isApproval" column="is_approval" jdbcType="INTEGER"/>
+        <result property="projectCycle" column="project_cycle" jdbcType="INTEGER"/>
+        <result property="deliveryMethod" column="delivery_method" jdbcType="VARCHAR"/>
+        <result property="paymentMethod" column="payment_method" jdbcType="INTEGER"/>
+        <result property="otherRequired" column="other_required" jdbcType="VARCHAR"/>
+        <result property="projectManagerr" column="project_managerr" jdbcType="VARCHAR"/>
+        <result property="paymentProduct" column="payment_product" jdbcType="VARCHAR"/>
+        <result property="validity" column="validity" jdbcType="TIMESTAMP"/>
+        <result property="contactWay" column="contact_way" jdbcType="VARCHAR"/>
+        <result property="projectBudget" column="project_budget" jdbcType="INTEGER"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="projectType" column="project_type" jdbcType="INTEGER"/>
+        <result property="projectRelated" column="project_related" jdbcType="INTEGER"/>
+        <result property="fundsType" column="funds_type" jdbcType="INTEGER"/>
+        <result property="demandIntroduce" column="demand_introduce" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="attachmentAddr" column="attachment_addr" jdbcType="VARCHAR"/>
+        <result property="companyId" column="company_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="auditResult" column="audit_result" jdbcType="INTEGER"/>
+        <result property="noReason" column="no_reason" jdbcType="VARCHAR"/>
+        <collection property="financialProvider" column="id" select="com.dhlk.subcontract.dao.FinancialProviderDao.findByProjectId"/>
+        <collection property="consultingProvider" column="id" select="com.dhlk.subcontract.dao.ConsultingProviderDao.findByProjectId"/>
+        <collection property="devProduce" column="id" select="com.dhlk.subcontract.dao.DevProduceDao.findByProjectId"/>
+        <collection property="installation" column="id" select="com.dhlk.subcontract.dao.DevProduceDao.findInstallation"/>
+        <collection property="deliveryApplyFor" column="id" select="com.dhlk.subcontract.dao.DeliveryApplyForDao.findByProjectId"/>
+        <collection property="installApply" column="id" select="com.dhlk.subcontract.dao.DeliveryApplyForDao.findInstallApply"/>
+        <collection property="projectClose" column="id" select="com.dhlk.subcontract.dao.ProjectCloseDao.findByProjectId"/>
+        <collection property="file"  column="attachment_addr" select="com.dhlk.subcontract.dao.AttachmentDao.findByDataId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        t2.id, t2.project_name, t2.is_approval, t2.project_cycle, t2.delivery_method, t2.payment_method, t2.other_required, t2.project_managerr,
+        t2.payment_product, t2.validity, t2.contact_way, t2.project_budget, t2.start_time, t2.project_type, t2.project_related, t2.funds_type,
+        t2.demand_introduce, t2.remark, t2.attachment_addr, t2.company_id, t2.create_time, t2.score, t2.audit_result, t2.no_reason
+    </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ProjectIssueMap">
+        select
+        id, project_name, is_approval, project_cycle, delivery_method, payment_method, other_required, project_managerr,
+        payment_product, validity, contact_way, project_budget, start_time, project_type, project_related, funds_type,
+        demand_introduce, remark, attachment_addr, company_id, create_time, score, audit_result, no_reason
+        from project_issue
+        where id = #{id}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ProjectIssueMap">
+        select
+        id, project_name, is_approval, project_cycle, delivery_method, payment_method, other_required, project_managerr,
+        payment_product, validity, contact_way, project_budget, start_time, project_type, project_related, funds_type,
+        demand_introduce, remark, attachment_addr, company_id, create_time, score, audit_result, no_reason
+        from project_issue
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and project_name = #{projectName}
+            </if>
+            <if test="isApproval != null">
+                and is_approval = #{isApproval}
+            </if>
+            <if test="projectCycle != null">
+                and project_cycle = #{projectCycle}
+            </if>
+            <if test="deliveryMethod != null and deliveryMethod != ''">
+                and delivery_method = #{deliveryMethod}
+            </if>
+            <if test="paymentMethod != null">
+                and payment_method = #{paymentMethod}
+            </if>
+            <if test="otherRequired != null and otherRequired != ''">
+                and other_required = #{otherRequired}
+            </if>
+            <if test="projectManagerr != null and projectManagerr != ''">
+                and project_managerr = #{projectManagerr}
+            </if>
+            <if test="paymentProduct != null and paymentProduct != ''">
+                and payment_product = #{paymentProduct}
+            </if>
+            <if test="validity != null">
+                and validity = #{validity}
+            </if>
+            <if test="contactWay != null and contactWay != ''">
+                and contact_way = #{contactWay}
+            </if>
+            <if test="projectBudget != null">
+                and project_budget = #{projectBudget}
+            </if>
+            <if test="startTime != null">
+                and start_time = #{startTime}
+            </if>
+            <if test="projectType != null">
+                and project_type = #{projectType}
+            </if>
+            <if test="projectRelated != null">
+                and project_related = #{projectRelated}
+            </if>
+            <if test="fundsType != null">
+                and funds_type = #{fundsType}
+            </if>
+            <if test="demandIntroduce != null">
+                and demand_introduce = #{demandIntroduce}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="attachmentAddr != null">
+                and attachment_addr = #{attachmentAddr}
+            </if>
+            <if test="companyId != null">
+                and company_id = #{companyId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="auditResult != null">
+                and audit_result = #{auditResult}
+            </if>
+            <if test="noReason != null and noReason != ''">
+                and no_reason = #{noReason}
+            </if>
+        </where>
+    </select>
+
+
+    <insert id="insert" parameterType="com.dhlk.entity.sub.ProjectIssue" useGeneratedKeys="true" keyProperty="id">
+        insert into project_issue
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''"> id,</if>
+            <if test="projectName != null  and projectName != ''">project_name,</if>
+            <if test="isApproval != null ">is_approval,</if>
+            <if test="projectCycle != null ">project_cycle,</if>
+            <if test="deliveryMethod != null  and deliveryMethod != ''">delivery_method,</if>
+            <if test="paymentMethod != null ">payment_method,</if>
+            <if test="otherRequired != null  and otherRequired != ''">other_required,</if>
+            <if test="projectManagerr != null  and projectManagerr != ''">project_managerr,</if>
+            <if test="paymentProduct != null  and paymentProduct != ''">payment_product,</if>
+            <if test="validity != null  and validity != ''">validity,</if>
+            <if test="contactWay != null  and contactWay != ''">contact_way,</if>
+            <if test="projectBudget != null">project_budget,</if>
+            <if test="startTime != null  and startTime != ''">start_time,</if>
+            <if test="projectType != null ">project_type,</if>
+            <if test="projectRelated != null">project_related,</if>
+            <if test="fundsType != null ">funds_type,</if>
+            <if test="demandIntroduce != null  and demandIntroduce != ''">demand_introduce,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="attachmentAddr != null  and attachmentAddr != ''">attachment_addr,</if>
+            <if test="companyId != null ">company_id,</if>
+            <if test="score != null ">score,</if>
+            <if test="auditResult != null ">audit_result,</if>
+            <if test="noReason != null  and noReason != ''">no_reason</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''"> #{id},</if>
+            <if test="projectName != null  and projectName != ''">#{projectName},</if>
+            <if test="isApproval != null ">#{isApproval},</if>
+            <if test="projectCycle != null"> #{projectCycle},</if>
+            <if test="deliveryMethod != null  and deliveryMethod != ''">#{deliveryMethod},</if>
+            <if test="paymentMethod != null ">#{paymentMethod},</if>
+            <if test="otherRequired != null  and otherRequired != ''"> #{otherRequired},</if>
+            <if test="projectManagerr != null  and projectManagerr != ''">#{projectManagerr},</if>
+            <if test="paymentProduct != null  and paymentProduct != ''">#{paymentProduct},</if>
+            <if test="validity != null  and validity != ''">#{validity},</if>
+            <if test="contactWay != null  and contactWay != ''">#{contactWay},</if>
+            <if test="projectBudget != null ">#{projectBudget},</if>
+            <if test="startTime != null  and startTime != ''">#{startTime},</if>
+            <if test="projectType != null ">#{projectType},</if>
+            <if test="projectRelated != null ">#{projectRelated},</if>
+            <if test="fundsType != null">#{fundsType},</if>
+            <if test="demandIntroduce != null  and demandIntroduce != ''">#{demandIntroduce},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="attachmentAddr != null  and attachmentAddr != ''">#{attachmentAddr},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="score != null">#{score},</if>
+            <if test="auditResult != null">#{auditResult},</if>
+            <if test="noReason != null  and noReason != ''">#{noReason}</if>
+        </trim>
+    </insert>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update project_issue
+        <set>
+            <if test="projectName != null and projectName != ''">
+                project_name = #{projectName},
+            </if>
+            <if test="isApproval != null">
+                is_approval = #{isApproval},
+            </if>
+            <if test="projectCycle != null">
+                project_cycle = #{projectCycle},
+            </if>
+            <if test="deliveryMethod != null and deliveryMethod != ''">
+                delivery_method = #{deliveryMethod},
+            </if>
+            <if test="paymentMethod != null">
+                payment_method = #{paymentMethod},
+            </if>
+            <if test="otherRequired != null and otherRequired != ''">
+                other_required = #{otherRequired},
+            </if>
+            <if test="projectManagerr != null and projectManagerr != ''">
+                project_managerr = #{projectManagerr},
+            </if>
+            <if test="paymentProduct != null and paymentProduct != ''">
+                payment_product = #{paymentProduct},
+            </if>
+            <if test="validity != null">
+                validity = #{validity},
+            </if>
+            <if test="contactWay != null and contactWay != ''">
+                contact_way = #{contactWay},
+            </if>
+            <if test="projectBudget != null">
+                project_budget = #{projectBudget},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+            <if test="projectType != null">
+                project_type = #{projectType},
+            </if>
+            <if test="projectRelated != null">
+                project_related = #{projectRelated},
+            </if>
+            <if test="fundsType != null">
+                funds_type = #{fundsType},
+            </if>
+            <if test="demandIntroduce != null">
+                demand_introduce = #{demandIntroduce},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="attachmentAddr != null">
+                attachment_addr = #{attachmentAddr},
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="auditResult != null">
+                audit_result = #{auditResult},
+            </if>
+            <if test="noReason != null and noReason != ''">
+                no_reason = #{noReason},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="findIssue" parameterType="com.dhlk.entity.sub.ProjectIssue" resultMap="ProjectIssueMap">
+        SELECT
+        t1.*,
+        IFNULL('发布','') as types,
+        t2.id AS financial,
+        t3.id AS consulting,
+        t5.id AS delivery,
+        t6.id as projectClose
+        FROM
+        project_issue t1
+        LEFT JOIN financial_provider t2 ON t1.id = t2.project_id
+        LEFT JOIN consulting_provider t3 ON t1.id = t3.project_id
+        LEFT JOIN delivery_apply_for t5 ON t1.id = t5.project_id
+        LEFT JOIN project_close t6 on t1.id = t6.project_id and t6.audit_result = 2
+        WHERE
+        1 = 1
+        <if test="name != null and name != ''">
+            and t1.project_name  like concat('%/', #{name}, '%') ESCAPE '/'
+        </if>
+        AND t1.company_id = #{companyId} order by t1.id desc
+
+    </select>
+
+    <select id="findAll" resultMap="ProjectIssueMap">
+        SELECT <include refid="Base_Column_List"/>,IFNULL('发布','') as types,t7.id AS financial, t3.id AS consulting,t5.id AS delivery ,t6.id as proClose from project_issue t2
+        LEFT JOIN financial_provider t7 ON t2.id = t7.project_id
+        LEFT JOIN consulting_provider t3 ON t2.id = t3.project_id
+        LEFT JOIN delivery_apply_for t5 ON t2.id = t5.project_id
+        LEFT JOIN project_close t6 on t2.id = t6.project_id and t6.audit_result = 2
+        where 1=1
+        <if test="name != null and name != ''">
+            and t2.project_name  like concat('%/', #{name}, '%') ESCAPE '/'
+        </if>
+        and t2.company_id = #{companyId}
+        UNION ALL
+        SELECT
+        t3.* ,
+        t7.id AS financial, t4.id AS consulting,t5.id AS delivery ,t6.id as proClose
+        FROM(
+        SELECT <include refid="Base_Column_List"/>, IFNULL('投资','') as types from financial_provider t1 JOIN project_issue t2 ON t1.project_id = t2.id and t1.company_id = #{companyId}) t3
+        LEFT JOIN financial_provider t7 ON t3.id = t7.project_id
+        LEFT JOIN consulting_provider t4 ON t3.id = t4.project_id
+        LEFT JOIN delivery_apply_for t5 ON t3.id = t5.project_id
+        LEFT JOIN project_close t6 ON t3.id = t6.project_id AND t6.audit_result = 2
+        where 1=1
+        <if test="name != null and name != ''">
+            and t3.project_name  like concat('%/', #{name}, '%') ESCAPE '/'
+        </if>
+        UNION ALL
+        SELECT
+        t3.* ,
+        t7.id AS financial, t4.id AS consulting,t5.id AS delivery ,t6.id as proClose
+        FROM(
+        SELECT <include refid="Base_Column_List"/>, IFNULL('咨询','') as types from consulting_provider t1 JOIN project_issue t2 ON t1.project_id = t2.id and t1.company_id = #{companyId}) t3
+        LEFT JOIN financial_provider t7 ON t3.id = t7.project_id
+        LEFT JOIN consulting_provider t4 ON t3.id = t4.project_id
+        LEFT JOIN delivery_apply_for t5 ON t3.id = t5.project_id
+        LEFT JOIN project_close t6 ON t3.id = t6.project_id AND t6.audit_result = 2
+        where 1=1
+        <if test="name != null and name != ''">
+            and t2.project_name  like concat('%/', #{name}, '%') ESCAPE '/'
+        </if>
+        UNION ALL
+        SELECT
+        t3.* ,
+        t7.id AS financial, t4.id AS consulting,t5.id AS delivery ,t6.id as proClose
+        FROM(
+        SELECT <include refid="Base_Column_List"/>, IFNULL('施工','') as types from dev_produce t1 JOIN project_issue t2 ON t1.project_id = t2.id and t1.company_id = #{companyId} and t1.type = 1) t3
+        LEFT JOIN financial_provider t7 ON t3.id = t7.project_id
+        LEFT JOIN consulting_provider t4 ON t3.id = t4.project_id
+        LEFT JOIN delivery_apply_for t5 ON t3.id = t5.project_id and  t5.type = 1
+        LEFT JOIN project_close t6 ON t3.id = t6.project_id AND t6.audit_result = 2
+        where 1=1
+        <if test="name != null and name != ''">
+            and t3.project_name  like concat('%/', #{name}, '%') ESCAPE '/'
+        </if>
+    </select>
+
+    <select id="findRelevance" resultMap="ProjectIssueRelevanceMap">
+        select  id, project_name, is_approval, project_cycle, delivery_method, payment_method, other_required, project_managerr,
+        payment_product, validity, contact_way, project_budget, start_time, project_type, project_related, funds_type,
+        demand_introduce, remark, attachment_addr, company_id, create_time, score, audit_result, no_reason
+        from  project_issue where id = #{id} and company_id = #{companyId}
+    </select>
+
+    <select id="findProjectManage" resultMap="ProjectIssueMap">
+        SELECT
+        t1.company_name,
+        t2.project_name,
+        t2.project_type
+        FROM
+        company t1
+        LEFT JOIN project_issue t2 ON t1.id = t2.company_id
+        LEFT JOIN project_close t3 ON t2.id = t3.project_id
+        where 1=1
+        <if test="name != null">
+           and t2.project_name like concat('%/', #{name}, '%') ESCAPE '/'
+        </if>
+
+    </select>
+
+    <select id="getRelevance" resultMap="ProjectIssueMap">
+    SELECT t2.id, t2.project_name, t2.is_approval, t2.project_cycle, t2.delivery_method, t2.payment_method, t2.other_required, t2.project_managerr,
+    t2.payment_product, t2.validity, t2.contact_way, t2.project_budget, t2.start_time, t2.project_type, t2.project_related, t2.funds_type,
+    t2.demand_introduce, t2.remark, t2.attachment_addr, t2.company_id, t2.create_time, t2.score, t2.audit_result, t2.no_reason
+    FROM consulting_provider t1 JOIN project_issue t2 ON t1.project_id = t2.id and t1.company_id = #{companyId}
+    </select>
+
+
+    <select id="search" resultMap="ProjectIssueMap">
+        SELECT
+        t1.id,
+        t1.project_name,
+        t1.is_approval,
+        t1.project_cycle,
+        t1.delivery_method,
+        t1.payment_method,
+        t1.other_required,
+        t1.project_managerr,
+        t1.payment_product,
+        t1.validity,
+        t1.contact_way,
+        t1.project_budget,
+        t1.start_time,
+        t1.project_type,
+        t1.project_related,
+        t1.funds_type,
+        t1.demand_introduce,
+        t1.remark,
+        t1.attachment_addr,
+        t1.company_id,
+        t1.create_time,
+        t1.score,
+        t1.audit_result,
+        t1.no_reason ,
+        t2.company_name
+        FROM
+        project_issue t1 LEFT JOIN company t2 on t1.company_id = t2.id
+        where 1=1
+        <choose>
+            <when test="projectType == 3">
+                <if test="projectName != null">
+                    and t2.company_name like concat('%/', #{projectName}, '%') ESCAPE '/'
+                </if>
+            </when>
+            <otherwise>
+                <if test="projectType != null">
+                    and t1.project_type = #{projectType}
+                </if>
+                <if test="projectName != null">
+                    and t1.project_name like concat('%/', #{projectName}, '%') ESCAPE '/'
+                </if>
+            </otherwise>
+        </choose>
+        order by t1.id desc
+    </select>
+
+    <select id="getProjectIssue" resultType="com.dhlk.entity.sub.ProjectIssue">
+        SELECT
+        t1.id,
+        t1.project_name,
+        t1.is_approval,
+        t1.project_cycle,
+        t1.delivery_method,
+        t1.payment_method,
+        t1.other_required,
+        t1.project_managerr,
+        t1.payment_product,
+        t1.validity,
+        t1.contact_way,
+        t1.project_budget,
+        t1.start_time,
+        t1.project_type,
+        t1.project_related,
+        t1.funds_type,
+        t1.demand_introduce,
+        t1.remark,
+        t1.attachment_addr,
+        t1.company_id,
+        t1.create_time,
+        t1.score,
+        t1.audit_result,
+        t1.no_reason ,
+        t2.company_name
+        FROM
+        project_issue t1 LEFT JOIN company t2 on t1.company_id = t2.id
+        where t1.id = #{id}
+
+    </select>
+</mapper>
+

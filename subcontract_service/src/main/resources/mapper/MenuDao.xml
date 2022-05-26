@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.MenuDao">
+    <resultMap type="com.dhlk.entity.sub.Menu" id="MenuMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+        <result property="perms" column="perms" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MenuMap">
+
+                select
+                  id, code, name, url, status, parent_id, perms, type
+                from dhlk_subcontract_plat.menu
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MenuMap">
+
+                select
+                  id, code, name, url, status, parent_id, perms, type
+                from dhlk_subcontract_plat.menu
+                limit #{offset}, #{limit}
+
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="MenuMap">
+        select
+        id, code, name, url, status, parent_id, perms, type
+        from dhlk_subcontract_plat.menu
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="url != null and url != ''">
+                and url = #{url}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="parentId != null">
+                and parent_id = #{parentId}
+            </if>
+            <if test="perms != null and perms != ''">
+                and perms = #{perms}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into dhlk_subcontract_plat.menu(code, name, url, status, parent_id, perms, type)
+                values (#{code}, #{name}, #{url}, #{status}, #{parentId}, #{perms}, #{type})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.menu(code, name, url, status, parent_id, perms, type)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.code}, #{entity.name}, #{entity.url}, #{entity.status}, #{entity.parentId}, #{entity.perms},
+            #{entity.type})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.menu(code, name, url, status, parent_id, perms, type)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.code}, #{entity.name}, #{entity.url}, #{entity.status}, #{entity.parentId}, #{entity.perms},
+            #{entity.type})
+        </foreach>
+        on duplicate key update
+        code = values(code) , name = values(name) , url = values(url) , status = values(status) , parent_id =
+        values(parent_id) , perms = values(perms) , type = values(type)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.menu
+        <set>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="url != null and url != ''">
+                url = #{url},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="perms != null and perms != ''">
+                perms = #{perms},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from dhlk_subcontract_plat.menu where id = #{id}
+
+    </delete>
+
+
+
+    <select id="findByUser" parameterType="com.dhlk.entity.sub.Menu" resultType="com.dhlk.entity.sub.Menu">
+        select m.* from menu m
+        left join role_menu rm on rm.menu_id = m.id
+        left join user_role ur on ur.role_id = rm.role_id
+        where ur.user_id = #{userId}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
+

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.SubpackageUserDao">
+    <resultMap type="com.dhlk.entity.sub.SubpackageUser" id="SubpackageUserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="loginName" column="login_name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="companyId" column="company_id" jdbcType="INTEGER"/>
+        <result property="companyEmail" column="company_email" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <association property="company" column="company_id" select="com.dhlk.subcontract.dao.CompanyDao.queryById"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SubpackageUserMap">
+        select
+        id, login_name, password, company_id, company_email,status
+        from dhlk_subcontract_plat.subpackage_user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SubpackageUserMap">
+        select
+        id, login_name, password, company_id, company_email,status
+        from dhlk_subcontract_plat.subpackage_user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SubpackageUserMap">
+        select
+        id, login_name, password, company_id, company_email,status
+        from dhlk_subcontract_plat.subpackage_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="loginName != null and loginName != ''">
+                and login_name = #{loginName}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="companyId != null">
+                and company_id = #{companyId}
+            </if>
+            <if test="companyEmail != null and companyEmail != ''">
+                and company_email = #{companyEmail}
+            </if>
+        </where>
+    </select>
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.subpackage_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="loginName != null and loginName != ''">login_name,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="companyEmail != null and companyEmail != ''">company_email,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="loginName != null and loginName != ''">#{loginName},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="companyEmail != null and companyEmail != ''">#{companyEmail},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.subpackage_user(login_name, password, company_id, company_email,status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.loginName}, #{entity.password}, #{entity.companyId}, #{entity.companyEmail},#{status})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.subpackage_user(login_name, password, company_id, company_email,status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.loginName}, #{entity.password}, #{entity.companyId}, #{entity.companyEmail},#{entity.status})
+        </foreach>
+        on duplicate key update
+        login_name = values(login_name) , password = values(password) , company_id = values(company_id) , company_email
+        = values(company_email), status = values(status)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.subpackage_user
+        <set>
+            <if test="loginName != null and loginName != ''">
+                login_name = #{loginName},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId},
+            </if>
+            <if test="companyEmail != null and companyEmail != ''">
+                company_email = #{companyEmail},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from dhlk_subcontract_plat.subpackage_user where id = #{id}
+    </delete>
+
+
+
+
+
+
+    <select id="findByLoginName" resultMap="SubpackageUserMap">
+        select su.* from subpackage_user su
+        where login_name = #{loginName}
+    </select>
+    <select id="isRepeatLoginName" parameterType="com.dhlk.entity.sub.SubpackageUser" resultType="java.lang.Integer">
+        select count(0) from subpackage_user
+        where login_name = #{loginName}
+        <if test="id != null">
+            and id != #{id}
+        </if>
+    </select>
+    <select id="isRepeatCompanyEmail" parameterType="com.dhlk.entity.sub.SubpackageUser" resultType="java.lang.Integer">
+        select count(0) from subpackage_user
+        where company_email = #{companyEmail}
+        <if test="id != null">
+            and id != #{id}
+        </if>
+    </select>
+    <select id="findByEmail" resultType="com.dhlk.entity.sub.SubpackageUser">
+        select su.*,c.* from subpackage_user su
+        left join company c on c.id = su.company_id
+        where company_email = #{companyEmail}
+    </select>
+    <select id="findList" resultType="com.dhlk.entity.sub.SubpackageUser">
+        select su.*,c.* from subpackage_user su
+        left join company c on c.id = su.company_id
+        where 1=1
+        <if test="companyName != null and companyName != ''">
+            and company_name = #{companyName}
+        </if>
+        <if test="auditStatus != null">
+            and audit_status = #{auditStatus}
+        </if>
+        <if test="isBlacklist != null">
+            and is_blacklist = #{isBlacklist}
+        </if>
+    </select>
+
+
+</mapper>
+

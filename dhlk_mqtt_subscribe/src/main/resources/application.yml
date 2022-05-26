@@ -1,0 +1,25 @@
+
+debug: true
+server:
+  port: 10055
+spring:
+  application:
+    name: mqtt-service
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        register: true
+        hostname: 127.0.0.1
+        service-name: ${spring.application.name}
+        health-check-path: /actuator/health
+        health-check-interval: 15s
+        tags: urlprefix-/${spring.application.name}
+        instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+
+mqtt:
+  host: tcp://mq.dahanglink.com:1883
+  topic: machines,dhlk_Energy
+  username: dhlk
+  password: dhlktech

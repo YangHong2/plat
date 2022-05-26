@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.OrderDetailsDao">
+    <resultMap type="com.dhlk.entity.sub.OrderDetails" id="OrderDetailsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="appId" column="app_id" jdbcType="INTEGER"/>
+        <result property="orderId" column="order_id" jdbcType="INTEGER"/>
+        <result property="userCouponsId" column="user_coupons_id" jdbcType="INTEGER"/>
+        <result property="handle" column="handle" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OrderDetailsMap">
+
+                select
+                  id, app_id, order_id, user_coupons_id, handle
+                from dhlk_subcontract_plat.order_details
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OrderDetailsMap">
+
+                select
+                  id, app_id, order_id, user_coupons_id, handle
+                from dhlk_subcontract_plat.order_details
+                limit #{offset}, #{limit}
+
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="OrderDetailsMap">
+        select
+        id, app_id, order_id, user_coupons_id, handle
+        from dhlk_subcontract_plat.order_details
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="appId != null">
+                and app_id = #{appId}
+            </if>
+            <if test="orderId != null">
+                and order_id = #{orderId}
+            </if>
+            <if test="userCouponsId != null">
+                and user_coupons_id = #{userCouponsId}
+            </if>
+            <if test="handle != null">
+                and handle = #{handle}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into dhlk_subcontract_plat.order_details(app_id, order_id, user_coupons_id, handle)
+                values (#{appId}, #{orderId}, #{userCouponsId}, #{handle})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.order_details(app_id, order_id, user_coupons_id, handle)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.appId}, #{entity.orderId}, #{entity.userCouponsId}, #{entity.handle})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.order_details(app_id, order_id, user_coupons_id, handle)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.appId}, #{entity.orderId}, #{entity.userCouponsId}, #{entity.handle})
+        </foreach>
+        on duplicate key update
+        app_id = values(app_id) , order_id = values(order_id) , user_coupons_id = values(user_coupons_id) , handle =
+        values(handle)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.order_details
+        <set>
+            <if test="appId != null">
+                app_id = #{appId},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId},
+            </if>
+            <if test="userCouponsId != null">
+                user_coupons_id = #{userCouponsId},
+            </if>
+            <if test="handle != null">
+                handle = #{handle},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from dhlk_subcontract_plat.order_details where id = #{id}
+
+    </delete>
+</mapper>
+

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.ConsultingProviderDao">
+    <resultMap type="com.dhlk.entity.sub.ConsultingProvider" id="ConsultingProviderMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+        <result property="contractAmount" column="contract_amount" jdbcType="NUMERIC"/>
+        <result property="paymentMethod" column="payment_method" jdbcType="INTEGER"/>
+        <result property="linkman" column="linkman" jdbcType="VARCHAR"/>
+        <result property="contactWay" column="contact_way" jdbcType="VARCHAR"/>
+        <result property="contractPic" column="contract_pic" jdbcType="VARCHAR"/>
+        <result property="projectId" column="project_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="companyId" column="company_id" jdbcType="INTEGER"/>
+        <collection property="file"  column="attachment_addr" select="com.dhlk.subcontract.dao.AttachmentDao.findByDataId"/>
+    </resultMap>
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.consulting_provider(company_name, contract_amount, payment_method, linkman, contact_way, contract_pic, project_id,company_id)
+        values (#{companyName}, #{contractAmount}, #{paymentMethod}, #{linkman}, #{contactWay}, #{contractPic}, #{projectId},#{companyId})
+    </insert>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.consulting_provider
+        <set>
+            <if test="companyName != null and companyName != ''">
+                company_name = #{companyName},
+            </if>
+            <if test="contractAmount != null">
+                contract_amount = #{contractAmount},
+            </if>
+            <if test="paymentMethod != null">
+                payment_method = #{paymentMethod},
+            </if>
+            <if test="linkman != null and linkman != ''">
+                linkman = #{linkman},
+            </if>
+            <if test="contactWay != null and contactWay != ''">
+                contact_way = #{contactWay},
+            </if>
+            <if test="contractPic != null">
+                contract_pic = #{contractPic},
+            </if>
+            <if test="projectId != null">
+                project_id = #{projectId},
+            </if>
+
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <!--通过主键删除-->
+    <delete id="delete" parameterType="java.util.List">
+        delete from  dhlk_subcontract_plat.consulting_provider where id  in
+        <foreach collection="list" open="(" separator="," close=")" item="item">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAdvisory" resultMap="ConsultingProviderMap">
+        SELECT
+        t3.*,
+        IFNULL('咨询','') as types,
+        t4.id AS financial,
+        t5.id AS consulting,
+        t6.id AS delivery,
+        t7.id AS proClose
+        FROM
+        ( SELECT t2.* FROM consulting_provider t1 JOIN project_issue t2 ON t1.project_id = t2.id and t1.company_id = #{companyId}) t3
+        LEFT JOIN financial_provider t4 ON t3.id = t4.project_id
+        LEFT JOIN consulting_provider t5 ON t3.id = t5.project_id
+        LEFT JOIN delivery_apply_for t6 ON t3.id = t6.project_id
+        LEFT JOIN project_close t7 ON t3.id = t7.project_id AND t7.audit_result = 2
+        WHERE 1=1
+        <if test="name != null and name != ''">
+            and t3.project_name  like concat('%/', #{name}, '%') ESCAPE '/'
+        </if>
+        order by t3.id desc
+    </select>
+
+
+    <select id="findByProjectId" resultMap="ConsultingProviderMap">
+        SELECT
+        t1.id,
+        t1.company_name,
+        t1.contract_amount,
+        t1.payment_method,
+        t1.linkman,
+        t1.contact_way,
+        t1.contract_pic,
+        t1.project_id,
+        t1.create_time,
+        t1.company_id
+        FROM
+        consulting_provider t1
+        WHERE  t1.project_id = #{projectId}
+        order by t1.id desc
+    </select>
+
+</mapper>
+

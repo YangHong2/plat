@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.interfaces.service.dao.AppMenuDao">
+    
+    <resultMap type="com.dhlk.entity.app.AppMenu" id="AppMenuResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="url"    column="url"    />
+        <result property="status"    column="status"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="perms"    column="perms"    />
+        <result property="type"    column="type"    />
+        <result property="appCode"    column="app_code"    />
+    </resultMap>
+
+    <sql id="selectMenuVo">
+        select id, code, name, url,perms, status, parent_id,type,app_code from dhlk_app_menu
+    </sql>
+    <select id="findListByCode" resultMap="AppMenuResult">
+        <include refid="selectMenuVo"/>
+        where app_code in (
+        select app_code from dhlk_app_tenant where tenant_id = #{tenantId}
+        )
+    </select>
+    <select id="findListChecked" resultType="com.dhlk.entity.app.AppMenu">
+        SELECT *
+            , CASE
+                WHEN EXISTS (
+                    SELECT 1
+                    FROM dhlk_app_permissions dbp
+                    WHERE dbp.menu_id = dbm.id
+                        AND dbp.role_id = #{roleId}
+                ) THEN 'true'
+                ELSE 'false'
+            END AS checked
+        FROM dhlk_app_menu dbm WHERE dbm.status = 0
+        ORDER BY dbm.id ASC
+    </select>
+    <select id="findMenusByLoginName" resultType="com.dhlk.entity.app.AppMenu">
+        SELECT code,perms FROM dhlk_app_menu WHERE id IN
+        (SELECT menu_id FROM dhlk_app_permissions WHERE role_id IN
+        (SELECT role_id FROM dhlk_basic_user_role WHERE user_id =
+        (SELECT id FROM dhlk_basic_user WHERE login_name = #{loginName})))
+    </select>
+</mapper>

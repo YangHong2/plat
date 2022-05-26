@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.GoldDao">
+    <resultMap type="com.dhlk.entity.sub.Gold" id="GoldMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="sourceType" column="source_type" jdbcType="VARCHAR"/>
+        <result property="goldNum" column="gold_num" jdbcType="NUMERIC"/>
+        <result property="balance" column="balance" jdbcType="NUMERIC"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <update id="addGold">
+
+        update  gold set gold_num = #{addNum} where user_id = #{id}
+
+    </update>
+
+    <update id="addBalance">
+        update  gold set balance = #{addNum} where user_id = #{id}
+    </update>
+
+    <insert id="insert">
+        insert into gold (source_type,gold_num,balance,user_id,create_time) values
+        (#{sourceType},#{goldNum},#{balance},#{userId},now())
+    </insert>
+
+    <select id="queryByUserId" resultMap="GoldMap">
+
+        select * from gold where user_id =#{id}
+    </select>
+
+</mapper>
+

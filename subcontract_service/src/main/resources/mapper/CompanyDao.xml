@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.CompanyDao">
+    <resultMap type="com.dhlk.entity.sub.Company" id="CompanyMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+        <result property="capital" column="capital" jdbcType="VARCHAR"/>
+        <result property="companyAddress" column="company_address" jdbcType="VARCHAR"/>
+        <result property="companyNature" column="company_nature" jdbcType="VARCHAR"/>
+        <result property="turnoverYear" column="turnover_year" jdbcType="VARCHAR"/>
+        <result property="legalPerson" column="legal_person" jdbcType="VARCHAR"/>
+        <result property="legalNum" column="legal_num" jdbcType="VARCHAR"/>
+        <result property="companyScale" column="company_scale" jdbcType="VARCHAR"/>
+        <result property="business" column="business" jdbcType="VARCHAR"/>
+        <result property="companyType" column="company_type" jdbcType="VARCHAR"/>
+        <result property="companyLicense" column="company_license" jdbcType="VARCHAR"/>
+        <result property="licenseValidity" column="license_validity" jdbcType="TIMESTAMP"/>
+        <result property="creditCode" column="credit_code" jdbcType="VARCHAR"/>
+        <result property="identityCard" column="identity_card" jdbcType="VARCHAR"/>
+        <result property="companyAuthorization" column="company_authorization" jdbcType="VARCHAR"/>
+        <result property="auditStatus" column="audit_status" jdbcType="INTEGER"/>
+        <result property="auditReason" column="audit_reason" jdbcType="VARCHAR"/>
+        <result property="isBlacklist" column="is_blacklist" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="auditTime" column="audit_time" jdbcType="TIMESTAMP"/>
+        <result property="blacklistReason" column="blacklist_reason" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="com.dhlk.entity.sub.Company" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="companyName != null and companyName != ''">company_name,</if>
+            <if test="capital != null and capital != ''">capital,</if>
+            <if test="companyAddress != null and companyAddress != ''">company_address,</if>
+            <if test="companyNature != null and companyNature != ''">company_nature,</if>
+
+            <if test="turnoverYear != null and turnoverYear != ''">turnover_year,</if>
+            <if test="legalPerson != null and legalPerson != ''">legal_person,</if>
+            <if test="legalNum != null and legalNum != ''">legal_num,</if>
+            <if test="companyScale != null and companyScale != ''">company_scale,</if>
+
+            <if test="business != null and business != ''">business,</if>
+            <if test="companyType != null">company_type,</if>
+            <if test="companyLicense != null and companyLicense != ''">company_license,</if>
+            <if test="licenseValidity != null and licenseValidity != ''">license_validity,</if>
+
+            <if test="creditCode != null and creditCode != ''">credit_code,</if>
+            <if test="identityCard != null and identityCard != ''">identity_card,</if>
+            <if test="companyAuthorization != null and companyAuthorization != ''">company_authorization,</if>
+            <if test="auditStatus != null">audit_status,</if>
+
+            <if test="auditReason != null and auditReason != ''">audit_reason,</if>
+            <if test="isBlacklist != null">is_blacklist,</if>
+            <if test="createTime != null and createTime != ''">create_time,</if>
+            <if test="auditTime != null and auditTime != ''">audit_time,</if>
+            <if test="blacklistReason != null and blacklistReason != ''">blacklist_reason,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="companyName != null and companyName != ''">#{companyName},</if>
+            <if test="capital != null and capital != ''">#{capital},</if>
+            <if test="companyAddress != null and companyAddress != ''">#{companyAddress},</if>
+            <if test="companyNature != null and companyNature != ''">#{companyNature},</if>
+
+            <if test="turnoverYear != null and turnoverYear != ''">#{turnoverYear},</if>
+            <if test="legalPerson != null and legalPerson != ''">#{legalPerson},</if>
+            <if test="legalNum != null and legalNum != ''">#{legalNum},</if>
+            <if test="companyScale != null and companyScale != ''">#{companyScale},</if>
+
+            <if test="business != null and business != ''">#{business},</if>
+            <if test="companyType != null">#{companyType},</if>
+            <if test="companyLicense != null and companyLicense != ''">#{companyLicense},</if>
+            <if test="licenseValidity != null and licenseValidity != ''">#{licenseValidity},</if>
+
+            <if test="creditCode != null and creditCode != ''">#{creditCode},</if>
+            <if test="identityCard != null and identityCard != ''">#{identityCard},</if>
+            <if test="companyAuthorization != null and companyAuthorization != ''">#{companyAuthorization},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+
+            <if test="auditReason != null and auditReason != ''">#{auditReason},</if>
+            <if test="isBlacklist != null">#{isBlacklist},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="auditTime != null and auditTime != ''">#{auditTime},</if>
+            <if test="blacklistReason != null and blacklistReason != ''">#{blacklistReason},</if>
+        </trim>
+    </insert>
+
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CompanyMap">
+
+                select
+                  id, company_name, capital, company_address, company_nature, turnover_year, legal_person, legal_num, company_scale, business, company_type, company_license, license_validity, credit_code, identity_card, company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time,blacklist_reason
+                from dhlk_subcontract_plat.company
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CompanyMap">
+
+                select
+                  id, company_name, capital, company_address, company_nature, turnover_year, legal_person, legal_num, company_scale, business, company_type, company_license, license_validity, credit_code, identity_card, company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time
+                from dhlk_subcontract_plat.company
+                limit #{offset}, #{limit}
+
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CompanyMap">
+        select
+        id, company_name, capital, company_address, company_nature, turnover_year, legal_person, legal_num,
+        company_scale, business, company_type, company_license, license_validity, credit_code, identity_card,
+        company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time
+        from dhlk_subcontract_plat.company
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name = #{companyName}
+            </if>
+            <if test="capital != null and capital != ''">
+                and capital = #{capital}
+            </if>
+            <if test="companyAddress != null and companyAddress != ''">
+                and company_address = #{companyAddress}
+            </if>
+            <if test="companyNature != null and companyNature != ''">
+                and company_nature = #{companyNature}
+            </if>
+            <if test="turnoverYear != null and turnoverYear != ''">
+                and turnover_year = #{turnoverYear}
+            </if>
+            <if test="legalPerson != null and legalPerson != ''">
+                and legal_person = #{legalPerson}
+            </if>
+            <if test="legalNum != null and legalNum != ''">
+                and legal_num = #{legalNum}
+            </if>
+            <if test="companyScale != null and companyScale != ''">
+                and company_scale = #{companyScale}
+            </if>
+            <if test="business != null and business != ''">
+                and business = #{business}
+            </if>
+            <if test="companyType != null and companyType != ''">
+                and company_type = #{companyType}
+            </if>
+            <if test="companyLicense != null and companyLicense != ''">
+                and company_license = #{companyLicense}
+            </if>
+            <if test="licenseValidity != null">
+                and license_validity = #{licenseValidity}
+            </if>
+            <if test="creditCode != null and creditCode != ''">
+                and credit_code = #{creditCode}
+            </if>
+            <if test="identityCard != null and identityCard != ''">
+                and identity_card = #{identityCard}
+            </if>
+            <if test="companyAuthorization != null and companyAuthorization != ''">
+                and company_authorization = #{companyAuthorization}
+            </if>
+            <if test="auditStatus != null">
+                and audit_status = #{auditStatus}
+            </if>
+            <if test="auditReason != null and auditReason != ''">
+                and audit_reason = #{auditReason}
+            </if>
+            <if test="isBlacklist != null">
+                and is_blacklist = #{isBlacklist}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="auditTime != null">
+                and audit_time = #{auditTime}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.company(company_name, capital, company_address, company_nature, turnover_year,
+        legal_person, legal_num, company_scale, business, company_type, company_license, license_validity, credit_code,
+        identity_card, company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.companyName}, #{entity.capital}, #{entity.companyAddress}, #{entity.companyNature},
+            #{entity.turnoverYear}, #{entity.legalPerson}, #{entity.legalNum}, #{entity.companyScale},
+            #{entity.business}, #{entity.companyType}, #{entity.companyLicense}, #{entity.licenseValidity},
+            #{entity.creditCode}, #{entity.identityCard}, #{entity.companyAuthorization}, #{entity.auditStatus},
+            #{entity.auditReason}, #{entity.isBlacklist}, #{entity.createTime}, #{entity.auditTime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.company(company_name, capital, company_address, company_nature, turnover_year,
+        legal_person, legal_num, company_scale, business, company_type, company_license, license_validity, credit_code,
+        identity_card, company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.companyName}, #{entity.capital}, #{entity.companyAddress}, #{entity.companyNature},
+            #{entity.turnoverYear}, #{entity.legalPerson}, #{entity.legalNum}, #{entity.companyScale},
+            #{entity.business}, #{entity.companyType}, #{entity.companyLicense}, #{entity.licenseValidity},
+            #{entity.creditCode}, #{entity.identityCard}, #{entity.companyAuthorization}, #{entity.auditStatus},
+            #{entity.auditReason}, #{entity.isBlacklist}, #{entity.createTime}, #{entity.auditTime})
+        </foreach>
+        on duplicate key update
+        company_name = values(company_name) , capital = values(capital) , company_address = values(company_address) ,
+        company_nature = values(company_nature) , turnover_year = values(turnover_year) , legal_person =
+        values(legal_person) , legal_num = values(legal_num) , company_scale = values(company_scale) , business =
+        values(business) , company_type = values(company_type) , company_license = values(company_license) ,
+        license_validity = values(license_validity) , credit_code = values(credit_code) , identity_card =
+        values(identity_card) , company_authorization = values(company_authorization) , audit_status =
+        values(audit_status) , audit_reason = values(audit_reason) , is_blacklist =
+        values(is_blacklist) , create_time = values(create_time) , audit_time = values(audit_time)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.company
+        <set>
+            <if test="companyName != null and companyName != ''">
+                company_name = #{companyName},
+            </if>
+            <if test="capital != null and capital != ''">
+                capital = #{capital},
+            </if>
+            <if test="companyAddress != null and companyAddress != ''">
+                company_address = #{companyAddress},
+            </if>
+            <if test="companyNature != null and companyNature != ''">
+                company_nature = #{companyNature},
+            </if>
+            <if test="turnoverYear != null and turnoverYear != ''">
+                turnover_year = #{turnoverYear},
+            </if>
+            <if test="legalPerson != null and legalPerson != ''">
+                legal_person = #{legalPerson},
+            </if>
+            <if test="legalNum != null and legalNum != ''">
+                legal_num = #{legalNum},
+            </if>
+            <if test="companyScale != null and companyScale != ''">
+                company_scale = #{companyScale},
+            </if>
+            <if test="business != null and business != ''">
+                business = #{business},
+            </if>
+            <if test="companyType != null and companyType != ''">
+                company_type = #{companyType},
+            </if>
+            <if test="companyLicense != null and companyLicense != ''">
+                company_license = #{companyLicense},
+            </if>
+            <if test="licenseValidity != null and licenseValidity != ''">
+                license_validity = #{licenseValidity},
+            </if>
+            <if test="creditCode != null and creditCode != ''">
+                credit_code = #{creditCode},
+            </if>
+            <if test="identityCard != null and identityCard != ''">
+                identity_card = #{identityCard},
+            </if>
+            <if test="companyAuthorization != null and companyAuthorization != ''">
+                company_authorization = #{companyAuthorization},
+            </if>
+            <if test="auditStatus != null">
+                audit_status = #{auditStatus},
+            </if>
+            <if test="auditReason != null and auditReason != ''">
+                audit_reason = #{auditReason},
+            </if>
+            <if test="isBlacklist != null">
+                is_blacklist = #{isBlacklist},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                create_time = #{createTime},
+            </if>
+            <if test="auditTime != null and auditTime != ''">
+                audit_time = #{auditTime},
+            </if>
+            <if test="blacklistReason != null and blacklistReason != ''">
+                blacklist_reason = #{blacklistReason},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from dhlk_subcontract_plat.company where id = #{id}
+
+    </delete>
+
+
+
+    <select id="getFinancial" resultMap="CompanyMap">
+        select
+        id, company_name, capital, company_address, company_nature, turnover_year, legal_person, legal_num, company_scale, business, company_type, company_license, license_validity, credit_code, identity_card, company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time
+        from company where 1=1
+        <if test="name != null and name != ''">
+            and company_name  like concat('%/', #{name}, '%') ESCAPE '/'
+        </if>
+        and company_type in (0)
+        and audit_status = 1
+        order by id desc
+    </select>
+
+    <select id="getConsult" resultMap="CompanyMap">
+        select
+        id, company_name, capital, company_address, company_nature, turnover_year, legal_person, legal_num, company_scale, business, company_type, company_license, license_validity, credit_code, identity_card, company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time
+        from company where 1=1
+        <if test="name != null and name != ''">
+            and company_name  like concat('%/', #{name}, '%') ESCAPE '/'
+        </if>
+        and company_type in (2)
+        and audit_status = 1
+        order by id desc
+    </select>
+</mapper>
+

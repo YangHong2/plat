@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.CompanyPagesDao">
+    <resultMap type="com.dhlk.entity.sub.CompanyPages" id="CompanyPagesMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="homePage" column="home_page" jdbcType="VARCHAR"/>
+        <result property="companyIntroduce" column="company_introduce" jdbcType="VARCHAR"/>
+        <result property="creditValue" column="credit_value" jdbcType="NUMERIC"/>
+        <result property="certificate" column="certificate" jdbcType="VARCHAR"/>
+        <result property="companyCase" column="company_case" jdbcType="VARCHAR"/>
+        <result property="solution" column="solution" jdbcType="VARCHAR"/>
+        <result property="companyId" column="company_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CompanyPagesMap">
+
+                select
+                  id, home_page, company_introduce, credit_value, certificate, company_case, solution, company_id
+                from dhlk_subcontract_plat.company_pages
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CompanyPagesMap">
+
+                select
+                  id, home_page, company_introduce, credit_value, certificate, company_case, solution, company_id
+                from dhlk_subcontract_plat.company_pages
+                limit #{offset}, #{limit}
+
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CompanyPagesMap">
+        select
+        id, home_page, company_introduce, credit_value, certificate, company_case, solution, company_id
+        from dhlk_subcontract_plat.company_pages
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="homePage != null">
+                and home_page = #{homePage}
+            </if>
+            <if test="companyIntroduce != null">
+                and company_introduce = #{companyIntroduce}
+            </if>
+            <if test="creditValue != null">
+                and credit_value = #{creditValue}
+            </if>
+            <if test="certificate != null">
+                and certificate = #{certificate}
+            </if>
+            <if test="companyCase != null">
+                and company_case = #{companyCase}
+            </if>
+            <if test="solution != null">
+                and solution = #{solution}
+            </if>
+            <if test="companyId != null">
+                and company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into dhlk_subcontract_plat.company_pages(home_page, company_introduce, credit_value, certificate, company_case, solution, company_id)
+                values (#{homePage}, #{companyIntroduce}, #{creditValue}, #{certificate}, #{companyCase}, #{solution}, #{companyId})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.company_pages(home_page, company_introduce, credit_value, certificate,
+        company_case, solution, company_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.homePage}, #{entity.companyIntroduce}, #{entity.creditValue}, #{entity.certificate},
+            #{entity.companyCase}, #{entity.solution}, #{entity.companyId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.company_pages(home_page, company_introduce, credit_value, certificate,
+        company_case, solution, company_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.homePage}, #{entity.companyIntroduce}, #{entity.creditValue}, #{entity.certificate},
+            #{entity.companyCase}, #{entity.solution}, #{entity.companyId})
+        </foreach>
+        on duplicate key update
+        home_page = values(home_page) , company_introduce = values(company_introduce) , credit_value =
+        values(credit_value) , certificate = values(certificate) , company_case = values(company_case) , solution =
+        values(solution) , company_id = values(company_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.company_pages
+        <set>
+            <if test="homePage != null">
+                home_page = #{homePage},
+            </if>
+            <if test="companyIntroduce != null">
+                company_introduce = #{companyIntroduce},
+            </if>
+            <if test="creditValue != null">
+                credit_value = #{creditValue},
+            </if>
+            <if test="certificate != null">
+                certificate = #{certificate},
+            </if>
+            <if test="companyCase != null">
+                company_case = #{companyCase},
+            </if>
+            <if test="solution != null">
+                solution = #{solution},
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from dhlk_subcontract_plat.company_pages where id = #{id}
+
+    </delete>
+</mapper>
+

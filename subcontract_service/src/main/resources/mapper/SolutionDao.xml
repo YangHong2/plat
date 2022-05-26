@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.SolutionDao">
+
+    <resultMap type="com.dhlk.entity.sub.Solution" id="SolutionMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projectTheme" column="project_theme" jdbcType="VARCHAR"/>
+        <result property="projectDetail" column="project_detail" jdbcType="VARCHAR"/>
+        <result property="companyId" column="company_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SolutionMap">
+    SELECT
+        A.id,
+        A.project_theme,
+        A.project_detail,
+        A.company_id,
+        DATE_FORMAT(A.create_time,'%Y-%m-%d %H:%i') AS create_time,
+        B.company_name
+    FROM
+        dhlk_subcontract_plat.solution A
+    LEFT JOIN company B ON A.company_id = B.id
+    where A.id = #{id}
+    </select>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SolutionMap">
+        SELECT
+        A.id,
+        A.project_theme,
+        left(A.project_detail, 30) AS project_detail,
+        A.company_id,
+        DATE_FORMAT(A.create_time,'%Y-%m-%d %H:%i') AS create_time,
+        B.company_name
+        FROM
+        dhlk_subcontract_plat.solution A
+        LEFT JOIN company B ON A.company_id = B.id
+        <where>
+            <if test="projectTheme != null and projectTheme != ''">
+                and A.project_theme = #{projectTheme}
+            </if>
+            <if test="companyId != null">
+                and A.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.solution(project_theme, project_detail,company_id)
+        values (#{projectTheme}, #{projectDetail},#{companyId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.solution(project_theme, project_detail, project_issue_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.projectTheme}, #{entity.projectDetail}, #{entity.projectIssueId})
+        </foreach>
+    </insert>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.solution
+        <set>
+            <if test="projectTheme != null and projectTheme != ''">
+                project_theme = #{projectTheme},
+            </if>
+            <if test="projectDetail != null and projectDetail != ''">
+                project_detail = #{projectDetail},
+            </if>
+            <if test="projectIssueId != null">
+                project_issue_id = #{projectIssueId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+
+    <delete id="delete" parameterType="java.util.List">
+        delete from  dhlk_subcontract_plat.solution where id  in
+        <foreach collection="list" open="(" separator="," close=")" item="item">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.basicmodule.service.dao.AppPermissionsDao">
+
+    <resultMap type="com.dhlk.entity.app.AppPermissions" id="AppPermissionsResult">
+        <result property="id"    column="id"    />
+        <result property="menuId"    column="menu_id"    />
+        <result property="roleId"    column="role_id"    />
+    </resultMap>
+
+    <sql id="selectPermissionsVo">
+        select id, menu_id, role_id from dhlk_app_permissions
+    </sql>
+    <insert id="insert" parameterType="java.util.List">
+        insert into dhlk_app_permissions(menu_id,role_id) values
+        <foreach collection="list" item="appPermission" separator=",">
+            (
+                #{appPermission.menuId},
+                #{appPermission.roleId}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+        delete from dhlk_app_permissions where role_id = #{roleId}
+    </delete>
+
+
+</mapper>

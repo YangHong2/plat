@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.SubpackageMessageDao">
+    <resultMap type="com.dhlk.entity.sub.SubpackageMessage" id="SubpackageMessageMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SubpackageMessageMap">
+        select
+        id, content, create_time, type, user_id, title
+        from dhlk_subcontract_plat.subpackage_message
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SubpackageMessageMap">
+        select
+        id, content, create_time, type, user_id, title
+        from dhlk_subcontract_plat.subpackage_message
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SubpackageMessageMap">
+        select
+        id, content, create_time, type, user_id, title
+        from dhlk_subcontract_plat.subpackage_message
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="content != null">
+                and content = #{content}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.subpackage_message(content, create_time, type, user_id, title)
+        values (#{content}, #{createTime}, #{type}, #{userId}, #{title})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.subpackage_message(content, create_time, type, user_id, title)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.content}, #{entity.createTime}, #{entity.type}, #{entity.userId}, #{entity.title})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.subpackage_message(content, create_time, type, user_id, title)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.content}, #{entity.createTime}, #{entity.type}, #{entity.userId}, #{entity.title})
+        </foreach>
+        on duplicate key update
+        content = values(content) , create_time = values(create_time) , type = values(type) , user_id = values(user_id)
+        , title = values(title)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.subpackage_message
+        <set>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from dhlk_subcontract_plat.subpackage_message where id = #{id}
+    </delete>
+</mapper>
+

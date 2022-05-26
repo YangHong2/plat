@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.DeliveryApplyForDao">
+    <resultMap type="com.dhlk.entity.sub.DeliveryApplyFor" id="DeliveryApplyForMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="deliveryProject" column="delivery_project" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="deliveryProduct" column="delivery_product" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="projectId" column="project_id" jdbcType="INTEGER"/>
+        <result property="companyId" column="company_id" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DeliveryApplyForMap">
+            select
+              id, delivery_project, remark, delivery_product, create_time, status, project_id,company_id
+            from delivery_apply_for
+            where id = #{id}
+    </select>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DeliveryApplyForMap">
+        select
+        id, delivery_project, remark, delivery_product, create_time, status, project_id,company_id
+        from delivery_apply_for
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="deliveryProject != null and deliveryProject != ''">
+                and delivery_project = #{deliveryProject}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="deliveryProduct != null">
+                and delivery_product = #{deliveryProduct}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="projectId != null">
+                and project_id = #{projectId}
+            </if>
+            <if test="companyId != null">
+                and company_id = #{companyId}
+            </if>
+
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into delivery_apply_for(delivery_project, remark, delivery_product, create_time, status, project_id,company_id,type)
+        values (#{deliveryProject}, #{remark}, #{deliveryProduct}, #{createTime}, #{status}, #{projectId},#{companyId},#{type})
+    </insert>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update delivery_apply_for
+        <set>
+            <if test="deliveryProject != null and deliveryProject != ''">
+                delivery_project = #{deliveryProject},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="deliveryProduct != null">
+                delivery_product = #{deliveryProduct},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="projectId != null">
+                project_id = #{projectId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from delivery_apply_for where id = #{id}
+    </delete>
+
+    <select id="findByProjectId" resultMap="DeliveryApplyForMap">
+        SELECT
+        t1.id, t1.delivery_project, t1.remark, t1.delivery_product, t1.create_time, t1.status, t1.project_id,t1.company_id,t1.type
+        FROM
+        delivery_apply_for t1
+        WHERE  t1.project_id = #{projectId} and t1.type = 0
+        order by t1.id desc
+    </select>
+
+    <select id="findInstallApply" resultMap="DeliveryApplyForMap">
+        SELECT
+        t1.id, t1.delivery_project, t1.remark, t1.delivery_product, t1.create_time, t1.status, t1.project_id,t1.company_id,t1.type
+        FROM
+        delivery_apply_for t1
+        WHERE  t1.project_id = #{projectId} and t1.type = 1
+        order by t1.id desc
+    </select>
+</mapper>
+

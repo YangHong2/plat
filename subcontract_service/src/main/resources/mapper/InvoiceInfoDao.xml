@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.InvoiceInfoDao">
+    <resultMap type="com.dhlk.entity.sub.InvoiceInfo" id="InvoiceInfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+        <result property="companyAddress" column="company_address" jdbcType="VARCHAR"/>
+        <result property="companyPhone" column="company_phone" jdbcType="VARCHAR"/>
+        <result property="bankAccount" column="bank_account" jdbcType="VARCHAR"/>
+        <result property="openBank" column="open_bank" jdbcType="VARCHAR"/>
+        <result property="taxNo" column="tax_no" jdbcType="VARCHAR"/>
+        <result property="consignee" column="consignee" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="consigneeAddress" column="consignee_address" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="InvoiceInfoMap">
+
+                select
+                  id, company_name, company_address, company_phone, bank_account, open_bank, tax_no, consignee, phone, consignee_address, user_id
+                from dhlk_subcontract_plat.invoice_info
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="InvoiceInfoMap">
+
+                select
+                  id, company_name, company_address, company_phone, bank_account, open_bank, tax_no, consignee, phone, consignee_address, user_id
+                from dhlk_subcontract_plat.invoice_info
+                limit #{offset}, #{limit}
+
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="InvoiceInfoMap">
+        select
+        id, company_name, company_address, company_phone, bank_account, open_bank, tax_no, consignee, phone,
+        consignee_address, user_id
+        from dhlk_subcontract_plat.invoice_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name = #{companyName}
+            </if>
+            <if test="companyAddress != null and companyAddress != ''">
+                and company_address = #{companyAddress}
+            </if>
+            <if test="companyPhone != null and companyPhone != ''">
+                and company_phone = #{companyPhone}
+            </if>
+            <if test="bankAccount != null and bankAccount != ''">
+                and bank_account = #{bankAccount}
+            </if>
+            <if test="openBank != null and openBank != ''">
+                and open_bank = #{openBank}
+            </if>
+            <if test="taxNo != null and taxNo != ''">
+                and tax_no = #{taxNo}
+            </if>
+            <if test="consignee != null and consignee != ''">
+                and consignee = #{consignee}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="consigneeAddress != null and consigneeAddress != ''">
+                and consignee_address = #{consigneeAddress}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into dhlk_subcontract_plat.invoice_info(company_name, company_address, company_phone, bank_account, open_bank, tax_no, consignee, phone, consignee_address, user_id)
+                values (#{companyName}, #{companyAddress}, #{companyPhone}, #{bankAccount}, #{openBank}, #{taxNo}, #{consignee}, #{phone}, #{consigneeAddress}, #{userId})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.invoice_info(company_name, company_address, company_phone, bank_account,
+        open_bank, tax_no, consignee, phone, consignee_address, user_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.companyName}, #{entity.companyAddress}, #{entity.companyPhone}, #{entity.bankAccount},
+            #{entity.openBank}, #{entity.taxNo}, #{entity.consignee}, #{entity.phone}, #{entity.consigneeAddress},
+            #{entity.userId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.invoice_info(company_name, company_address, company_phone, bank_account,
+        open_bank, tax_no, consignee, phone, consignee_address, user_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.companyName}, #{entity.companyAddress}, #{entity.companyPhone}, #{entity.bankAccount},
+            #{entity.openBank}, #{entity.taxNo}, #{entity.consignee}, #{entity.phone}, #{entity.consigneeAddress},
+            #{entity.userId})
+        </foreach>
+        on duplicate key update
+        company_name = values(company_name) , company_address = values(company_address) , company_phone =
+        values(company_phone) , bank_account = values(bank_account) , open_bank = values(open_bank) , tax_no =
+        values(tax_no) , consignee = values(consignee) , phone = values(phone) , consignee_address =
+        values(consignee_address) , user_id = values(user_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.invoice_info
+        <set>
+            <if test="companyName != null and companyName != ''">
+                company_name = #{companyName},
+            </if>
+            <if test="companyAddress != null and companyAddress != ''">
+                company_address = #{companyAddress},
+            </if>
+            <if test="companyPhone != null and companyPhone != ''">
+                company_phone = #{companyPhone},
+            </if>
+            <if test="bankAccount != null and bankAccount != ''">
+                bank_account = #{bankAccount},
+            </if>
+            <if test="openBank != null and openBank != ''">
+                open_bank = #{openBank},
+            </if>
+            <if test="taxNo != null and taxNo != ''">
+                tax_no = #{taxNo},
+            </if>
+            <if test="consignee != null and consignee != ''">
+                consignee = #{consignee},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="consigneeAddress != null and consigneeAddress != ''">
+                consignee_address = #{consigneeAddress},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from dhlk_subcontract_plat.invoice_info where id = #{id}
+
+    </delete>
+</mapper>
+

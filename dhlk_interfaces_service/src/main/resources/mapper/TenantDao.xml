@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dhlk.interfaces.service.dao.TenantDao">
+
+
+    <sql id="baseColumn">
+         id,code, telephone, adress, company_email, linkman, phone,email,start_time,end_time,create_time,devices,status,is_system,tb_loginname,tb_password,file_id,tb_id,public_key,sign
+    </sql>
+    <select id="selectTenantById" parameterType="INTEGER" resultType="com.dhlk.entity.basicmodule.Tenant">
+        select <include refid="baseColumn"/>
+        from dhlk_basic_tenant where id = #{id}
+    </select>
+    <select id="selectTenantBySign" resultType="com.dhlk.entity.basicmodule.Tenant">
+        select <include refid="baseColumn"/>
+        from dhlk_basic_tenant where sign = #{sign}
+    </select>
+</mapper>

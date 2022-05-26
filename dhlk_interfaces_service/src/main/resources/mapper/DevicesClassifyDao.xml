@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dhlk.interfaces.service.dao.DevicesClassifyDao">
+
+    <resultMap type="com.dhlk.entity.basicmodule.DevicesClassify" id="DhlkBasicDevicesClassifyResult">
+        <result property="id" jdbcType="VARCHAR"    column="id"    />
+        <result property="classifyName" jdbcType="VARCHAR"   column="classify_name"    />
+        <result property="describe"  jdbcType="VARCHAR"  column="describe"    />
+        <result property="classifyId" jdbcType="VARCHAR"   column="classify_id"    />
+        <result property="tenantId"  jdbcType="INTEGER"  column="tenant_id"    />
+        <!--
+        <collection property="attrSet" column="id" select="findAttrSetByClassifyById" />
+        <collection property="dmClassifyType" column="id" select="findClassifyType"/>
+        -->
+    </resultMap>
+    <select id="findAttrSetByClassifyById"  resultType="java.util.LinkedHashMap">
+        SELECT s.id setId,s.name,GROUP_CONCAT(d.attr order by d.attr) attr,GROUP_CONCAT(d.id) detailIds FROM dhlk_basic_devices_classify_detail c
+          LEFT JOIN dhlk_basic_devices_attr_set s ON s.id=c.attr_set_id
+          LEFT JOIN dhlk_basic_devices_attr_detail  d ON d.id=c.attr_detail_id
+         WHERE c.devices_classify_id=#{devicesClassifyId}
+         GROUP BY s.`id`,s.name
+    </select>
+
+    <select id="findClassifyType"  resultType="com.dhlk.entity.dm.DmClassifyType">
+        select * from dhlk_dm_classify_type where id in (
+        select type_id from dhlk_basic_devices_classify where id = #{id})
+        and status = 0
+    </select>
+
+
+
+    <select id="findList" parameterType="String" resultMap="DhlkBasicDevicesClassifyResult">
+        select id, classify_name, `describe`, id classify_id, tenant_id from dhlk_basic_devices_classify
+        <where>
+            <if test="classifyName != null and classifyName != ''">
+                and classify_name like concat('%',#{classifyName},'%')
+        </if>
+            <if test="tenantId != null and tenantId != ''">
+                and tenant_id=#{tenantId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

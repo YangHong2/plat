@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: dhlk-apis
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        register: true
+        hostname: 127.0.0.1
+        service-name: ${spring.application.name}
+        health-check-path: /actuator/health
+        health-check-interval: 15s
+        tags: urlprefix-/${spring.application.name}
+        instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  #mysql配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.2.162:3306/dhlk_platdb_dev?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
+    username: root
+    password: 1111

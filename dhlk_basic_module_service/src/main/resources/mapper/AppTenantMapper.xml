@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.basicmodule.service.dao.AppTenantDao">
+    
+    <resultMap type="com.dhlk.entity.app.AppTenant" id="AppTenantResult">
+        <result property="id"    column="id"    />
+        <result property="appId"    column="app_id"    />
+        <result property="appCode"    column="app_code"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectMenuVo">
+        select id, app_id, app_code, tenant_id from dhlk_app_tenant
+    </sql>
+
+    <insert id="insert" parameterType="java.util.List">
+        insert into dhlk_app_tenant(app_id,app_code,tenant_id)
+        values
+        <foreach collection="list" item="appTenant" separator=",">
+            (
+            #{appTenant.appId},
+            #{appTenant.appCode},
+            #{appTenant.tenantId}
+            )
+        </foreach>
+    </insert>
+    <delete id="delete" parameterType="java.util.Set">
+        delete from dhlk_app_tenant where tenant_id in
+        <foreach collection="set" item="tenantId" open="(" close=")" separator=",">
+            #{tenantId}
+        </foreach>
+    </delete>
+    <select id="findListChecked" resultType="com.dhlk.entity.app.StoreAppInfo">
+        SELECT id,app_name,app_code
+            , CASE
+                WHEN EXISTS (
+                    SELECT 1
+                    FROM dhlk_app_tenant dbp
+                    WHERE dbp.app_id = dbm.id
+                        AND dbp.tenant_id = #{tenantId}
+                ) THEN 'true'
+                ELSE 'false'
+            END AS checked
+        FROM dhlk_store_app_info dbm
+        ORDER BY dbm.id ASC
+    </select>
+    <select id="findList" resultType="com.dhlk.entity.app.StoreAppInfo">
+        select id,app_name,app_code from dhlk_store_app_info where id in(
+            select app_id from dhlk_app_tenant where tenant_id = #{tenantId}
+        )
+    </select>
+
+
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dhlk.bi.dao.BiDatabaseDao">
+
+    <resultMap id="DhlkBiDatabaseResult" type="com.dhlk.entity.bi.BiDatabase" >
+        <result property="id" jdbcType="INTEGER"   column="id"/>
+        <result property="name" jdbcType="VARCHAR"   column="name"/>
+        <result property="url" jdbcType="VARCHAR"   column="url"/>
+        <result property="port" jdbcType="INTEGER"   column="port"/>
+        <result property="username" jdbcType="VARCHAR"   column="username"/>
+        <result property="password" jdbcType="VARCHAR"   column="password"/>
+        <result property="createUser" jdbcType="INTEGER"   column="create_user"/>
+        <result property="createTime" jdbcType="TIMESTAMP"   column="create_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name, url, port,username,password,create_user,create_time
+    </sql>
+
+    <insert id="insert" parameterType="com.dhlk.entity.bi.BiDatabase" useGeneratedKeys="true" keyProperty="id">
+        insert into dhlk_bi_database
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="url != null  and url != ''">url,</if>
+            <if test="port != null  and port != ''">port,</if>
+            <if test="username != null  and username != ''">username,</if>
+            <if test="password != null  and password != ''">password,</if>
+            <if test="createUser != null  and createUser != ''">create_user,</if>
+            <if test="createTime != null  and createTime != ''">create_time</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="url != null  and url != ''">#{url},</if>
+            <if test="port != null  and port != ''">#{port},</if>
+            <if test="username != null  and username != ''">#{username},</if>
+            <if test="password != null  and password != ''">#{password},</if>
+            <if test="createUser != null  and createUser != ''">#{createUser},</if>
+            <if test="createTime != null  and createTime != ''">#{createTime}</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.dhlk.entity.bi.BiDatabase">
+        update dhlk_bi_database
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="url != null  and url != ''">url = #{url},</if>
+            <if test="port != null  and port != ''">port = #{port},</if>
+            <if test="username != null  and username != ''">username = #{username},</if>
+            <if test="password != null  and password != ''">password = #{password},</if>
+            <if test="createUser != null  and createUser != ''">create_user = #{createUser},</if>
+            <if test="createTime != null  and createTime != ''">create_time = #{createTime}</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <select id="findList"  resultMap="DhlkBiDatabaseResult">
+        select <include refid="Base_Column_List"/> from dhlk_bi_database order by create_time desc
+    </select>
+    <select id="findById" resultType="com.dhlk.entity.bi.BiDatabase">
+        select * from dhlk_bi_database where id = #{biDataBaseId}
+    </select>
+
+    <delete id="delete" parameterType="java.util.List">
+        delete from dhlk_bi_database where id in
+        <foreach collection="list" open="(" separator="," close=")" item="item">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.CouponsDao">
+    <resultMap type="com.dhlk.entity.sub.Coupons" id="CouponsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="faceValue" column="face_value" jdbcType="NUMERIC"/>
+        <result property="dataId" column="data_id" jdbcType="VARCHAR"/>
+        <result property="appIds" column="app_ids" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="count" column="count" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="couponNo" column="coupon_no" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="couponName" column="coupon_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CouponsMap">
+
+                select
+                  id, start_time, end_time, face_value, data_id, app_ids, create_time, count, type, coupon_no, user_id, is_delete,coupon_name
+                from dhlk_subcontract_plat.coupons
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CouponsMap">
+
+                select
+                  id, start_time, end_time, face_value, data_id, app_ids, create_time, count, type, coupon_no, user_id, is_delete,coupon_name
+                from dhlk_subcontract_plat.coupons
+                limit #{offset}, #{limit}
+
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CouponsMap">
+        select
+        id, start_time, end_time, face_value, data_id, app_ids, create_time, count, type, coupon_no, user_id, is_delete,coupon_name
+        from dhlk_subcontract_plat.coupons
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="startTime != null">
+                and start_time = #{startTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="faceValue != null">
+                and face_value = #{faceValue}
+            </if>
+            <if test="dataId != null and dataId != ''">
+                and data_id = #{dataId}
+            </if>
+            <if test="appIds != null and appIds != ''">
+                and app_ids = #{appIds}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="count != null">
+                and count = #{count}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="couponNo != null and couponNo != ''">
+                and coupon_no = #{couponNo}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+            <if test="couponName != null and couponName != ''">
+                and coupon_name = #{couponName}
+            </if>
+        </where>
+    </select>
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+                insert into dhlk_subcontract_plat.coupons
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                    <if test="startTime != null and startTime != ''">start_time,</if>
+                    <if test="endTime != null and endTime != ''">end_time,</if>
+                    <if test="faceValue != null and faceValue != ''">face_value,</if>
+                    <if test="dataId != null and dataId != ''">data_id,</if>
+                    <if test="appIds != null and appIds != ''">app_ids,</if>
+                    <if test="createTime != null and createTime != ''">create_time,</if>
+                    <if test="count != null">count,</if>
+                    <if test="type != null">type,</if>
+                    <if test="couponNo != null and couponNo != ''">coupon_no,</if>
+                    <if test="userId != null">user_id,</if>
+                    <if test="isDelete != null">is_delete,</if>
+                    <if test="couponName != null and couponName != ''">coupon_name,</if>
+                </trim>
+                <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+                    <if test="startTime != null and startTime != ''">#{startTime},</if>
+                    <if test="endTime != null and endTime != ''">#{endTime},</if>
+                    <if test="faceValue != null and faceValue != ''">#{faceValue},</if>
+                    <if test="dataId != null and dataId != ''">#{dataId},</if>
+                    <if test="appIds != null and appIds != ''">#{appIds},</if>
+                    <if test="createTime != null and createTime != ''">#{createTime},</if>
+                    <if test="count != null">#{count},</if>
+                    <if test="type != null">#{type},</if>
+                    <if test="couponNo != null and couponNo != ''">#{couponNo},</if>
+                    <if test="userId != null">#{userId},</if>
+                    <if test="isDelete != null">#{isDelete},</if>
+                    <if test="couponName != null and couponName != ''">#{couponName},</if>
+                </trim>
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.coupons(start_time, end_time, face_value, data_id, app_ids, create_time,
+        count, type, coupon_no, user_id, is_delete,coupon_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.startTime}, #{entity.endTime}, #{entity.faceValue}, #{entity.dataId}, #{entity.appIds},
+            #{entity.createTime}, #{entity.count}, #{entity.type}, #{entity.couponNo}, #{entity.userId},
+            #{entity.isDelete},#{entity.couponName})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.coupons(start_time, end_time, face_value, data_id, app_ids, create_time,
+        count, type, coupon_no, user_id, is_delete,coupon_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.startTime}, #{entity.endTime}, #{entity.faceValue}, #{entity.dataId}, #{entity.appIds},
+            #{entity.createTime}, #{entity.count}, #{entity.type}, #{entity.couponNo}, #{entity.userId},
+            #{entity.isDelete},#{entity.couponName})
+        </foreach>
+        on duplicate key update
+        start_time = values(start_time) , end_time = values(end_time) , face_value = values(face_value) , data_id =
+        values(data_id) , app_ids = values(app_ids) , create_time = values(create_time) , count = values(count) , type =
+        values(type) , coupon_no = values(coupon_no) , user_id = values(user_id) , is_delete = values(is_delete),coupon_name = values(coupon_name)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.coupons
+        <set>
+            <if test="startTime != null and startTime!= ''">
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null and endTime!= ''">
+                end_time = #{endTime},
+            </if>
+            <if test="faceValue != null and faceValue!= ''">
+                face_value = #{faceValue},
+            </if>
+            <if test="dataId != null and dataId != ''">
+                data_id = #{dataId},
+            </if>
+            <if test="appIds != null and appIds != ''">
+                app_ids = #{appIds},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                create_time = #{createTime},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="couponNo != null and couponNo != ''">
+                coupon_no = #{couponNo},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+            <if test="couponName != null and couponName != ''">
+                coupon_name = #{couponName},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from dhlk_subcontract_plat.coupons where id = #{id}
+
+    </delete>
+
+
+    <select id="findList" resultType="com.dhlk.entity.sub.Coupons">
+        select
+        c.id, c.start_time, c.end_time, c.face_value, c.data_id, c.app_ids, c.create_time, c.count, c.type, c.coupon_no, c.user_id, c.is_delete,c.coupon_name,
+        su.login_name
+        from dhlk_subcontract_plat.coupons c
+        left join subpackage_user su on su.id = c.user_id
+        <where>
+            <if test="couponNo != null and couponNo != ''">
+                and c.coupon_no = #{couponNo}
+            </if>
+            <if test="createStartTime != null and createStartTime != ''">
+                and c.create_time >= #{createStartTime}
+            </if>
+            <if test="createEndTime != null and createEndTime != ''">
+                and c.create_time &lt; #{createEndTime}
+            </if>
+            <if test="expireStartTime != null and expireStartTime != ''">
+                and c.end_time >= #{expireStartTime}
+            </if>
+            <if test="expireEndTime != null and expireEndTime != ''">
+                and c.end_time &lt; #{expireEndTime}
+            </if>
+            and c.is_delete = 0
+        </where>
+    </select>
+</mapper>
+

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dhlk.bi.dao.BiPanelDao">
+
+    <resultMap id="DhlkBiPanelResult" type="com.dhlk.entity.bi.BiPanel" >
+        <result property="id" jdbcType="INTEGER"   column="id"/>
+        <result property="name" jdbcType="VARCHAR"   column="name"/>
+        <result property="content" jdbcType="VARCHAR"   column="content"/>
+        <result property="createUser" jdbcType="INTEGER"   column="create_user"/>
+        <result property="createTime" jdbcType="TIMESTAMP"   column="create_time"/>
+        <result property="issue" jdbcType="INTEGER"   column="issue"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,content create_user,create_time,issue
+    </sql>
+
+    <insert id="insert" parameterType="com.dhlk.entity.bi.BiPanel" useGeneratedKeys="true" keyProperty="id">
+        insert into dhlk_bi_panel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="createUser != null  and createUser != ''">create_user,</if>
+            <if test="createTime != null  and createTime != ''">create_time,</if>
+            <if test="issue != null">issue</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="createUser != null  and createUser != ''">#{createUser},</if>
+            <if test="createTime != null  and createTime != ''">#{createTime},</if>
+            <if test="issue != null">#{issue}</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.dhlk.entity.bi.BiPanel">
+        update dhlk_bi_panel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="createUser != null  and createUser != ''">create_user = #{createUser},</if>
+            <if test="createTime != null  and createTime != ''">create_time = #{createTime},</if>
+            <if test="issue != null">issue = #{issue}</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="delete" parameterType="java.util.List">
+        delete from dhlk_bi_panel where id in
+        <foreach collection="list" open="(" separator="," close=")" item="item">
+            #{item}
+        </foreach>
+    </delete>
+    <select id="findChartData" resultType="java.util.LinkedHashMap">
+        ${sql}
+    </select>
+
+    <select id="findList" resultMap="DhlkBiPanelResult">
+        select id,name,create_user,create_time,issue from dhlk_bi_panel
+        where 1=1
+        <if test="name != null  and name != ''">
+            and name like concat('%/', #{name}, '%') ESCAPE '/'
+        </if>
+    </select>
+
+    <select id="findByPanel" resultType="com.dhlk.entity.bi.BiPanel">
+        select id,name,content, create_user,create_time,issue from dhlk_bi_panel where id = #{id}
+    </select>
+
+    <select id="verifyName" resultType="boolean">
+        SELECT count(*) FROM `dhlk_bi_panel` where  id not in (IFNULL(#{id},'')) and name = #{name}
+    </select>
+
+</mapper>

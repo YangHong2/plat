@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.SubpackageOrderDao">
+    <resultMap type="com.dhlk.entity.sub.SubpackageOrder" id="SubpackageOrderMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderNo" column="order_no" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SubpackageOrderMap">
+        select
+        id, order_no, create_time, status, user_id
+        from dhlk_subcontract_plat.subpackage_order
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SubpackageOrderMap">
+        select
+        id, order_no, create_time, status, user_id
+        from dhlk_subcontract_plat.subpackage_order
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SubpackageOrderMap">
+        select
+        id, order_no, create_time, status, user_id
+        from dhlk_subcontract_plat.subpackage_order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                and order_no = #{orderNo}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.subpackage_order(order_no, create_time, status, user_id)
+        values (#{orderNo}, #{createTime}, #{status}, #{userId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.subpackage_order(order_no, create_time, status, user_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.orderNo}, #{entity.createTime}, #{entity.status}, #{entity.userId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.subpackage_order(order_no, create_time, status, user_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.orderNo}, #{entity.createTime}, #{entity.status}, #{entity.userId})
+        </foreach>
+        on duplicate key update
+        order_no = values(order_no) , create_time = values(create_time) , status = values(status) , user_id =
+        values(user_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.subpackage_order
+        <set>
+            <if test="orderNo != null and orderNo != ''">
+                order_no = #{orderNo},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from dhlk_subcontract_plat.subpackage_order where id = #{id}
+    </delete>
+</mapper>
+

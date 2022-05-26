@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.ArticlePubDao">
+    <resultMap type="com.dhlk.entity.sub.ArticlePub" id="ArticlePubMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="pubUser" column="pub_user" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ArticlePubMap">
+            select
+              id, title, content, create_time, pub_user
+            from article_pub
+            where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ArticlePubMap">
+            select
+              id, title, content, create_time, pub_user
+            from article_pub
+            limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ArticlePubMap">
+        select
+        id, title, content, create_time, pub_user
+        from article_pub
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="content != null">
+                and content = #{content}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="pubUser != null">
+                and pub_user = #{pubUser}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into article_pub(title, content, create_time, pub_user)
+        values (#{title}, #{content}, #{createTime}, #{pubUser})
+    </insert>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update article_pub
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="pubUser != null">
+                pub_user = #{pubUser},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from article_pub where id = #{id}
+    </delete>
+
+    <select id="findList" resultMap="ArticlePubMap">
+        SELECT
+        t1.id,
+        t1.title,
+        t1.content,
+        t1.create_time,
+        t2.login_name as userName
+        FROM
+	    article_pub  t1 LEFT JOIN subpackage_user t2 on t1.pub_user = t2.id
+	    where 1=1
+        <if test="title != null and title != ''">
+            and t1.title  like concat('%/', #{title}, '%') ESCAPE '/'
+        </if>
+        order by t1.id desc
+    </select>
+</mapper>
+

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.basicmodule.service.dao.ModuleClickDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlk.entity.basicmodule.ModuleClick">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="module_name" jdbcType="VARCHAR" property="moduleName"/>
+        <result column="login_name" jdbcType="VARCHAR" property="loginName"/>
+        <result column="click_time" jdbcType="TIMESTAMP" property="clickTime"/>
+        <result column="click_num" jdbcType="INTEGER" property="clickNum"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumn">
+        id, module_name, login_name, click_time, click_num
+    </sql>
+
+    <select id="selectModuleClick" parameterType="java.lang.String"
+            resultType="com.dhlk.entity.basicmodule.ModuleClick">
+        select
+        <include refid="BaseColumn"/>
+        from dhlk_basic_module_click where module_name = #{moduleName} and login_name = #{loginName}
+    </select>
+
+    <insert id="insert" parameterType="com.dhlk.entity.basicmodule.ModuleClick" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into dhlk_basic_module_click
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moduleName != null  and moduleName != ''">module_name,</if>
+            <if test="loginName != null  and loginName != ''">login_name,</if>
+            <if test="clickTime != null  and clickTime != ''">click_time,</if>
+            <if test="clickNum != null  and clickNum != ''">click_num</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moduleName != null  and moduleName != ''">#{moduleName},</if>
+            <if test="loginName != null  and loginName != ''">#{loginName},</if>
+            <if test="clickTime != null  and clickTime != ''">#{clickTime},</if>
+            <if test="clickNum != null  and clickNum != ''">#{clickNum}</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.dhlk.entity.basicmodule.ModuleClick">
+        update dhlk_basic_module_click
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="moduleName != null  and moduleName != ''">module_name = #{moduleName},</if>
+            <if test="loginName != null  and loginName != ''">login_name = #{loginName},</if>
+            <if test="clickTime != null  and clickTime != ''">click_time = #{clickTime},</if>
+            <if test="clickNum != null  and clickNum != ''">click_num = #{clickNum}</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <select id="findListByLoginName" parameterType="com.dhlk.entity.basicmodule.ModuleClick" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumn"/>
+        from dhlk_basic_module_click  where login_name = #{loginName}
+        order by click_num desc
+    </select>
+
+</mapper>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.ReceivingInfoDao">
+    <resultMap type="com.dhlk.entity.sub.ReceivingInfo" id="ReceivingInfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="payee" column="payee" jdbcType="INTEGER"/>
+        <result property="payeeNum" column="payee_num" jdbcType="INTEGER"/>
+        <result property="openBank" column="open_bank" jdbcType="VARCHAR"/>
+        <result property="accountName" column="account_name" jdbcType="VARCHAR"/>
+        <result property="money" column="money" jdbcType="NUMERIC"/>
+        <result property="payer" column="payer" jdbcType="INTEGER"/>
+        <result property="time" column="time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="orderNo" column="order_no" jdbcType="VARCHAR"/>
+        <result property="cardNo" column="card_no" jdbcType="INTEGER"/>
+        <result property="evidence" column="evidence" jdbcType="VARCHAR"/>
+        <result property="projectId" column="project_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ReceivingInfoMap">
+        select
+        id, payee, payee_num, open_bank, account_name, money, payer, time, remark, order_no, card_no, evidence,
+        project_id
+        from dhlk_subcontract_plat.receiving_info
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ReceivingInfoMap">
+        select
+        id, payee, payee_num, open_bank, account_name, money, payer, time, remark, order_no, card_no, evidence,
+        project_id
+        from dhlk_subcontract_plat.receiving_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ReceivingInfoMap">
+        select
+        id, payee, payee_num, open_bank, account_name, money, payer, time, remark, order_no, card_no, evidence,
+        project_id
+        from dhlk_subcontract_plat.receiving_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="payee != null">
+                and payee = #{payee}
+            </if>
+            <if test="payeeNum != null">
+                and payee_num = #{payeeNum}
+            </if>
+            <if test="openBank != null and openBank != ''">
+                and open_bank = #{openBank}
+            </if>
+            <if test="accountName != null and accountName != ''">
+                and account_name = #{accountName}
+            </if>
+            <if test="money != null">
+                and money = #{money}
+            </if>
+            <if test="payer != null">
+                and payer = #{payer}
+            </if>
+            <if test="time != null">
+                and time = #{time}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                and order_no = #{orderNo}
+            </if>
+            <if test="cardNo != null">
+                and card_no = #{cardNo}
+            </if>
+            <if test="evidence != null and evidence != ''">
+                and evidence = #{evidence}
+            </if>
+            <if test="projectId != null">
+                and project_id = #{projectId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.receiving_info(payee, payee_num, open_bank, account_name, money, payer, time,
+        remark, order_no, card_no, evidence, project_id)
+        values (#{payee}, #{payeeNum}, #{openBank}, #{accountName}, #{money}, #{payer}, #{time}, #{remark}, #{orderNo},
+        #{cardNo}, #{evidence}, #{projectId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.receiving_info(payee, payee_num, open_bank, account_name, money, payer, time,
+        remark, order_no, card_no, evidence, project_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.payee}, #{entity.payeeNum}, #{entity.openBank}, #{entity.accountName}, #{entity.money},
+            #{entity.payer}, #{entity.time}, #{entity.remark}, #{entity.orderNo}, #{entity.cardNo}, #{entity.evidence},
+            #{entity.projectId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dhlk_subcontract_plat.receiving_info(payee, payee_num, open_bank, account_name, money, payer, time,
+        remark, order_no, card_no, evidence, project_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.payee}, #{entity.payeeNum}, #{entity.openBank}, #{entity.accountName}, #{entity.money},
+            #{entity.payer}, #{entity.time}, #{entity.remark}, #{entity.orderNo}, #{entity.cardNo}, #{entity.evidence},
+            #{entity.projectId})
+        </foreach>
+        on duplicate key update
+        payee = values(payee) , payee_num = values(payee_num) , open_bank = values(open_bank) , account_name =
+        values(account_name) , money = values(money) , payer = values(payer) , time = values(time) , remark =
+        values(remark) , order_no = values(order_no) , card_no = values(card_no) , evidence = values(evidence) ,
+        project_id = values(project_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dhlk_subcontract_plat.receiving_info
+        <set>
+            <if test="payee != null">
+                payee = #{payee},
+            </if>
+            <if test="payeeNum != null">
+                payee_num = #{payeeNum},
+            </if>
+            <if test="openBank != null and openBank != ''">
+                open_bank = #{openBank},
+            </if>
+            <if test="accountName != null and accountName != ''">
+                account_name = #{accountName},
+            </if>
+            <if test="money != null">
+                money = #{money},
+            </if>
+            <if test="payer != null">
+                payer = #{payer},
+            </if>
+            <if test="time != null">
+                time = #{time},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                order_no = #{orderNo},
+            </if>
+            <if test="cardNo != null">
+                card_no = #{cardNo},
+            </if>
+            <if test="evidence != null and evidence != ''">
+                evidence = #{evidence},
+            </if>
+            <if test="projectId != null">
+                project_id = #{projectId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from dhlk_subcontract_plat.receiving_info where id = #{id}
+    </delete>
+</mapper>
+
