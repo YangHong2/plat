@@ -1,0 +1,23 @@
+package com.dhlk.light.test.entity;
+
+import lombok.Data;
+
+/**
+ * 灯wifi配置
+ */
+@Data
+public class LedWifiInfo {
+    private String ssid; //32byte
+    private String password; //16byte
+    private String ip; ///此处要求是 ip 地址的字符串
+    private Integer wf_dev; //1byte Wifi 模块选择:1byte(0:WG219 模块, 1:E103-W01 模块, 2:汉枫 HF_LPD130 模块)
+    private Integer wf_mode; //1byte (1:2.4G, 2:5G, 3:2.4G 和5G)
+
+    public LedWifiInfo(String ssid, String password, String ip, Integer wf_dev, Integer wf_mode) {
+        this.ssid = ssid;
+        this.password = password;
+        this.ip = ip;
+        this.wf_dev = wf_dev;
+        this.wf_mode = wf_mode;
+    }
+}

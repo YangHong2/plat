@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/dhlk_basic_module_service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_bicontroller_config/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_energy_subscribe/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_hadoop/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_hive/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_light_factory/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_light_factory_construction/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_light_service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_light_service_ai/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_light_subscribe/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_light_test/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_mqtt_subscribe/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_proxy/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_server_manage/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_shiro/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dhlk_zuul/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/siroint_light_simulator/src/main/java" charset="UTF-8" />
+  </component>
+</project>

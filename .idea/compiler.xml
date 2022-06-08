@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="dhlk_light_factory" />
+        <module name="dhlk_proxy" />
+        <module name="dhlk_web" />
+        <module name="dhlk.commons" />
+        <module name="dhlk_light_service_ai" />
+        <module name="dhlk_server_manage" />
+        <module name="dhlk.entity" />
+        <module name="dhlk_shiro" />
+        <module name="dhlk_flume_interceptor" />
+        <module name="dhlk_light_service" />
+        <module name="dhlk_zuul" />
+        <module name="dhlk_light_factory_construction" />
+        <module name="siroint_light_simulator" />
+        <module name="dhlk_basic_module_service" />
+        <module name="dhlk_light_subscribe" />
+        <module name="dhlk_energy_subscribe" />
+        <module name="dhlk_mqtt_subscribe" />
+        <module name="dhlk_bicontroller_config" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="dhlk.commons" target="1.8" />
+      <module name="dhlk.entity" target="1.8" />
+      <module name="dhlk.light.plat" target="1.8" />
+      <module name="dhlk_basic_module_service" target="1.8" />
+      <module name="dhlk_bicontroller_config" target="1.8" />
+      <module name="dhlk_energy_subscribe" target="1.8" />
+      <module name="dhlk_flume_interceptor" target="1.8" />
+      <module name="dhlk_hadoop" target="1.8" />
+      <module name="dhlk_hive" target="1.8" />
+      <module name="dhlk_light_factory" target="1.8" />
+      <module name="dhlk_light_factory_construction" target="1.8" />
+      <module name="dhlk_light_service" target="1.8" />
+      <module name="dhlk_light_service_ai" target="1.8" />
+      <module name="dhlk_light_subscribe" target="1.8" />
+      <module name="dhlk_light_test" target="1.8" />
+      <module name="dhlk_mqtt_subscribe" target="1.8" />
+      <module name="dhlk_proxy" target="1.8" />
+      <module name="dhlk_server_manage" target="1.8" />
+      <module name="dhlk_shiro" target="1.8" />
+      <module name="dhlk_web" target="1.8" />
+      <module name="dhlk_zuul" target="1.8" />
+      <module name="siroint_light_simulator" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="dhlk_basic_module_service" options="-parameters" />
+      <module name="dhlk_bicontroller_config" options="-parameters" />
+      <module name="dhlk_energy_subscribe" options="-parameters" />
+      <module name="dhlk_hadoop" options="-parameters" />
+      <module name="dhlk_hive" options="-parameters" />
+      <module name="dhlk_light_factory" options="-parameters" />
+      <module name="dhlk_light_factory_construction" options="-parameters" />
+      <module name="dhlk_light_service" options="-parameters" />
+      <module name="dhlk_light_service_ai" options="-parameters" />
+      <module name="dhlk_light_subscribe" options="-parameters" />
+      <module name="dhlk_light_test" options="-parameters" />
+      <module name="dhlk_mqtt_subscribe" options="-parameters" />
+      <module name="dhlk_proxy" options="-parameters" />
+      <module name="dhlk_server_manage" options="-parameters" />
+      <module name="dhlk_shiro" options="-parameters" />
+      <module name="dhlk_web" options="-parameters" />
+      <module name="dhlk_zuul" options="-parameters" />
+      <module name="siroint_light_simulator" options="-parameters" />
+    </option>
+  </component>
+</project>
