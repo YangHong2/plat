@@ -1,6 +1,7 @@
 package com.dhlk.subcontract.service;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.SubpackageUser;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @author xkliu
  * @since 2021-03-12 09:28:46
  */
-public interface SubpackageUserService {
+public interface SubpackageUserService extends IService<SubpackageUser> {
 
     /**
      * 通过主键删除数据
@@ -25,7 +26,7 @@ public interface SubpackageUserService {
     /**
      * 新增/修改
      */
-    Result save(SubpackageUser subpackageUser);
+    Result save1(SubpackageUser subpackageUser);
 
     /**
      * 列表查询

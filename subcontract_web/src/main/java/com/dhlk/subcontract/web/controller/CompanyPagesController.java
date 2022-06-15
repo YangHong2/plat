@@ -1,9 +1,9 @@
-package com.dhlk.subcontract.controller;
+package com.dhlk.subcontract.web.controller;
 
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.CompanyPages;
-import com.dhlk.subcontract.service.CompanyPagesService;
-import com.dhlk.utils.ResultUtils;
+import com.dhlk.subcontract.web.service.CompanyPagesService;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -16,10 +16,8 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/companyPages")
+@Api(description = "企业主页")
 public class CompanyPagesController {
-    /**
-     * 服务对象
-     */
     @Resource
     private CompanyPagesService companyPagesService;
 
@@ -31,9 +29,8 @@ public class CompanyPagesController {
      */
     @GetMapping("/selectOne")
     public Result selectOne(Integer id) {
-        return ResultUtils.success(this.companyPagesService.queryById(id));
+        return this.companyPagesService.queryById(id);
     }
-
     /**
      * 修改企业主页
      * @param companyPages
@@ -41,7 +38,7 @@ public class CompanyPagesController {
      */
     @PostMapping("/update")
     public Result update(@RequestBody CompanyPages companyPages) {
-         companyPagesService.update(companyPages);
-        return  companyPagesService.update(companyPages);
+        return companyPagesService.update(companyPages);
     }
+
 }

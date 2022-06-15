@@ -1,12 +1,17 @@
 package com.dhlk.subcontract.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.CompanyPages;
 import com.dhlk.subcontract.dao.CompanyPagesDao;
 import com.dhlk.subcontract.service.CompanyPagesService;
+import com.dhlk.utils.ResultUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static java.lang.System.out;
 
 /**
  * 企业主页(CompanyPages)表服务实现类
@@ -14,8 +19,8 @@ import java.util.List;
  * @author xkliu
  * @since 2021-03-12 09:20:59
  */
-@Service("companyPagesService")
-public class CompanyPagesServiceImpl implements CompanyPagesService {
+@Service()
+public class CompanyPagesServiceImpl extends ServiceImpl<CompanyPagesDao,CompanyPages> implements CompanyPagesService {
     @Resource
     private CompanyPagesDao companyPagesDao;
 
@@ -61,9 +66,14 @@ public class CompanyPagesServiceImpl implements CompanyPagesService {
      * @return 实例对象
      */
     @Override
-    public CompanyPages update(CompanyPages companyPages) {
-        this.companyPagesDao.update(companyPages);
-        return this.queryById(companyPages.getId());
+    public Result update(CompanyPages companyPages) {
+        out.println(companyPages);/*换行输出*/
+/*        LambdaQueryWrapper<CompanyPages> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(CompanyPages::getCompanyId,companyPages.getCompanyId());
+        
+         int update = companyPagesDao.update(companyPages, queryWrapper);*/
+        final int update1 = this.companyPagesDao.update(companyPages);
+        return update1 > 0? ResultUtils.success():ResultUtils.failure();
     }
 
     /**

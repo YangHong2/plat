@@ -1,5 +1,9 @@
 package com.dhlk.entity.sub;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.Data;
+import org.springframework.context.annotation.ComponentScan;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +12,7 @@ import java.io.Serializable;
  * @author xkliu
  * @since 2021-03-12 09:20:58
  */
+@Data
 public class CompanyPages implements Serializable {
     private static final long serialVersionUID = -31143241859212179L;
     /**

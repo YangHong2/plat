@@ -1,6 +1,7 @@
 package com.dhlk.subcontract.dao;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dhlk.entity.sub.CompanyPages;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ import java.util.List;
  * @since 2021-03-12 09:20:59
  */
 @Repository
-public interface CompanyPagesDao {
+public interface CompanyPagesDao extends BaseMapper<CompanyPages> {
 
     /**
      * 通过ID查询单条数据

@@ -6,7 +6,6 @@ import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -165,9 +164,11 @@ public class SendEmailUtil {
                 }
             }
             //提供指定的协议
-            Transport transport = session.getTransport("smtp");
+//            Transport transport = session.getTransport("smtp");
+            Transport transport = session.getTransport();
             //设置发件人的信息
             transport.connect(smtpAddress,emailAddress,emailPassword);
+
             //发送邮件
             transport.sendMessage(message,message.getAllRecipients());
             transport.close();

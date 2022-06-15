@@ -29,7 +29,7 @@ public class SubpackageUserController {
      */
     @PostMapping("/save")
     public Result save(@RequestBody SubpackageUser subpackageUser) {
-        return this.subpackageUserService.save(subpackageUser);
+        return this.subpackageUserService.save1(subpackageUser);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.dhlk.subcontract.service;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.Company;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @author xkliu
  * @since 2021-03-12 09:20:57
  */
-public interface CompanyService {
+public interface CompanyService extends IService<Company> {
 
     /**
      * 通过ID查询单条数据

@@ -1,7 +1,9 @@
 package com.dhlk.subcontract.dao;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dhlk.entity.sub.SubpackageUser;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +16,8 @@ import java.util.List;
  * @since 2021-03-12 09:24:31
  */
 @Repository
-public interface SubpackageUserDao {
+@Mapper
+public interface SubpackageUserDao extends BaseMapper<SubpackageUser> {
 
     /**
      * 通过ID查询单条数据
@@ -72,7 +75,7 @@ public interface SubpackageUserDao {
      * @param subpackageUser 实例对象
      * @return 影响行数
      */
-    int update(SubpackageUser subpackageUser);
+//    int update(SubpackageUser subpackageUser);
 
     /**
      * 通过主键删除数据

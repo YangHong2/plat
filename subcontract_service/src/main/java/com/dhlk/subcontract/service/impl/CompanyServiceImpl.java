@@ -1,5 +1,6 @@
 package com.dhlk.subcontract.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.Company;
 import com.dhlk.subcontract.dao.CompanyDao;
@@ -17,7 +18,7 @@ import java.util.List;
  * @since 2021-03-12 09:20:57
  */
 @Service("companyService")
-public class CompanyServiceImpl implements CompanyService {
+public class CompanyServiceImpl extends ServiceImpl<CompanyDao,Company> implements CompanyService {
     @Resource
     private CompanyDao companyDao;
 
@@ -64,8 +65,11 @@ public class CompanyServiceImpl implements CompanyService {
      */
     @Override
     public Result update(Company company) {
-        int update = this.companyDao.update(company);
+//        int update = this.companyDao.update(company);
+//        return update > 0?ResultUtils.success():ResultUtils.failure();
+        final int update = companyDao.update(company);
         return update > 0?ResultUtils.success():ResultUtils.failure();
+
     }
 
     /**
