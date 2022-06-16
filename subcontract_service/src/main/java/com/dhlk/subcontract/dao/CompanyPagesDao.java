@@ -24,6 +24,13 @@ public interface CompanyPagesDao extends BaseMapper<CompanyPages> {
      * @return 实例对象
      */
     CompanyPages queryById(Integer id);
+    /**
+     * 通过企业ID查询单条数据
+     *
+     * @param companyId 企业ID
+     * @return 实例对象
+     */
+    CompanyPages selectOneByCompanyId(Integer companyId);
 
     /**
      * 查询指定行数据

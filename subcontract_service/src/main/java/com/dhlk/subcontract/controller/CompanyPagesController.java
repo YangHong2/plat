@@ -24,14 +24,14 @@ public class CompanyPagesController {
     private CompanyPagesService companyPagesService;
 
     /**
-     * 通过主键查询单条数据
+     * 通过企业ID查询单条数据
      *
-     * @param id 主键
+     * @param companyId 企业ID
      * @return 单条数据
      */
-    @GetMapping("/selectOne")
-    public Result selectOne(Integer id) {
-        return ResultUtils.success(this.companyPagesService.queryById(id));
+    @GetMapping("/selectOneByCompanyId")
+    public Result selectOne(@RequestParam(value = "companyId", required = true) Integer companyId) {
+        return ResultUtils.success(this.companyPagesService.selectOneByCompanyId(companyId));
     }
 
     /**
@@ -41,7 +41,6 @@ public class CompanyPagesController {
      */
     @PostMapping("/update")
     public Result update(@RequestBody CompanyPages companyPages) {
-         companyPagesService.update(companyPages);
         return  companyPagesService.update(companyPages);
     }
 }

@@ -1,11 +1,8 @@
 package com.dhlk.subcontract.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.Solution;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.naming.spi.DirStateFactory;
-import java.util.List;
 
 /**
  * 解决方案(Solution)表服务接口
@@ -13,7 +10,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-03-12 09:54:22
  */
-public interface SolutionService {
+public interface SolutionService extends IService<Solution> {
 
     /**
      * 通过ID查询单条数据

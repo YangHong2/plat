@@ -20,19 +20,19 @@ import static java.lang.System.out;
  * @since 2021-03-12 09:20:59
  */
 @Service()
-public class CompanyPagesServiceImpl extends ServiceImpl<CompanyPagesDao,CompanyPages> implements CompanyPagesService {
+public class CompanyPagesServiceImpl extends ServiceImpl<CompanyPagesDao, CompanyPages> implements CompanyPagesService {
     @Resource
     private CompanyPagesDao companyPagesDao;
 
     /**
-     * 通过ID查询单条数据
+     * 通过CompanyId查询单条数据
      *
-     * @param id 主键
+     * @param id
      * @return 实例对象
      */
     @Override
-    public CompanyPages queryById(Integer id) {
-        return this.companyPagesDao.queryById(id);
+    public CompanyPages selectOneByCompanyId(Integer companyId) {
+        return this.companyPagesDao.selectOneByCompanyId(companyId);
     }
 
     /**
@@ -73,7 +73,7 @@ public class CompanyPagesServiceImpl extends ServiceImpl<CompanyPagesDao,Company
         
          int update = companyPagesDao.update(companyPages, queryWrapper);*/
         final int update1 = this.companyPagesDao.update(companyPages);
-        return update1 > 0? ResultUtils.success():ResultUtils.failure();
+        return update1 > 0 ? ResultUtils.success() : ResultUtils.failure();
     }
 
     /**

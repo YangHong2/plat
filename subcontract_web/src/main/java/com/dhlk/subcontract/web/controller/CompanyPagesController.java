@@ -3,6 +3,7 @@ package com.dhlk.subcontract.web.controller;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.CompanyPages;
 import com.dhlk.subcontract.web.service.CompanyPagesService;
+import com.dhlk.utils.ResultUtils;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +25,12 @@ public class CompanyPagesController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     * @param companyId 主键
      * @return 单条数据
      */
-    @GetMapping("/selectOne")
-    public Result selectOne(Integer id) {
-        return this.companyPagesService.queryById(id);
+    @GetMapping("/selectOneByCompanyId")
+    public Result selectOne(@RequestParam(value = "companyId", required = true) Integer companyId) {
+        return ResultUtils.success(this.companyPagesService.selectOneByCompanyId(companyId));
     }
     /**
      * 修改企业主页

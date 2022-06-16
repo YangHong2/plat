@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompanyPagesServiceFbk implements CompanyPagesService {
     @Override
-    public Result queryById(Integer id) {
+    public Result selectOneByCompanyId(Integer companyId) {
         return ResultUtils.error(ResultEnum.NETWORK_ERR);
     }
 

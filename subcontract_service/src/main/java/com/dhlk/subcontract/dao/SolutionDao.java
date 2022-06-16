@@ -1,5 +1,6 @@
 package com.dhlk.subcontract.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dhlk.entity.sub.Solution;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ import java.util.List;
  * @since 2021-03-12 09:54:21
  */
 @Repository
-public interface SolutionDao {
+public interface SolutionDao extends BaseMapper<Solution> {
 
     /**
      * 通过ID查询单条数据

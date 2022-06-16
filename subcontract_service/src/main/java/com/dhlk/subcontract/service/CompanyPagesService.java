@@ -3,7 +3,6 @@ package com.dhlk.subcontract.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlk.domain.Result;
-import com.dhlk.entity.sub.Company;
 import com.dhlk.entity.sub.CompanyPages;
 
 import java.util.List;
@@ -17,12 +16,12 @@ import java.util.List;
 public interface CompanyPagesService  extends IService<CompanyPages> {
 
     /**
-     * 通过ID查询单条数据
+     * 通过企业ID查询单条数据
      *
-     * @param id 主键
+     * @param companyId 企业ID
      * @return 实例对象
      */
-    CompanyPages queryById(Integer id);
+    CompanyPages selectOneByCompanyId(Integer companyId);
 
     /**
      * 查询多条数据

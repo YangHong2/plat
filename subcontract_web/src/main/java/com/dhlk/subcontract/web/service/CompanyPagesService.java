@@ -9,13 +9,13 @@ import org.springframework.cloud.openfeign.FeignClient;
 @FeignClient(value = "subcontract-service/companyPages", fallback = CompanyPagesServiceFbk.class)
 public interface CompanyPagesService {
     /**
-     * 通过主键查询单条数据
+     * 通过企业ID查询单条数据
      *
-     * @param id 主键
+     * @param companyId 企业ID
      * @return 单条数据
      */
-    @GetMapping("/selectOne")
-    Result queryById(Integer id);
+    @GetMapping("/selectOneByCompanyId")
+    Result selectOneByCompanyId(@RequestParam(value = "companyId", required = true) Integer companyId);
 
     /**
      * 修改企业主页
@@ -24,5 +24,5 @@ public interface CompanyPagesService {
      * @return
      */
     @PostMapping("/update")
-    Result update(CompanyPages companyPages);
+    Result update(@RequestBody CompanyPages companyPages);
 }
