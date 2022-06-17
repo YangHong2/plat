@@ -3,7 +3,6 @@ package com.dhlk.entity.sub;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 企业管理(Company)实体类
@@ -103,4 +102,8 @@ public class Company implements Serializable {
      */
     private String blacklistReason;
 
+    /**
+     * 企业评分
+     */
+    private String score;
 }

@@ -32,7 +32,8 @@
         SELECT
         A.id,
         A.project_theme,
-        left(A.project_detail, 30) AS project_detail,
+--         left(A.project_detail, 52) AS project_detail,
+        A.project_detail,
         A.company_id,
         DATE_FORMAT(A.create_time,'%Y-%m-%d %H:%i') AS create_time,
         B.company_name

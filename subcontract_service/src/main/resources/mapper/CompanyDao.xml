@@ -89,20 +89,58 @@
     <!--查询单个-->
     <select id="queryById" resultMap="CompanyMap">
 
-                select
-                  id, company_name, capital, company_address, company_nature, turnover_year, legal_person, legal_num, company_scale, business, company_type, company_license, license_validity, credit_code, identity_card, company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time,blacklist_reason
-                from dhlk_subcontract_plat.company
-                where id = #{id}
+        select id,
+               company_name,
+               capital,
+               company_address,
+               company_nature,
+               turnover_year,
+               legal_person,
+               legal_num,
+               company_scale,
+               business,
+               company_type,
+               company_license,
+               license_validity,
+               credit_code,
+               identity_card,
+               company_authorization,
+               audit_status,
+               audit_reason,
+               is_blacklist,
+               create_time,
+               audit_time,
+               blacklist_reason
+        from dhlk_subcontract_plat.company
+        where id = #{id}
 
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CompanyMap">
 
-                select
-                  id, company_name, capital, company_address, company_nature, turnover_year, legal_person, legal_num, company_scale, business, company_type, company_license, license_validity, credit_code, identity_card, company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time
-                from dhlk_subcontract_plat.company
-                limit #{offset}, #{limit}
+        select id,
+               company_name,
+               capital,
+               company_address,
+               company_nature,
+               turnover_year,
+               legal_person,
+               legal_num,
+               company_scale,
+               business,
+               company_type,
+               company_license,
+               license_validity,
+               credit_code,
+               identity_card,
+               company_authorization,
+               audit_status,
+               audit_reason,
+               is_blacklist,
+               create_time,
+               audit_time
+        from dhlk_subcontract_plat.company limit #{offset}, #{limit}
 
     </select>
 
@@ -266,7 +304,7 @@
             <if test="companyAuthorization != null and companyAuthorization != ''">
                 company_authorization = #{companyAuthorization},
             </if>
-            <if test="auditStatus != null">
+            <if test="auditStatus != null and auditStatus != ''">
                 audit_status = #{auditStatus},
             </if>
             <if test="auditReason != null and auditReason != ''">
@@ -291,18 +329,21 @@
     <!--通过主键删除-->
     <delete id="deleteById">
 
-                delete from dhlk_subcontract_plat.company where id = #{id}
+        delete
+        from dhlk_subcontract_plat.company
+        where id = #{id}
 
     </delete>
 
 
-
     <select id="getFinancial" resultMap="CompanyMap">
         select
-        id, company_name, capital, company_address, company_nature, turnover_year, legal_person, legal_num, company_scale, business, company_type, company_license, license_validity, credit_code, identity_card, company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time
+        id, company_name, capital, company_address, company_nature, turnover_year, legal_person, legal_num,
+        company_scale, business, company_type, company_license, license_validity, credit_code, identity_card,
+        company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time
         from company where 1=1
         <if test="name != null and name != ''">
-            and company_name  like concat('%/', #{name}, '%') ESCAPE '/'
+            and company_name like concat('%/', #{name}, '%') ESCAPE '/'
         </if>
         and company_type in (0)
         and audit_status = 1
@@ -311,10 +352,12 @@
 
     <select id="getConsult" resultMap="CompanyMap">
         select
-        id, company_name, capital, company_address, company_nature, turnover_year, legal_person, legal_num, company_scale, business, company_type, company_license, license_validity, credit_code, identity_card, company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time
+        id, company_name, capital, company_address, company_nature, turnover_year, legal_person, legal_num,
+        company_scale, business, company_type, company_license, license_validity, credit_code, identity_card,
+        company_authorization, audit_status, audit_reason, is_blacklist, create_time, audit_time
         from company where 1=1
         <if test="name != null and name != ''">
-            and company_name  like concat('%/', #{name}, '%') ESCAPE '/'
+            and company_name like concat('%/', #{name}, '%') ESCAPE '/'
         </if>
         and company_type in (2)
         and audit_status = 1

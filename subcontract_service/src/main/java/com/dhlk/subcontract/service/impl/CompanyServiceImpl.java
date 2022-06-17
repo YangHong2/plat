@@ -67,7 +67,7 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao,Company> implemen
     public Result update(Company company) {
 //        int update = this.companyDao.update(company);
 //        return update > 0?ResultUtils.success():ResultUtils.failure();
-        final int update = companyDao.update(company);
+         int update = companyDao.update(company);
         return update > 0?ResultUtils.success():ResultUtils.failure();
 
     }

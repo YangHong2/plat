@@ -11,7 +11,15 @@
         <result property="solution" column="solution" jdbcType="VARCHAR"/>
         <result property="companyId" column="company_id" jdbcType="INTEGER"/>
     </resultMap>
+    <!--企业ID查询单个-->
+    <select id="selectOneByCompanyId" resultMap="CompanyPagesMap">
 
+        select
+            id, home_page, company_introduce, credit_value, certificate, company_case, solution, company_id
+        from dhlk_subcontract_plat.company_pages
+        where company_id = #{companyId}
+
+    </select>
     <!--查询单个-->
     <select id="queryById" resultMap="CompanyPagesMap">
 
