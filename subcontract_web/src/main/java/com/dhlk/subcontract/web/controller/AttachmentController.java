@@ -48,7 +48,7 @@ public class AttachmentController {
      */
     @ApiOperation("多附件上传")
     @PostMapping(value = "/uploadMore", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Result uploadMore(@RequestParam(value = "files") MultipartFile[] files,
+    public Result uploadMore(@RequestPart(value = "files") MultipartFile[] files,
                              @RequestParam(value = "dataId",required = false) String dataId) {
         for(int i=0; i<files.length; i++){
             Result result = attachmentService.upload(files[i], true, dataId);

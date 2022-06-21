@@ -10,20 +10,31 @@
         <result property="title" column="title" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <select id="checkAll" resultMap="SubpackageMessageMap">
+        select *
+        from dhlk_subcontract_plat.subpackage_message
+    </select>
     <!--查询单个-->
     <select id="queryById" resultMap="SubpackageMessageMap">
-        select
-        id, content, create_time, type, user_id, title
+        select id,
+               content,
+               create_time,
+               type,
+               user_id,
+               title
         from dhlk_subcontract_plat.subpackage_message
         where id = #{id}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SubpackageMessageMap">
-        select
-        id, content, create_time, type, user_id, title
-        from dhlk_subcontract_plat.subpackage_message
-        limit #{offset}, #{limit}
+        select id,
+               content,
+               create_time,
+               type,
+               user_id,
+               title
+        from dhlk_subcontract_plat.subpackage_message limit #{offset}, #{limit}
     </select>
 
     <!--通过实体作为筛选条件查询-->
@@ -103,7 +114,9 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from dhlk_subcontract_plat.subpackage_message where id = #{id}
+        delete
+        from dhlk_subcontract_plat.subpackage_message
+        where id = #{id}
     </delete>
 </mapper>
 

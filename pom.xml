@@ -71,8 +71,10 @@
     </properties>
 
     <dependencyManagement>
+
         <!--可能用到的依赖,在具体的模块若使用，则引入，以下依赖只在非spring boot的项目中起作用-->
         <dependencies>
+
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>

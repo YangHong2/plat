@@ -28,9 +28,9 @@ spring:
   #mysql配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.2.162:3306/dhlk_subcontract_plat?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=true&allowMultiQueries=true
+    url: jdbc:mysql://localhost:3306/dhlk_subcontract_plat?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=true&allowMultiQueries=true
     username: root
-    password: 1111
+    password: root
     hikari:
       minimum-idle: 5 # 连接池中维护的最小空闲连接数
       maximum-pool-size: 15  # 配置最大池大小
@@ -48,7 +48,7 @@ spring:
     database: 0 # Redis数据库索引（默认为0）
     host: 127.0.0.1 # Redis服务器地址
     port: 6379 # Redis服务器连接端口
-    password: # Redis服务器连接密码（默认为空）
+#    password: # Redis服务器连接密码（默认为空）
     jedis:
       pool:
         max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
@@ -77,9 +77,9 @@ logging:
   config: classpath:logback-spring.xml
 #附件路径
 attachment:
-  path: C:\attachment\
+  path: D:\attachment\
 #日志路径
 log:
-  path: C:\log\
+  path: D:\log\
 swagger: ##给swagger设置开关
   ebable: true

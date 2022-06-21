@@ -7,8 +7,6 @@ import com.dhlk.subcontract.service.AdvertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-
 /**
  * 广告(Advert)表控制层
  *
@@ -52,7 +50,7 @@ public class AdvertController {
      * @return
      */
     @GetMapping("/findList")
-    public Result FindList(
+    public Result findList(
             // (String adressNo, String name, String dataId, String createTime);
             @RequestParam(value = "adressNo", required = false) String adressNo,
             @RequestParam(value = "name", required = false) String name,

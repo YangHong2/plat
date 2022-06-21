@@ -1,6 +1,7 @@
 package com.dhlk.subcontract.dao;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dhlk.entity.sub.SubpackageMessage;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,8 @@ import java.util.List;
  * @since 2021-03-12 09:23:56
  */
 @Repository
-public interface SubpackageMessageDao {
+public interface SubpackageMessageDao extends BaseMapper<SubpackageMessage> {
+
 
     /**
      * 通过ID查询单条数据
@@ -82,5 +84,10 @@ public interface SubpackageMessageDao {
      */
     int deleteById(Integer id);
 
+    /**
+     * 查看所有消息
+     * @return
+     */
+    List<SubpackageMessage> checkAll();
 }
 

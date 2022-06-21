@@ -3,6 +3,7 @@ package com.dhlk.subcontract.service;
 
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.ProjectIssue;
+import org.springframework.stereotype.Service;
 
 /**
  * 项目发布(ProjectIssue)表服务接口
@@ -10,6 +11,7 @@ import com.dhlk.entity.sub.ProjectIssue;
  * @author xkliu
  * @since 2021-03-12 09:21:17
  */
+@Service
 public interface ProjectIssueService {
 
     /**

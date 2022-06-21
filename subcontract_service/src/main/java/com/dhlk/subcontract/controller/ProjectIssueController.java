@@ -3,8 +3,9 @@ package com.dhlk.subcontract.controller;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.ProjectIssue;
 import com.dhlk.subcontract.service.ProjectIssueService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * 项目发布(ProjectIssue)表控制层
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/projectIssue")
 public class ProjectIssueController {
 
-    @Autowired
+    @Resource
     private ProjectIssueService projectIssueService;
 
 

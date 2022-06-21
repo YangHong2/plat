@@ -1,10 +1,11 @@
-package com.dhlk.subcontract.controller;
-
+package com.dhlk.subcontract.web.controller;
 
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.SubpackageMessage;
-import com.dhlk.subcontract.service.SubpackageMessageService;
+import com.dhlk.subcontract.web.service.SubpackageMessageService;
 import com.dhlk.utils.ResultUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -15,8 +16,10 @@ import javax.annotation.Resource;
  * @author xkliu
  * @since 2021-03-12 09:24:13
  */
+
 @RestController
 @RequestMapping("subpackageMessage")
+@Api(description = "消息", value = "SubpackageMessageController")
 public class SubpackageMessageController {
     /**
      * 服务对象
@@ -31,10 +34,10 @@ public class SubpackageMessageController {
      * @return 单条数据
      */
     @GetMapping("selectOne")
+    @ApiOperation("通过主键查询单条数据")
     public Result selectOne(@RequestParam(value = "id", required = false) Integer id) {
-        return subpackageMessageService.queryById(id);
+        return this.subpackageMessageService.queryById(id);
     }
-
     /**
      * 新增数据
      *
@@ -42,10 +45,10 @@ public class SubpackageMessageController {
      * @return 实例对象
      */
     @PostMapping("/save")
+    @ApiOperation("新增数据")
     public Result save(@RequestBody SubpackageMessage subpackageMessage) {
         return subpackageMessageService.insert(subpackageMessage);
     }
-
     /**
      * 修改数据
      *
@@ -53,6 +56,7 @@ public class SubpackageMessageController {
      * @return 实例对象
      */
     @PostMapping("/update")
+    @ApiOperation("修改数据")
     public Result update(@RequestBody SubpackageMessage subpackageMessage) {
         return subpackageMessageService.update(subpackageMessage);
     }
@@ -65,20 +69,25 @@ public class SubpackageMessageController {
      * @return 对象列表
      */
     @GetMapping("queryAllByLimit")
+    @ApiOperation("查询多条数据")
+//    public Result queryAllByLimit(@RequestParam(value = "offset", required = false) int offset,
+//                                  @RequestParam(value = "limit", required = false) int limit) {
+//        return subpackageMessageService.queryAllByLimit(offset,limit);
+//    }
+//    @GetMapping("queryAllByLimit")
     public Result queryAllByLimit(@RequestParam(value = "pageNum", required = false) int pageNum,
                                   @RequestParam(value = "pageSize", required = false) int pageSize) {
         return subpackageMessageService.queryAllByLimit(pageNum,pageSize);
     }
-
     /**
      * 通过主键删除数据
      *
      * @param id 主键
      * @return 是否成功
      */
+    @ApiOperation("通过id删除数据")
     @GetMapping("deleteById")
     public Result deleteById(@RequestParam(value = "id", required = false) Integer id) {
         return ResultUtils.success(subpackageMessageService.deleteById(id));
     }
-
 }

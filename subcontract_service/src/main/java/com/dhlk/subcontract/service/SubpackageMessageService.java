@@ -1,9 +1,9 @@
 package com.dhlk.subcontract.service;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.SubpackageMessage;
-
-import java.util.List;
 
 /**
  * 消息(SubpackageMessage)表服务接口
@@ -11,7 +11,7 @@ import java.util.List;
  * @author xkliu
  * @since 2021-03-12 09:23:58
  */
-public interface SubpackageMessageService {
+public interface SubpackageMessageService extends IService<SubpackageMessage> {
 
     /**
      * 通过ID查询单条数据
@@ -19,7 +19,7 @@ public interface SubpackageMessageService {
      * @param id 主键
      * @return 实例对象
      */
-    SubpackageMessage queryById(Integer id);
+    Result queryById(Integer id);
 
     /**
      * 查询多条数据
@@ -28,7 +28,8 @@ public interface SubpackageMessageService {
      * @param limit  查询条数
      * @return 对象列表
      */
-    List<SubpackageMessage> queryAllByLimit(int offset, int limit);
+
+    Result queryAllByLimit(int pageNum, int pageSize);
 
     /**
      * 新增数据
@@ -36,7 +37,7 @@ public interface SubpackageMessageService {
      * @param subpackageMessage 实例对象
      * @return 实例对象
      */
-    SubpackageMessage insert(SubpackageMessage subpackageMessage);
+    Result insert(SubpackageMessage subpackageMessage);
 
     /**
      * 修改数据
@@ -44,7 +45,7 @@ public interface SubpackageMessageService {
      * @param subpackageMessage 实例对象
      * @return 实例对象
      */
-    SubpackageMessage update(SubpackageMessage subpackageMessage);
+    Result update(SubpackageMessage subpackageMessage);
 
     /**
      * 通过主键删除数据
@@ -52,6 +53,6 @@ public interface SubpackageMessageService {
      * @param id 主键
      * @return 是否成功
      */
-    boolean deleteById(Integer id);
+    Result deleteById(Integer id);
 
 }
