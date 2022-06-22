@@ -2,7 +2,6 @@ package com.dhlk.subcontract.service.impl;
 
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.ProjectClose;
-import com.dhlk.entity.sub.ProjectIssue;
 import com.dhlk.enums.ResultEnum;
 import com.dhlk.subcontract.dao.ProjectCloseDao;
 import com.dhlk.subcontract.service.ProjectCloseService;
@@ -84,6 +83,7 @@ public class ProjectCloseServiceImpl implements ProjectCloseService {
         //新增
         if (CheckUtils.isNull(projectClose.getId())) {
             flag = projectCloseDao.insert(projectClose);
+
         } else {
             //修改
             projectClose.setApprovalTime(DateUtils.getCurrentTime());

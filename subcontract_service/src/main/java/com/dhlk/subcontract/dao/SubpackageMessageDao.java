@@ -89,5 +89,12 @@ public interface SubpackageMessageDao extends BaseMapper<SubpackageMessage> {
      * @return
      */
     List<SubpackageMessage> checkAll();
+
+    /**
+     * 根据文字模糊查询
+     * @param messageName
+     * @return
+     */
+    List<SubpackageMessage> queryBymessageName(String messageName);
 }
 

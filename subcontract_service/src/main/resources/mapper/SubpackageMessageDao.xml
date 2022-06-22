@@ -10,6 +10,15 @@
         <result property="title" column="title" jdbcType="VARCHAR"/>
     </resultMap>
 
+
+    <select id="queryBymessageName" resultMap="SubpackageMessageMap">
+        select *
+        from dhlk_subcontract_plat.subpackage_message ms
+        where ms.title like concat('%/', #{messageName}, '%') ESCAPE '/'
+    </select>
+
+
+    <!--查询所有-->
     <select id="checkAll" resultMap="SubpackageMessageMap">
         select *
         from dhlk_subcontract_plat.subpackage_message

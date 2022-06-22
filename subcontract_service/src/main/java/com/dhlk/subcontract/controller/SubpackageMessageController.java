@@ -60,14 +60,18 @@ public class SubpackageMessageController {
     /**
      * 查询多条数据
      *
-     * @param offset 查询起始位置
-     * @param limit  查询条数
+     * @param pageNum  查询起始位置
+     * @param pageSize 查询条数
      * @return 对象列表
      */
     @GetMapping("queryAllByLimit")
-    public Result queryAllByLimit(@RequestParam(value = "pageNum", required = false) int pageNum,
+    public Result queryAllByLimit(@RequestParam(value = "messageName", required = false) String messageName,
+                                  @RequestParam(value = "pageNum", required = false) int pageNum,
                                   @RequestParam(value = "pageSize", required = false) int pageSize) {
-        return subpackageMessageService.queryAllByLimit(pageNum,pageSize);
+        if (messageName == null ||messageName=="") {
+            return subpackageMessageService.queryAllByLimit(pageNum, pageSize);
+        }else
+        return subpackageMessageService.queryBymessageName(messageName, pageNum, pageSize);
     }
 
     /**
@@ -80,5 +84,6 @@ public class SubpackageMessageController {
     public Result deleteById(@RequestParam(value = "id", required = false) Integer id) {
         return ResultUtils.success(subpackageMessageService.deleteById(id));
     }
+
 
 }

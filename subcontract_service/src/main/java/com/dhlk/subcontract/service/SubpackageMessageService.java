@@ -55,4 +55,11 @@ public interface SubpackageMessageService extends IService<SubpackageMessage> {
      */
     Result deleteById(Integer id);
 
+    /**
+     * 根据文字模糊查询
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    Result queryBymessageName(String messageName,int pageNum, int pageSize);
 }

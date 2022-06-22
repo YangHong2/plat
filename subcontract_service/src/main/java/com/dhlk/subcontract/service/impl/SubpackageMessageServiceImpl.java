@@ -56,7 +56,7 @@ public class SubpackageMessageServiceImpl extends ServiceImpl<SubpackageMessageD
     public Result queryAllByLimit(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<SubpackageMessage> subpackageMessages = subpackageMessageDao.checkAll();
-        List<SubpackageMessageVo> voList=new ArrayList<>();
+        List<SubpackageMessageVo> voList = new ArrayList<>();
         for (SubpackageMessage subpackageMessage : subpackageMessages) {
             SubpackageMessageVo subpackageMessageVo = new SubpackageMessageVo();
             subpackageMessageVo.setId(subpackageMessage.getId());
@@ -108,5 +108,21 @@ public class SubpackageMessageServiceImpl extends ServiceImpl<SubpackageMessageD
     public Result deleteById(Integer id) {
         int i = subpackageMessageDao.deleteById(id);
         return i == 1 ? ResultUtils.success("删除成功") : ResultUtils.error("删除失败");
+    }
+
+    /**
+     * 根据文字模糊查询
+     *
+     * @param messageName
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Result queryBymessageName(String messageName, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<SubpackageMessage> subpackageMessage =subpackageMessageDao.queryBymessageName(messageName);
+        PageInfo<SubpackageMessage> pageInfo = new PageInfo<SubpackageMessage>(subpackageMessage);
+        return ResultUtils.success(pageInfo);
     }
 }

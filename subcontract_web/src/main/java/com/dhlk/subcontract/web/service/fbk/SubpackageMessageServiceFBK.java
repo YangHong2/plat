@@ -52,4 +52,16 @@ public class SubpackageMessageServiceFBK implements SubpackageMessageService {
     public Result deleteById(Integer id) {
         return ResultUtils.error(ResultEnum.NETWORK_ERR);
     }
+
+    /**
+     * 根据文字模糊查询
+     * @param messageName
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Result queryBymessageName(String messageName, int pageNum, int pageSize) {
+        return ResultUtils.error(ResultEnum.NETWORK_ERR);
+    }
 }

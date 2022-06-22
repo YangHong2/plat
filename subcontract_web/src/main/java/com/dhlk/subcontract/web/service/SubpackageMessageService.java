@@ -42,8 +42,8 @@ public interface SubpackageMessageService {
     /**
      * 查询多条数据
      *
-     * @param offset 查询起始位置
-     * @param limit  查询条数
+     * @param pageNum 查询起始位置
+     * @param pageSize  查询条数
      * @return 对象列表
      */
     @GetMapping("queryAllByLimit")
@@ -58,4 +58,17 @@ public interface SubpackageMessageService {
      */
     @GetMapping("deleteById")
     public Result deleteById(@RequestParam(value = "id", required = false) Integer id);
+
+    /**
+     * 根据文字模糊查询
+     *
+     * @param messageName
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("queryAllByLimit")
+    public Result queryBymessageName(@RequestParam(value = "messageName", required = false) String messageName,
+                                     @RequestParam(value = "pageNum", required = false) int pageNum,
+                                     @RequestParam(value = "pageSize", required = false) int pageSize);
 }
