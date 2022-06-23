@@ -2,6 +2,7 @@ package com.dhlk.subcontract.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlk.domain.Result;
+import com.dhlk.entity.basicmodule.User;
 import com.dhlk.entity.sub.Company;
 import com.dhlk.entity.sub.SubpackageUser;
 import com.dhlk.service.RedisService;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static java.lang.System.out;
 
@@ -88,5 +91,10 @@ public class SubpackageUserServiceImpl extends ServiceImpl<SubpackageUserDao, Su
         List<SubpackageUser> subpackageUsers = subpackageUserDao.findList(companyName, auditStatus, isBlacklist);
         PageInfo<SubpackageUser> pageList = new PageInfo<>(subpackageUsers);
         return ResultUtils.success(pageList);
+    }
+
+    @Override
+    public Map<String, Set> getPermissionsByLoginName(User user) {
+        return null;
     }
 }

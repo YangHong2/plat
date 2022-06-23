@@ -1,5 +1,9 @@
 package com.dhlk.entity.sub;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -8,32 +12,30 @@ import java.io.Serializable;
  * @author xkliu
  * @since 2021-03-12 09:23:38
  */
+@Data
+@ApiModel(value="role",description="角色对象")
 public class Role implements Serializable {
-    private static final long serialVersionUID = -81371456880638220L;
-    /**
-     * 主键
-     */
+
+    @ApiModelProperty(hidden = true)
+    private String menuIds;//菜单id集合，逗号隔开
+
+    /** null */
+    @ApiModelProperty(value="新增为空/修改传值")
     private Integer id;
-    /**
-     * 角色名称
-     */
-    private String roleName;
 
+    /** 名称 */
+    @ApiModelProperty(value="角色名称",required=true,example="系统管理员")
+    private String name;
 
-    public Integer getId() {
-        return id;
-    }
+    /** 备注 */
+    @ApiModelProperty(value="角色描述",required=true)
+    private String note;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    /** 租户id */
+    @ApiModelProperty(hidden = true)
+    private Integer tenantId;
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
+    /** 是否默认系统角色 是否系统默认角色  0是 1否 */
+    @ApiModelProperty(hidden = true)
+    private Integer isSystem;
 }

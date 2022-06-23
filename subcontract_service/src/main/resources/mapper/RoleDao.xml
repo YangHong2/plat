@@ -3,7 +3,9 @@
 <mapper namespace="com.dhlk.subcontract.dao.RoleDao">
     <resultMap type="com.dhlk.entity.sub.Role" id="RoleMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
-        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="name" column="role_name" jdbcType="VARCHAR"/>
+        <result property="isSystem" column="is_system" jdbcType="VARCHAR"/>
+
     </resultMap>
 
     <!--查询单个-->
@@ -76,5 +78,11 @@
     <delete id="deleteById">
         delete from dhlk_subcontract_plat.role where id = #{id}
     </delete>
+
+    <!--通过主键查询用户-->
+    <select id="selectUserByRoleId" parameterType="Integer" resultType="com.dhlk.entity.basicmodule.User">
+        SELECT id,  login_name, `password`, `status`,company_id,company_email FROM subpackage_user WHERE id IN(
+        SELECT user_id FROM user_role WHERE role_id = #{roleId})
+    </select>
 </mapper>
 

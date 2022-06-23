@@ -57,24 +57,30 @@ public class LoginServiceImpl implements LoginService {
         if(CheckUtils.isNull(flag) || !flag){
             return ResultUtils.error(ResultEnum.KAPTCHA_ERR.getStateInfo());
         }*/
-
+        //非空判断
         if(CheckUtils.isNull(loginName) || CheckUtils.isNull(password) || CheckUtils.isNull(x) || CheckUtils.isNull(y)){
             return ResultUtils.error(ResultEnum.PARAM_ERR);
         }
+
+        // 图片验证
         boolean flag = captchaService.checkVerificationResult(redisKey,x, y);
         if(CheckUtils.isNull(flag) || !flag){
             return ResultUtils.error(ResultEnum.SLIDE_KAPTCHA_ERR.getStateInfo());
         }
-
+        // 密码加密
         password = EncryUtils.md5(password, loginName);
-
+        // 获取用户
         User userBean = userService.getUserByLoginName(loginName);
+
+        // 如果没有用户信息
         if(userBean == null){
             return ResultUtils.error(ResultEnum.NOUSER_ERROR.getStateInfo());
         }
+        //判断用户密码
         if (!userBean.getPassword().equals(password)) {
             return ResultUtils.error(ResultEnum.USERNAME_PASSWORDEROR.getStateInfo());
         }
+        // 检查用户是否为禁用状态
         if (userBean.getStatus()== Const.STATUS_BAN){ //检查用户状态是否为禁用状态
             return ResultUtils.error(ResultEnum.BAN_USR.getStateInfo());
         }

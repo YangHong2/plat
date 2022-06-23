@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.Company;
 import com.dhlk.entity.sub.Menu;
+import com.dhlk.entity.sub.ServerEmail;
 import com.dhlk.entity.sub.SubpackageUser;
 import com.dhlk.enums.ResultEnum;
 import com.dhlk.exceptions.MyException;
@@ -15,15 +16,14 @@ import com.dhlk.subcontract.dao.ServerEmailDao;
 import com.dhlk.subcontract.dao.SubpackageUserDao;
 import com.dhlk.subcontract.service.LoginService;
 import com.dhlk.systemconst.Const;
-import com.dhlk.utils.CheckUtils;
-import com.dhlk.utils.EncryUtils;
-import com.dhlk.utils.HttpContextUtil;
-import com.dhlk.utils.ResultUtils;
+import com.dhlk.utils.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @Service
@@ -71,9 +71,9 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Result acquireAuthCode(String companyEmail) {
         //生成四位验证码
-//        String authCode = String.format("%4d", (int)(Math.random()*10000)).replace(" ", "0");
+        // String authCode = String.format("%4d", (int)(Math.random()*10000)).replace(" ", "0");
         String authCode ="1234";
-        /*//查询服务端邮箱
+/*        //查询服务端邮箱
         ServerEmail serverEmail = serverEmailDao.findServerEmail();
         String content = serverEmail.getContent();
         if(serverEmail.getContent() != null){
@@ -173,6 +173,13 @@ public class LoginServiceImpl implements LoginService {
         return map;
     }
 
+    private List<Menu> getPermissionsList(SubpackageUser subpackageUser){
+        Map<String, Set> map = new HashMap<>();
+        //获取用户的权限菜单集合
+        List<Menu> menus = menuDao.findByUser(subpackageUser.getId());
+        return menus;
+    }
+
     //将登录信息及token验证令牌缓存到redis中并返回生成用户登录信息map
     private Map<String, Object> getTokenMap(SubpackageUser loginUser,long loseTime){
         //获取加密token
@@ -183,6 +190,7 @@ public class LoginServiceImpl implements LoginService {
 
         //将用户权限缓存到redis中  用户id为key，权限集合为value
         Map<String, Set> permissions = this.getPermissions(loginUser);
+        List<Menu> permissionsList = this.getPermissionsList(loginUser);
         String permissionsJson = "";
         if(permissions.get("perms") != null){
             permissionsJson = JSON.toJSONString(permissions.get("perms"));
@@ -192,6 +200,7 @@ public class LoginServiceImpl implements LoginService {
         //返回前端需要数据
         Map<String,Object> map = new HashMap<>();
         map.put("permissions",permissions.get("codes"));
+        map.put("permissionsList",permissionsList);
         map.put("token",token);
         map.put("loginUser",loginUser);
         return map;

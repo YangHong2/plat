@@ -3,9 +3,12 @@ package com.dhlk.subcontract.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlk.domain.Result;
+import com.dhlk.entity.basicmodule.User;
 import com.dhlk.entity.sub.SubpackageUser;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 用户表(SubpackageUser)表服务接口
@@ -32,4 +35,6 @@ public interface SubpackageUserService extends IService<SubpackageUser> {
      * 列表查询
      */
     Result findList(String companyName, Integer auditStatus,Integer isBlacklist, Integer pageNum, Integer pageSize);
+
+    Map<String, Set> getPermissionsByLoginName(User user);
 }

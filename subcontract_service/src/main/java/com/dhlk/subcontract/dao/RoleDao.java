@@ -1,6 +1,7 @@
 package com.dhlk.subcontract.dao;
 
 
+import com.dhlk.entity.basicmodule.User;
 import com.dhlk.entity.sub.Role;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -81,6 +82,8 @@ public interface RoleDao {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
+    List<User> selectUserByRoleId(Integer roleId);
 
 }
 
