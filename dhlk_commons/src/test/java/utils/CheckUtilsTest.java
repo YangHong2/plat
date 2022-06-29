@@ -1,8 +1,8 @@
 package utils;
 
-import com.dhlk.utils.CheckUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import java.util.Date;
+
+import static java.lang.System.out;
 
 /**
  * Content: 单元测试
@@ -11,13 +11,8 @@ import org.junit.Test;
  */
 public class CheckUtilsTest {
 
-    @Test
-    public void isNull() {
-        Boolean re = CheckUtils.isNull("abc");
-        Assert.assertTrue(!re);
-    }
-
-    @Test
-    public void isNumeric() {
+    public static void main(String[] args) {
+        Date format = new Date("yyyy-MM-dd HH:mm:ss");
+        out.println(format);/*换行输出*/
     }
 }

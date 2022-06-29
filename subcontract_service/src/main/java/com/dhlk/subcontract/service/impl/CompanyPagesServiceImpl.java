@@ -72,8 +72,13 @@ public class CompanyPagesServiceImpl extends ServiceImpl<CompanyPagesDao, Compan
         queryWrapper.eq(CompanyPages::getCompanyId,companyPages.getCompanyId());
         
          int update = companyPagesDao.update(companyPages, queryWrapper);*/
-        final int update1 = this.companyPagesDao.update(companyPages);
-        return update1 > 0 ? ResultUtils.success() : ResultUtils.failure();
+            if (companyPages.getId() != null){
+                final int update1 = this.companyPagesDao.update(companyPages);
+                return update1 > 0 ? ResultUtils.success("修改成功") : ResultUtils.failure();
+            }else  {
+            int insert = companyPagesDao.insert(companyPages);
+            return insert > 0 ? ResultUtils.success("保存成功") : ResultUtils.failure();
+        }
     }
 
     /**

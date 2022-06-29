@@ -3,7 +3,6 @@ package com.dhlk.subcontract.controller;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.SubpackageUser;
 import com.dhlk.subcontract.service.LoginService;
-import com.dhlk.systemconst.Const;
 import com.dhlk.utils.ResultUtils;
 import com.dhlk.utils.SendEmailUtil;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +19,27 @@ import java.util.Map;
 public class LoginController {
     @Resource
     private LoginService loginService;
+
+    /**
+     * 使用TOKEN获取当前登录用户信息
+     * @return
+     */
+    @GetMapping("/getUserInfo")
+    public  Result getUserInfo(){
+        return ResultUtils.success(loginService.tokenGetUserInfo());
+    }
+
+
+    /**
+     * 获取当前登录用户权限
+     * @return
+     */
+    @GetMapping("/permission")
+    public  Result permission(){
+        return ResultUtils.success(loginService.permission());
+    }
+
+
     @PostMapping("/sendMail")
     public Result sendMail(){
         SendEmailUtil sendEmailUtil = new SendEmailUtil();

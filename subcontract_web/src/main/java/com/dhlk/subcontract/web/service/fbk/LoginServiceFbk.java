@@ -33,4 +33,14 @@ public class LoginServiceFbk implements LoginService {
     public Result logout() {
         return ResultUtils.error(ResultEnum.NETWORK_ERR);
     }
+
+    @Override
+    public Result permission() {
+        return ResultUtils.error(ResultEnum.NETWORK_ERR);
+    }
+
+    @Override
+    public Result tokenGetUserInfo() {
+        return ResultUtils.error(ResultEnum.NETWORK_ERR);
+    }
 }

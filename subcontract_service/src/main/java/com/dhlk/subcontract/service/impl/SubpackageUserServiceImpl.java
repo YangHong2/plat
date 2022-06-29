@@ -3,7 +3,6 @@ package com.dhlk.subcontract.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.basicmodule.User;
-import com.dhlk.entity.sub.Company;
 import com.dhlk.entity.sub.SubpackageUser;
 import com.dhlk.service.RedisService;
 import com.dhlk.subcontract.dao.CompanyDao;
@@ -14,19 +13,15 @@ import com.dhlk.systemconst.Const;
 import com.dhlk.utils.CheckUtils;
 import com.dhlk.utils.EncryUtils;
 import com.dhlk.utils.ResultUtils;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static java.lang.System.out;
 
 /**
  * 用户表(SubpackageUser)表服务实现类
@@ -59,7 +54,6 @@ public class SubpackageUserServiceImpl extends ServiceImpl<SubpackageUserDao, Su
     @Override
     public Result save1(SubpackageUser subpackageUser) {
          SubpackageUser userinfo = headerUtil.getUserinfo();
-
         if (subpackageUserDao.isRepeatLoginName(subpackageUser) > 0) {
             return ResultUtils.error("账号已存在");
         }
@@ -73,7 +67,6 @@ public class SubpackageUserServiceImpl extends ServiceImpl<SubpackageUserDao, Su
         }
         if (CheckUtils.isNull(subpackageUser.getId())) {
             flag = subpackageUserDao.insert(subpackageUser);
-
         } else {
 //            flag = subpackageUserDao.update(subpackageUser);
             flag = companyDao.update(subpackageUser.getCompany());

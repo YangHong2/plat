@@ -12,6 +12,10 @@
         <result property="auditResult" column="audit_result" jdbcType="INTEGER"/>
         <result property="companyId" column="company_id" jdbcType="INTEGER"/>
     </resultMap>
+    <!--查询所有-->
+    <select id="findAll" resultMap="ProjectCloseMap">
+        select * from project_close
+    </select>
 
     <!--查询单个-->
     <select id="queryById" resultMap="ProjectCloseMap">

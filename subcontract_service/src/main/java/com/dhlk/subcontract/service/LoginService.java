@@ -1,9 +1,17 @@
 package com.dhlk.subcontract.service;
 
 import com.dhlk.domain.Result;
+import com.dhlk.entity.sub.Menu;
 import com.dhlk.entity.sub.SubpackageUser;
 
+import java.util.List;
+
 public interface LoginService {
+    /**
+     * 获取权限
+     * @return
+     */
+     List<Menu> permission();
     /**
      * 登录
      */
@@ -28,4 +36,10 @@ public interface LoginService {
      * 登出
      */
     Result logout();
+
+    /**
+     * 使用TOKEN获取当前登录用户信息
+     * @return
+     */
+    Result tokenGetUserInfo();
 }

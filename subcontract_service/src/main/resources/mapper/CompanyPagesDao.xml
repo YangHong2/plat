@@ -131,7 +131,7 @@
                 company_id = #{companyId},
             </if>
         </set>
-        where company_id = #{companyId}
+        where id = #{id}
     </update>
 
     <!--通过主键删除-->

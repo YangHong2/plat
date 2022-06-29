@@ -1,5 +1,6 @@
 package com.dhlk.subcontract.service.impl;
 
+import cn.hutool.core.date.DateTime;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.ProjectClose;
 import com.dhlk.enums.ResultEnum;
@@ -23,7 +24,7 @@ import java.util.List;
  * @since 2021-03-12 09:21:15
  */
 @Service("projectCloseService")
-public class ProjectCloseServiceImpl implements ProjectCloseService {
+public class ProjectCloseServiceImpl  implements ProjectCloseService {
 
     @Autowired
     private ProjectCloseDao projectCloseDao;
@@ -82,8 +83,8 @@ public class ProjectCloseServiceImpl implements ProjectCloseService {
         Integer flag = 0;
         //新增
         if (CheckUtils.isNull(projectClose.getId())) {
+            projectClose.setApplyTime(new DateTime());
             flag = projectCloseDao.insert(projectClose);
-
         } else {
             //修改
             projectClose.setApprovalTime(DateUtils.getCurrentTime());
@@ -94,12 +95,24 @@ public class ProjectCloseServiceImpl implements ProjectCloseService {
 
     @Override
     public Result findList(String name, Integer pageNum, Integer pageSize) {
-        if (!CheckUtils.checkId(pageNum) || !CheckUtils.checkId(pageSize)) {
-            return ResultUtils.error(ResultEnum.PARAM_ERR);
+        if (name ==null||name==""){
+            if (!CheckUtils.checkId(pageNum) || !CheckUtils.checkId(pageSize)) {
+                return ResultUtils.error(ResultEnum.PARAM_ERR);
+            }
+            PageHelper.startPage(pageNum, pageSize);
+            List<ProjectClose> lists = projectCloseDao.findAll();
+            PageInfo<ProjectClose> projectClose = new PageInfo<>(lists);
+            return ResultUtils.success(projectClose);
+        }else {
+            if (!CheckUtils.checkId(pageNum) || !CheckUtils.checkId(pageSize)) {
+                return ResultUtils.error(ResultEnum.PARAM_ERR);
+            }
+            PageHelper.startPage(pageNum, pageSize);
+            List<ProjectClose> lists = projectCloseDao.findList(name);
+            PageInfo<ProjectClose> projectClose = new PageInfo<>(lists);
+            return ResultUtils.success(projectClose);
         }
-        PageHelper.startPage(pageNum, pageSize);
-        List<ProjectClose> lists = projectCloseDao.findList(name);
-        PageInfo<ProjectClose> projectClose = new PageInfo<>(lists);
-        return ResultUtils.success(projectClose);
     }
+
+
 }

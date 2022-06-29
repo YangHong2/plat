@@ -73,5 +73,11 @@ public interface ProjectCloseDao {
      * @return
      */
     List<ProjectClose> findList(@Param("name") String name);
+
+    /**
+     * 查询所有
+     * @return
+     */
+    List<ProjectClose> findAll();
 }
 

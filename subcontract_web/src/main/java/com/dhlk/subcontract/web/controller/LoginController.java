@@ -3,6 +3,7 @@ package com.dhlk.subcontract.web.controller;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.SubpackageUser;
 import com.dhlk.subcontract.web.service.LoginService;
+import com.dhlk.utils.ResultUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,29 @@ import javax.annotation.Resource;
 @RestController
 @Api(value = "登录、注册、登出")
 public class LoginController {
+
     @Resource
     private LoginService loginService;
+
+    /**
+     * 使用TOKEN获取当前登录用户信息
+     * @return
+     */
+    @ApiOperation("公共使用TOKEN获取当前登录用户信息")
+    @GetMapping("/getUserInfo")
+    public  Result getUserInfo(){
+        return ResultUtils.success(loginService.tokenGetUserInfo());
+    }
+    /**
+     * 获取当前登录用户权限
+     * @return
+     */
+    @ApiOperation("公共权限获取")
+    @GetMapping("/permission")
+    public  Result permission(){
+        return ResultUtils.success(loginService.permission());
+    }
+
     /**
      * 登录
      * @param subpackageUser 用户登录名和密码
