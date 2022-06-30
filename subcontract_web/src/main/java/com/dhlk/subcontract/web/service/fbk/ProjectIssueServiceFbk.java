@@ -54,4 +54,10 @@ public class ProjectIssueServiceFbk implements ProjectIssueService {
     public Result getProjectIssue(Integer id) {
         return ResultUtils.error(ResultEnum.NETWORK_ERR);
     }
+
+    @Override
+    public Result findName(String name, Integer pageNum, Integer pageSize) {
+        return ResultUtils.error(ResultEnum.NETWORK_ERR);
+    }
+
 }

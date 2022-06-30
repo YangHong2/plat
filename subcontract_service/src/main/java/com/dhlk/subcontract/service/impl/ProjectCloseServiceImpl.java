@@ -109,6 +109,7 @@ public class ProjectCloseServiceImpl  implements ProjectCloseService {
             }
             PageHelper.startPage(pageNum, pageSize);
             List<ProjectClose> lists = projectCloseDao.findList(name);
+//            List<ProjectClose> lists = projectCloseDao.findAll();
             PageInfo<ProjectClose> projectClose = new PageInfo<>(lists);
             return ResultUtils.success(projectClose);
         }

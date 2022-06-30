@@ -94,4 +94,11 @@ public interface ProjectIssueService {
      * @return
      */
     Result getProjectIssue(Integer id);
+
+    /**
+     * 项目审批
+     * @param name
+     * @return
+     */
+    Result findName(String name,Integer pageNum,Integer pageSize);
 }

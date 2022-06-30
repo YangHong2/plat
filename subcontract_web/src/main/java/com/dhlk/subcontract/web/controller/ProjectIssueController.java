@@ -3,6 +3,7 @@ package com.dhlk.subcontract.web.controller;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.ProjectIssue;
 import com.dhlk.subcontract.web.service.ProjectIssueService;
+import com.dhlk.utils.ResultUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,18 @@ public class ProjectIssueController {
     public Result save(@RequestBody ProjectIssue projectIssue) {
         return projectIssueService.save(projectIssue);
     }
+    /**
+     * 需要审批的项目查询
+     *
+     * @param name
+     * @return
+     */
+    @ApiOperation("需要审批的项目查询")
+    @GetMapping("/findName")
+    public Result findName(@RequestParam(value = "name", required = false) String name,
+                           @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+                           @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
+        return ResultUtils.success(projectIssueService.findName(name,pageNum,pageSize));}
 
 
     /**
@@ -79,9 +92,9 @@ public class ProjectIssueController {
     @GetMapping("/findProjectManage")
     @ApiOperation("项目管理列表查询")
     public Result findProjectManage(@RequestParam(value = "name", required = false) String name,
-                           @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
-                           @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
-        return projectIssueService.findProjectManage(name,pageNum, pageSize);
+                                    @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+                                    @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
+        return projectIssueService.findProjectManage(name, pageNum, pageSize);
     }
 
     /**

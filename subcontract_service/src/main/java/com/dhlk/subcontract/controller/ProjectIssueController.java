@@ -3,6 +3,7 @@ package com.dhlk.subcontract.controller;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.ProjectIssue;
 import com.dhlk.subcontract.service.ProjectIssueService;
+import com.dhlk.utils.ResultUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,6 +21,18 @@ public class ProjectIssueController {
     @Resource
     private ProjectIssueService projectIssueService;
 
+    /**
+     * 需要审批的项目查询
+     *
+     * @param name
+     * @return
+     */
+    @GetMapping("/findName")
+    public Result findName(@RequestParam(value = "name", required = false) String name,
+                           @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+                           @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
+        return ResultUtils.success(projectIssueService.findName(name,pageNum,pageSize));
+    }
 
     /**
      * 新增/修改
