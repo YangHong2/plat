@@ -66,4 +66,21 @@ public class ProjectClose implements Serializable {
     @ApiModelProperty(value = "企业id", hidden = true)
     private Integer companyId;
 
+    /**
+     * 项目名
+     */
+    @ApiModelProperty(value = "项目名")
+    private String projectName;
+
+    /**
+     * 企业名
+     */
+    @ApiModelProperty(value = "企业名")
+    private String companyName;
+
+    /**
+     * 项目类型
+     */
+    @ApiModelProperty(value = "项目类型")
+    private String companyType;
 }

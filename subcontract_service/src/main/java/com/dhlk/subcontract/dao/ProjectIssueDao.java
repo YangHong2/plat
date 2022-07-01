@@ -105,5 +105,12 @@ public interface ProjectIssueDao {
      * @return
      */
     ProjectIssue getProjectIssue(@Param("id") Integer id);
+
+    /**
+     * 查询未审批的项目
+     * @param name
+     * @return
+     */
+    List<ProjectIssue> findName(String name);
 }
 

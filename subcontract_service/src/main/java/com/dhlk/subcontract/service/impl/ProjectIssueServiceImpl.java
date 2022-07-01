@@ -7,20 +7,20 @@ import com.dhlk.entity.sub.DevProduce;
 import com.dhlk.entity.sub.FinancialProvider;
 import com.dhlk.entity.sub.ProjectIssue;
 import com.dhlk.enums.ResultEnum;
-import com.dhlk.subcontract.dao.ConsultingProviderDao;
-import com.dhlk.subcontract.dao.DevProduceDao;
-import com.dhlk.subcontract.dao.FinancialProviderDao;
-import com.dhlk.subcontract.dao.ProjectIssueDao;
+import com.dhlk.subcontract.dao.*;
+import com.dhlk.subcontract.dao.vo.ProjectIssueVO;
 import com.dhlk.subcontract.service.GoldService;
 import com.dhlk.subcontract.service.ProjectIssueService;
 import com.dhlk.utils.CheckUtils;
 import com.dhlk.utils.ResultUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +47,8 @@ public class ProjectIssueServiceImpl implements ProjectIssueService {
 
     @Autowired
     private GoldService goldService;
+    @Resource
+    private CompanyDao companyDao;
 
     /**
      * 通过ID查询单条数据
@@ -297,5 +299,34 @@ public class ProjectIssueServiceImpl implements ProjectIssueService {
         }
         ProjectIssue projectIssue = projectIssueDao.getProjectIssue(id);
         return ResultUtils.success(projectIssue);
+    }
+
+    @Override
+    public Result findName(String name, Integer pageNum, Integer pageSize) {
+        if (name == null || name == "") {
+            PageHelper.startPage(pageNum, pageSize);
+            List<ProjectIssue> list = projectIssueDao.findName(name);
+            List<ProjectIssueVO> listVo = new ArrayList<>();
+            for (ProjectIssue projectIssue : list) {
+                ProjectIssueVO projectIssueVO = new ProjectIssueVO();
+                BeanUtils.copyProperties(projectIssue, projectIssueVO);
+                projectIssueVO.setCompanyName(companyDao.queryById(projectIssue.getCompanyId()).getCompanyName());
+                listVo.add(projectIssueVO);
+            }
+            PageInfo<ProjectIssueVO> projectCloseVo = new PageInfo<ProjectIssueVO>(listVo);
+            return ResultUtils.success(projectCloseVo);
+        } else {
+            PageHelper.startPage(pageNum, pageSize);
+            List<ProjectIssue> list = projectIssueDao.findName(name);
+            List<ProjectIssueVO> listVo = new ArrayList<>();
+            for (ProjectIssue projectIssue : list) {
+                ProjectIssueVO projectIssueVO = new ProjectIssueVO();
+                BeanUtils.copyProperties(projectIssue, projectIssueVO);
+                projectIssueVO.setCompanyName(companyDao.queryById(projectIssue.getCompanyId()).getCompanyName());
+                listVo.add(projectIssueVO);
+            }
+            PageInfo<ProjectIssueVO> projectCloseVo = new PageInfo<ProjectIssueVO>(listVo);
+            return ResultUtils.success(projectCloseVo);
+        }
     }
 }

@@ -101,4 +101,15 @@ public interface ProjectIssueService {
     @GetMapping("/getProjectIssue")
     Result getProjectIssue(@RequestParam(value = "id") Integer id);
 
+    /**
+     * 需要审批的项目查询
+     *
+     * @param name
+     * @return
+     */
+    @GetMapping("/findName")
+    public Result findName(@RequestParam(value = "name", required = false) String name,
+                           @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+                           @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize);
+
 }

@@ -50,11 +50,11 @@ public class Company implements Serializable {
      */
     private String companyScale;
     /**
-     * 行业
+     * 行业  0.房地产  1.制造业 2.软件开发  3.其他
      */
     private String business;
     /**
-     * 企业类型
+     * 企业类型  0. 金融服务商 1.工程施工方   2. 咨询服务商  3. 其他
      */
     private String companyType;
     /**
