@@ -83,7 +83,7 @@ public class LoginServiceImpl implements LoginService {
         if(serverEmail.getContent() != null){
             content = serverEmail.getContent().replace(Const.AUTH_CODE_MARK,authCode);
         }
-
+ 
         SendEmailUtil sendEmailUtil = new SendEmailUtil();
         Map<String,String> map = new HashMap<>();
         map.put(companyEmail,"to");
