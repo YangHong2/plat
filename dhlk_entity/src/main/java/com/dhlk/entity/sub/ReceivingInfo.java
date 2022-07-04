@@ -23,7 +23,7 @@ public class ReceivingInfo implements Serializable {
     /**
      * 收款方账号
      */
-    private Integer payeeNum;
+    private String payeeNum;
     /**
      * 开户行
      */
@@ -55,7 +55,7 @@ public class ReceivingInfo implements Serializable {
     /**
      * 银行卡号
      */
-    private Integer cardNo;
+    private String cardNo;
     /**
      * 凭据
      */
@@ -70,108 +70,5 @@ public class ReceivingInfo implements Serializable {
     private String  type;
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getPayee() {
-        return payee;
-    }
-
-    public void setPayee(Integer payee) {
-        this.payee = payee;
-    }
-
-    public Integer getPayeeNum() {
-        return payeeNum;
-    }
-
-    public void setPayeeNum(Integer payeeNum) {
-        this.payeeNum = payeeNum;
-    }
-
-    public String getOpenBank() {
-        return openBank;
-    }
-
-    public void setOpenBank(String openBank) {
-        this.openBank = openBank;
-    }
-
-    public String getAccountName() {
-        return accountName;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-
-    public Double getMoney() {
-        return money;
-    }
-
-    public void setMoney(Double money) {
-        this.money = money;
-    }
-
-    public Integer getPayer() {
-        return payer;
-    }
-
-    public void setPayer(Integer payer) {
-        this.payer = payer;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-    }
-
-    public Integer getCardNo() {
-        return cardNo;
-    }
-
-    public void setCardNo(Integer cardNo) {
-        this.cardNo = cardNo;
-    }
-
-    public String getEvidence() {
-        return evidence;
-    }
-
-    public void setEvidence(String evidence) {
-        this.evidence = evidence;
-    }
-
-    public Integer getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
 
 }

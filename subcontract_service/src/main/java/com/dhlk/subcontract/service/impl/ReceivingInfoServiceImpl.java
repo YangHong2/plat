@@ -8,6 +8,7 @@ import com.dhlk.utils.ResultUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,6 +54,7 @@ public class ReceivingInfoServiceImpl implements ReceivingInfoService {
      */
     @Override
     public Result insert(ReceivingInfo receivingInfo) {
+        receivingInfo.setTime(new Date());
         int insert = receivingInfoDao.insert(receivingInfo);
         return insert > 0 ? ResultUtils.success() : ResultUtils.failure();
     }
