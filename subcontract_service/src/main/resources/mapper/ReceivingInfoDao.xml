@@ -15,22 +15,30 @@
         <result property="cardNo" column="card_no" jdbcType="INTEGER"/>
         <result property="evidence" column="evidence" jdbcType="VARCHAR"/>
         <result property="projectId" column="project_id" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
     </resultMap>
 
-    <!--查询单个-->
+    <!--根据主键ID查询单个-->
     <select id="queryById" resultMap="ReceivingInfoMap">
         select
         id, payee, payee_num, open_bank, account_name, money, payer, time, remark, order_no, card_no, evidence,
-        project_id
+        project_id,type
         from dhlk_subcontract_plat.receiving_info
         where id = #{id}
     </select>
-
+    <!--根据项目ID查询所有账单-->
+    <select id="selectByProjectId" resultMap="ReceivingInfoMap">
+        select
+            id, payee, payee_num, open_bank, account_name, money, payer, time, remark, order_no, card_no, evidence,
+            project_id,type
+        from dhlk_subcontract_plat.receiving_info
+        where project_id = #{id}
+    </select>
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ReceivingInfoMap">
         select
         id, payee, payee_num, open_bank, account_name, money, payer, time, remark, order_no, card_no, evidence,
-        project_id
+        project_id,type
         from dhlk_subcontract_plat.receiving_info
         limit #{offset}, #{limit}
     </select>
@@ -39,7 +47,7 @@
     <select id="queryAll" resultMap="ReceivingInfoMap">
         select
         id, payee, payee_num, open_bank, account_name, money, payer, time, remark, order_no, card_no, evidence,
-        project_id
+        project_id,type
         from dhlk_subcontract_plat.receiving_info
         <where>
             <if test="id != null">
@@ -81,42 +89,45 @@
             <if test="projectId != null">
                 and project_id = #{projectId}
             </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into dhlk_subcontract_plat.receiving_info(payee, payee_num, open_bank, account_name, money, payer, time,
-        remark, order_no, card_no, evidence, project_id)
+        remark, order_no, card_no, evidence, project_id,type)
         values (#{payee}, #{payeeNum}, #{openBank}, #{accountName}, #{money}, #{payer}, #{time}, #{remark}, #{orderNo},
-        #{cardNo}, #{evidence}, #{projectId})
+        #{cardNo}, #{evidence}, #{projectId},#{type})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
         insert into dhlk_subcontract_plat.receiving_info(payee, payee_num, open_bank, account_name, money, payer, time,
-        remark, order_no, card_no, evidence, project_id)
+        remark, order_no, card_no, evidence, project_id,type)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.payee}, #{entity.payeeNum}, #{entity.openBank}, #{entity.accountName}, #{entity.money},
             #{entity.payer}, #{entity.time}, #{entity.remark}, #{entity.orderNo}, #{entity.cardNo}, #{entity.evidence},
-            #{entity.projectId})
+            #{entity.projectId},#{entity.type})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
         insert into dhlk_subcontract_plat.receiving_info(payee, payee_num, open_bank, account_name, money, payer, time,
-        remark, order_no, card_no, evidence, project_id)
+        remark, order_no, card_no, evidence, project_id,type)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.payee}, #{entity.payeeNum}, #{entity.openBank}, #{entity.accountName}, #{entity.money},
             #{entity.payer}, #{entity.time}, #{entity.remark}, #{entity.orderNo}, #{entity.cardNo}, #{entity.evidence},
-            #{entity.projectId})
+            #{entity.projectId},#{entity.type})
         </foreach>
         on duplicate key update
         payee = values(payee) , payee_num = values(payee_num) , open_bank = values(open_bank) , account_name =
         values(account_name) , money = values(money) , payer = values(payer) , time = values(time) , remark =
         values(remark) , order_no = values(order_no) , card_no = values(card_no) , evidence = values(evidence) ,
-        project_id = values(project_id)
+        project_id = values(project_id),type = values(type)
     </insert>
 
     <!--通过主键修改数据-->
@@ -158,6 +169,9 @@
             </if>
             <if test="projectId != null">
                 project_id = #{projectId},
+            </if>
+            <if test="type != null and type!=''">
+                type = #{type},
             </if>
         </set>
         where id = #{id}
