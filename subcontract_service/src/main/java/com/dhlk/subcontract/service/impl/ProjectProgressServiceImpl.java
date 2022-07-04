@@ -40,7 +40,7 @@ public class ProjectProgressServiceImpl implements ProjectProgressService {
         projectProgress.setProjectDescribed(projectProgressVo.getProjectDescribed());
         projectProgress.setPath(projectProgressVo.getPath());
         projectProgress.setPlan(projectProgressVo.getPlan());
-        projectProgress.setCreateTime(new Date().toString());
+        projectProgress.setCreateTime(new Date());
         Integer addOne = projectProgressDao.addOne(projectProgress);
         if (addOne>=1){
             return ResultUtils.success();

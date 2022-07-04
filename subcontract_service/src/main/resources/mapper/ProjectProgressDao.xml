@@ -15,7 +15,7 @@
     </select>
 
     <insert id="addOne" parameterType="com.dhlk.entity.sub.ProjectProgress">
-        insert into project_progress(project_id,plan,project_described,path,createTime)
+        insert into project_progress(project_id,plan,project_described,path,create_time)
         values (#{projectId},#{plan},#{projectDescribed},#{path},#{createTime})
     </insert>
 </mapper>
