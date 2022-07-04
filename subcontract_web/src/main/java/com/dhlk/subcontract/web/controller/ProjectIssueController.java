@@ -144,4 +144,16 @@ public class ProjectIssueController {
     public Result getProjectIssue(@RequestParam(value = "id") Integer id) {
         return projectIssueService.getProjectIssue(id);
     }
+    /**
+     * 查询项目流程
+     * @param projectName
+     * @return
+     */
+
+    @ApiOperation("查询项目流程")
+    @GetMapping("/projectRecords")
+    public  Result projectRecords(@RequestParam(value = "projectName") String projectName,
+                                  @RequestParam(value = "id") Integer id){
+        return projectIssueService.projectRecords(projectName,id);
+    }
 }

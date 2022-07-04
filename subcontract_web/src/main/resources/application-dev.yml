@@ -51,7 +51,7 @@ hystrix:
             timeoutInMilliseconds: 40000
 #文件路径
 attachment:
-  path: C:\attachment\
+  path: D:\attachment\
 
 log:
   path: C:\log\

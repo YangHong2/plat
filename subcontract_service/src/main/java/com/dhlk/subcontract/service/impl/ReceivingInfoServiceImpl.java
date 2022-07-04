@@ -1,11 +1,14 @@
 package com.dhlk.subcontract.service.impl;
 
+import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.ReceivingInfo;
 import com.dhlk.subcontract.dao.ReceivingInfoDao;
 import com.dhlk.subcontract.service.ReceivingInfoService;
+import com.dhlk.utils.ResultUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,8 +29,9 @@ public class ReceivingInfoServiceImpl implements ReceivingInfoService {
      * @return 实例对象
      */
     @Override
-    public ReceivingInfo queryById(Integer id) {
-        return this.receivingInfoDao.queryById(id);
+    public Result queryById(Integer id) {
+        ReceivingInfo receivingInfo = this.receivingInfoDao.queryById(id);
+        return ResultUtils.success(receivingInfo);
     }
 
     /**
@@ -49,9 +53,10 @@ public class ReceivingInfoServiceImpl implements ReceivingInfoService {
      * @return 实例对象
      */
     @Override
-    public ReceivingInfo insert(ReceivingInfo receivingInfo) {
-        this.receivingInfoDao.insert(receivingInfo);
-        return receivingInfo;
+    public Result insert(ReceivingInfo receivingInfo) {
+        receivingInfo.setTime(new Date());
+        int insert = receivingInfoDao.insert(receivingInfo);
+        return insert > 0 ? ResultUtils.success() : ResultUtils.failure();
     }
 
     /**
@@ -61,9 +66,9 @@ public class ReceivingInfoServiceImpl implements ReceivingInfoService {
      * @return 实例对象
      */
     @Override
-    public ReceivingInfo update(ReceivingInfo receivingInfo) {
-        this.receivingInfoDao.update(receivingInfo);
-        return this.queryById(receivingInfo.getId());
+    public Result update(ReceivingInfo receivingInfo) {
+        int update = receivingInfoDao.update(receivingInfo);
+        return update > 0 ? ResultUtils.success() : ResultUtils.failure();
     }
 
     /**
@@ -75,5 +80,16 @@ public class ReceivingInfoServiceImpl implements ReceivingInfoService {
     @Override
     public boolean deleteById(Integer id) {
         return this.receivingInfoDao.deleteById(id) > 0;
+    }
+
+    /**
+     * 通过项目ID查询单条数据
+     * @param id
+     * @return
+     */
+    @Override
+    public Result selectByProjectId(Integer id) {
+         List<ReceivingInfo> list=receivingInfoDao.selectByProjectId(id);
+        return list.size()==0?ResultUtils.failure():ResultUtils.success(list) ;
     }
 }

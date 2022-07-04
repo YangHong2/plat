@@ -11,6 +11,10 @@
         <result property="projectId" column="project_id" jdbcType="INTEGER"/>
         <result property="auditResult" column="audit_result" jdbcType="INTEGER"/>
         <result property="companyId" column="company_id" jdbcType="INTEGER"/>
+        <result property="projectName" column="project_name" jdbcType="INTEGER"/>
+        <result property="companyName" column="company_name" jdbcType="INTEGER"/>
+        <result property="companyType" column="company_type" jdbcType="INTEGER"/>
+
     </resultMap>
     <!--查询所有-->
     <select id="findAll" resultMap="ProjectCloseMap">
@@ -20,7 +24,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="ProjectCloseMap">
             select
-              id, type, reason, approval_suggest, apply_time, approval_time, project_id, audit_result,company_id
+              id, type, reason, approval_suggest, apply_time, approval_time, project_id, audit_result,company_id,project_name,company_name,company_type
             from project_close
             where id = #{id}
     </select>
@@ -28,7 +32,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ProjectCloseMap">
         select
-        id, type, reason, approval_suggest, apply_time, approval_time, project_id, audit_result,company_id
+        id, type, reason, approval_suggest, apply_time, approval_time, project_id, audit_result,company_id,project_name,company_name,company_type
         from project_close
         <where>
             <if test="id != null">
@@ -58,13 +62,22 @@
             <if test="companyId != null">
                 and company_id = #{companyId}
             </if>
+            <if test="projectName != null and projectName != ''">
+                and project_name = #{projectName}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name = #{companyName}
+            </if>
+            <if test="companyType != null and companyType != ''">
+                and company_type = #{companyType}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into project_close(type, reason, approval_suggest, apply_time, approval_time, project_id, audit_result,company_id)
-        values (#{type}, #{reason}, #{approvalSuggest}, #{applyTime}, #{approvalTime}, #{projectId}, #{auditResult},#{companyId})
+        insert into project_close(type, reason, approval_suggest, apply_time, approval_time, project_id, audit_result,company_id,project_name,company_name,company_type)
+        values (#{type}, #{reason}, #{approvalSuggest}, #{applyTime}, #{approvalTime}, #{projectId}, #{auditResult},#{companyId},#{projectName},#{companyName}, #{companyType})
     </insert>
 
     <!--通过主键修改数据-->
@@ -92,6 +105,18 @@
             <if test="auditResult != null">
                 audit_result = #{auditResult},
             </if>
+            <if test="companyId != null">
+                company_id = #{companyId},
+            </if>
+            <if test="projectName != null and projectName != ''">
+                  project_name = #{projectName},
+            </if>
+            <if test="companyName != null and companyName != ''">
+                  company_name = #{companyName},
+            </if>
+            <if test="companyType != null and companyType != ''">
+                  company_type = #{companyType}
+            </if>
         </set>
         where id = #{id}
     </update>
@@ -103,7 +128,7 @@
 
     <select id="findByProjectId" resultMap="ProjectCloseMap">
         SELECT
-        t1.id, t1.type, t1.reason, t1.approval_suggest, t1.apply_time, t1.approval_time, t1.project_id, t1.audit_result,t1.company_id
+        t1.id, t1.type, t1.reason, t1.approval_suggest, t1.apply_time, t1.approval_time, t1.project_id, t1.audit_result,t1.company_id,t1.project_name,t1.company_name,t1.company_type
         FROM
         project_close t1
         WHERE  t1.project_id = #{projectId}
@@ -111,19 +136,13 @@
     </select>
 
     <select id="findList" resultMap="ProjectCloseMap">
-        SELECT
-        t1.company_name,
-        t2.project_name,
-        t2.project_type
+        SELECT *
         FROM
-        company t1
-        LEFT JOIN project_issue t2 ON t1.id = t2.company_id
-        LEFT JOIN project_close t3 ON t2.id = t3.project_id
+        project_close
         where 1=1
-        <if test="name != null">
-            and t2.project_name like concat('%/', #{name}, '%') ESCAPE '/'
+        <if test="name != null and name != ''">
+            and  project_name like concat('%/', #{name}, '%') ESCAPE '/'
         </if>
-        and t3.audit_result = 0
     </select>
 
 

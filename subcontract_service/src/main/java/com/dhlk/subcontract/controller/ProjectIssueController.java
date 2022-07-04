@@ -31,7 +31,7 @@ public class ProjectIssueController {
     public Result findName(@RequestParam(value = "name", required = false) String name,
                            @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
                            @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
-        return ResultUtils.success(projectIssueService.findName(name,pageNum,pageSize));
+        return ResultUtils.success(projectIssueService.findName(name, pageNum, pageSize));
     }
 
     /**
@@ -137,5 +137,16 @@ public class ProjectIssueController {
     @GetMapping("/getProjectIssue")
     public Result getProjectIssue(@RequestParam(value = "id") Integer id) {
         return projectIssueService.getProjectIssue(id);
+    }
+
+    /**
+     * 查询项目流程
+     * @param projectName
+     * @return
+     */
+    @GetMapping("/projectRecords")
+    public  Result projectRecords(@RequestParam(value = "projectName") String projectName,
+                                  @RequestParam(value = "id") Integer id){
+        return projectIssueService.projectRecords(projectName,id);
     }
 }

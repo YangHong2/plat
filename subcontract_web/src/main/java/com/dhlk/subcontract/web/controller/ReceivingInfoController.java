@@ -1,9 +1,11 @@
-package com.dhlk.subcontract.controller;
+package com.dhlk.subcontract.web.controller;
 
 
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.ReceivingInfo;
-import com.dhlk.subcontract.service.ReceivingInfoService;
+import com.dhlk.subcontract.web.service.ReceivingInfoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -16,6 +18,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/receivingInfo")
+@Api(description = "首付款信息", value = "ReceivingInfoController")
 public class ReceivingInfoController {
     /**
      * 服务对象
@@ -30,7 +33,8 @@ public class ReceivingInfoController {
      * @return 单条数据
      */
     @GetMapping("selectOne")
-    public Result selectOne(@RequestParam(value = "id")Integer id) {
+    @ApiOperation("通过主键查询单条数据")
+    public Result selectOne(@RequestParam(value = "id") Integer id) {
         return this.receivingInfoService.queryById(id);
     }
 
@@ -40,6 +44,7 @@ public class ReceivingInfoController {
      * @return
      */
     @GetMapping("selectByProjectId")
+    @ApiOperation("通过项目ID查询单条数据")
     public Result selectByProjectId(@RequestParam(value = "id")Integer id) {
         return this.receivingInfoService.selectByProjectId(id);
     }
@@ -50,6 +55,7 @@ public class ReceivingInfoController {
      * @return
      */
     @PostMapping("save")
+    @ApiOperation("保存付款信息")
     public Result saveReceivingInfo(@RequestBody ReceivingInfo receivingInfo) {
         return this.receivingInfoService.insert(receivingInfo);
     }
@@ -60,6 +66,7 @@ public class ReceivingInfoController {
      * @return
      */
     @PostMapping("updataByid")
+    @ApiOperation("修改付款信息")
     public Result updataByid(@RequestBody ReceivingInfo receivingInfo) {
         return this.receivingInfoService.update(receivingInfo);
     }
