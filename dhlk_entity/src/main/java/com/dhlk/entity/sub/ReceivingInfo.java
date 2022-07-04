@@ -1,5 +1,7 @@
 package com.dhlk.entity.sub;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,6 +11,7 @@ import java.util.Date;
  * @author xkliu
  * @since 2021-03-12 09:23:21
  */
+@Data
 public class ReceivingInfo implements Serializable {
     private static final long serialVersionUID = -83014449679380228L;
 
@@ -61,6 +64,10 @@ public class ReceivingInfo implements Serializable {
      * 项目id
      */
     private Integer projectId;
+    /**
+     * 付款类型   首款  尾款  全款
+     */
+    private String  type;
 
 
     public Integer getId() {

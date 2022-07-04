@@ -60,4 +60,9 @@ public class ProjectIssueServiceFbk implements ProjectIssueService {
         return ResultUtils.error(ResultEnum.NETWORK_ERR);
     }
 
+    @Override
+    public Result projectRecords(String projectName, Integer id) {
+        return ResultUtils.error(ResultEnum.NETWORK_ERR);
+    }
+
 }

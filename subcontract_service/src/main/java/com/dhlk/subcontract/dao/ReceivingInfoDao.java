@@ -82,5 +82,11 @@ public interface ReceivingInfoDao {
      */
     int deleteById(Integer id);
 
+    /**
+     * 通过项目ID查询单条数据
+     * @param id
+     * @return
+     */
+    List<ReceivingInfo> selectByProjectId(Integer id);
 }
 

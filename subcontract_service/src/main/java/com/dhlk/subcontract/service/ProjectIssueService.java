@@ -101,4 +101,11 @@ public interface ProjectIssueService {
      * @return
      */
     Result findName(String name,Integer pageNum,Integer pageSize);
+
+    /**
+     * 查询项目流程
+     * @param projectName
+     * @return
+     */
+    Result projectRecords(String projectName,Integer id);
 }

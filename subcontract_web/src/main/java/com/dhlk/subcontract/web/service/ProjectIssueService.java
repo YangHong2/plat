@@ -112,4 +112,13 @@ public interface ProjectIssueService {
                            @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
                            @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize);
 
+    /**
+     * 查询项目流程
+     * @param projectName
+     * @return
+     */
+
+    @GetMapping("/projectRecords")
+    public  Result projectRecords(@RequestParam(value = "projectName") String projectName,
+                                  @RequestParam(value = "id") Integer id);
 }

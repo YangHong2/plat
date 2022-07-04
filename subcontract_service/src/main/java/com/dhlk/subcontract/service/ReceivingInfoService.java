@@ -1,6 +1,7 @@
 package com.dhlk.subcontract.service;
 
 
+import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.ReceivingInfo;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface ReceivingInfoService {
      * @param id 主键
      * @return 实例对象
      */
-    ReceivingInfo queryById(Integer id);
+    Result queryById(Integer id);
 
     /**
      * 查询多条数据
@@ -36,7 +37,7 @@ public interface ReceivingInfoService {
      * @param receivingInfo 实例对象
      * @return 实例对象
      */
-    ReceivingInfo insert(ReceivingInfo receivingInfo);
+    Result insert(ReceivingInfo receivingInfo);
 
     /**
      * 修改数据
@@ -44,7 +45,7 @@ public interface ReceivingInfoService {
      * @param receivingInfo 实例对象
      * @return 实例对象
      */
-    ReceivingInfo update(ReceivingInfo receivingInfo);
+    Result update(ReceivingInfo receivingInfo);
 
     /**
      * 通过主键删除数据
@@ -54,4 +55,10 @@ public interface ReceivingInfoService {
      */
     boolean deleteById(Integer id);
 
+    /**
+     * 通过项目ID查询单条数据
+     * @param id
+     * @return
+     */
+    Result selectByProjectId(Integer id);
 }

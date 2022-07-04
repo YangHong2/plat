@@ -9,6 +9,7 @@ import com.dhlk.entity.sub.ProjectIssue;
 import com.dhlk.enums.ResultEnum;
 import com.dhlk.subcontract.dao.*;
 import com.dhlk.subcontract.dao.vo.ProjectIssueVO;
+import com.dhlk.subcontract.dao.vo.ProjectRecordsVO;
 import com.dhlk.subcontract.service.GoldService;
 import com.dhlk.subcontract.service.ProjectIssueService;
 import com.dhlk.utils.CheckUtils;
@@ -329,4 +330,35 @@ public class ProjectIssueServiceImpl implements ProjectIssueService {
             return ResultUtils.success(projectCloseVo);
         }
     }
+
+    /**
+     * 查询项目流程
+     *
+     * @param projectName
+     * @return
+     */
+    @Override
+    public Result projectRecords(String projectName, Integer id) {
+        if (projectName == "" || projectName == null) {
+            return ResultUtils.failure();
+        }
+        ProjectIssue projectIssue = projectIssueDao.queryById(id);
+        ProjectRecordsVO projectRecordsVO = new ProjectRecordsVO();
+        projectRecordsVO.setProjectName(projectName);
+        projectRecordsVO.setProjectCreateTime(projectIssue.getCreateTime());
+        List<FinancialProvider> financialProvider = financialProviderDao.findByProjectId(id);
+        if (financialProvider != null && !(financialProvider.size() == 0)) {
+            projectRecordsVO.setProviderName(financialProvider.get(0).getProviderName());
+            projectRecordsVO.setProviderCreateTime(financialProvider.get(0).getCreateTime());
+        }
+        List<ConsultingProvider> consultingProvider = consultingProviderDao.findByProjectId(id);
+        if (consultingProvider != null && !(consultingProvider.size() == 0)) {
+            projectRecordsVO.setCompanyName(consultingProvider.get(0).getCompanyName());
+            projectRecordsVO.setCompanyCreateTime(consultingProvider.get(0).getCreateTime());
+        }
+        return ResultUtils.success(projectRecordsVO);
+    }
+
+
+
 }
