@@ -3,12 +3,15 @@ package com.dhlk.subcontract.service.impl;
 import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.ReceivingInfo;
 import com.dhlk.subcontract.dao.ReceivingInfoDao;
+import com.dhlk.subcontract.dao.vo.ReceivingInfoVo;
+import com.dhlk.subcontract.service.CompanyService;
 import com.dhlk.subcontract.service.ReceivingInfoService;
 import com.dhlk.utils.ResultUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +24,8 @@ import java.util.List;
 public class ReceivingInfoServiceImpl implements ReceivingInfoService {
     @Resource
     private ReceivingInfoDao receivingInfoDao;
+    @Resource
+    private CompanyService companyService;
 
     /**
      * 通过ID查询单条数据
@@ -54,7 +59,7 @@ public class ReceivingInfoServiceImpl implements ReceivingInfoService {
      */
     @Override
     public Result insert(ReceivingInfo receivingInfo) {
-        receivingInfo.setTime(new Date());
+//        receivingInfo.setTime(new Date(System.currentTimeMillis()));
         int insert = receivingInfoDao.insert(receivingInfo);
         return insert > 0 ? ResultUtils.success() : ResultUtils.failure();
     }
@@ -83,13 +88,26 @@ public class ReceivingInfoServiceImpl implements ReceivingInfoService {
     }
 
     /**
-     * 通过项目ID查询单条数据
+     * 通过项目ID查询数据
+     *
      * @param id
      * @return
      */
     @Override
     public Result selectByProjectId(Integer id) {
-         List<ReceivingInfo> list=receivingInfoDao.selectByProjectId(id);
-        return list.size()==0?ResultUtils.failure():ResultUtils.success(list) ;
+        List<ReceivingInfo> list = receivingInfoDao.selectByProjectId(id);
+        if (list == null && list.isEmpty()) {
+           return ResultUtils.success("暂无数据");
+        }
+        List<ReceivingInfoVo> voList = new ArrayList<>();
+        for (ReceivingInfo receivingInfo : list) {
+            ReceivingInfoVo receivingInfoVo = new ReceivingInfoVo();
+            BeanUtils.copyProperties(receivingInfo, receivingInfoVo);
+            receivingInfoVo.setTime(receivingInfo.getTime().toString());
+            receivingInfoVo.setPayer(companyService.queryById1(receivingInfo.getPayer()).getCompanyName());//付款方
+            receivingInfoVo.setPayee(companyService.queryById1(receivingInfo.getPayee()).getCompanyName());//收款方
+            voList.add(receivingInfoVo);
+        }
+        return list.size() == 0 ? ResultUtils.success("暂无数据") : ResultUtils.success(voList);
     }
 }

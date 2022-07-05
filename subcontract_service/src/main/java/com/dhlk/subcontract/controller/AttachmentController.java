@@ -5,12 +5,18 @@ import com.dhlk.domain.BaseFile;
 import com.dhlk.domain.Result;
 import com.dhlk.subcontract.service.AttachmentService;
 import com.dhlk.utils.*;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +107,7 @@ public class AttachmentController {
                 Result recordResult = attachmentService.saveRecord(baseFile);
                 if (0 == recordResult.getCode()) {
                     baseFile.setWebPath(baseFile.getPath().replace(attachmentPath, "\\attach\\"));
-                    dataId_file.put(split[i],result.getData());
+                    dataId_file.put(split[i], result.getData());
                 }
             }
         }
@@ -175,4 +181,24 @@ public class AttachmentController {
 
         System.out.println(mess);
     }
+
+    /**
+     * 根据关联数据ID附件下载
+     *
+     * @param id
+     */
+    @GetMapping(value = "/downByDataId")
+    public void downByDataId(@RequestParam(value = "id") String id, HttpServletResponse response) {
+        try {
+            FileInputStream inputStream = new FileInputStream(new File(attachmentPath + id));
+            ServletOutputStream outputStream = response.getOutputStream();
+            response.setContentType("text/plain");
+            IOUtils.copy(inputStream, outputStream);
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

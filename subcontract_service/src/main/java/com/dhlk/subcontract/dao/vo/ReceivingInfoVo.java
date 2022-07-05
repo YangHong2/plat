@@ -1,24 +1,18 @@
-package com.dhlk.entity.sub;
+package com.dhlk.subcontract.dao.vo;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 收付款信息(ReceivingInfo)实体类
- *
- * @author xkliu
- * @since 2021-03-12 09:23:21
- */
 @Data
-public class ReceivingInfo implements Serializable {
-    private static final long serialVersionUID = -83014449679380228L;
+public class ReceivingInfoVo implements Serializable {
+    private static final long serialVersionUID = -93014449679380228L;
 
     private Integer id;
     /**
      * 收款方
      */
-    private Integer payee;
+    private String payee;
     /**
      * 收款方账号
      */
@@ -34,11 +28,11 @@ public class ReceivingInfo implements Serializable {
     /**
      * 金额
      */
-    private String money;
+    private Double money;
     /**
      * 付款方
      */
-    private Integer payer;
+    private String payer;
     /**
      * 时间
      */

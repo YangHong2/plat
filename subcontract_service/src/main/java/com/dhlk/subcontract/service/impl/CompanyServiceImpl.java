@@ -34,6 +34,16 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao,Company> implemen
     }
 
     /**
+     * 通过ID查询单条数据
+     *
+     * @param id 主键
+     * @return 实例对象
+     */
+    @Override
+    public Company queryById1(Integer id) {
+        return this.companyDao.queryById(id);
+    }
+    /**
      * 查询多条数据
      *
      * @param offset 查询起始位置

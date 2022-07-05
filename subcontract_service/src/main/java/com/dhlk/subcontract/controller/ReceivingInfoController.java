@@ -35,7 +35,7 @@ public class ReceivingInfoController {
     }
 
     /**
-     * 通过项目ID查询单条数据
+     * 通过项目ID查询数据
      * @param id
      * @return
      */

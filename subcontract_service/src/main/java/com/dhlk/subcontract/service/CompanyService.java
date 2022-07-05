@@ -22,6 +22,13 @@ public interface CompanyService extends IService<Company> {
      * @return 实例对象
      */
     Result queryById(Integer id);
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param id 主键
+     * @return 实例对象
+     */
+    Company queryById1(Integer id);
 
     /**
      * 查询多条数据
