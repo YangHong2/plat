@@ -5,6 +5,7 @@ import com.dhlk.entity.sub.ReceivingInfo;
 import com.dhlk.subcontract.dao.ReceivingInfoDao;
 import com.dhlk.subcontract.dao.vo.ReceivingInfoVo;
 import com.dhlk.subcontract.service.CompanyService;
+import com.dhlk.subcontract.service.ProjectIssueService;
 import com.dhlk.subcontract.service.ReceivingInfoService;
 import com.dhlk.utils.ResultUtils;
 import org.springframework.beans.BeanUtils;
@@ -26,7 +27,8 @@ public class ReceivingInfoServiceImpl implements ReceivingInfoService {
     private ReceivingInfoDao receivingInfoDao;
     @Resource
     private CompanyService companyService;
-
+ @Resource
+ private ProjectIssueService projectIssueService;
     /**
      * 通过ID查询单条数据
      *
@@ -61,6 +63,18 @@ public class ReceivingInfoServiceImpl implements ReceivingInfoService {
     public Result insert(ReceivingInfo receivingInfo) {
 //        receivingInfo.setTime(new Date(System.currentTimeMillis()));
         int insert = receivingInfoDao.insert(receivingInfo);
+        // 进行下一个 施工阶段
+        if (insert > 0) {
+            //修改项目当前状态 如过修改成首款 那么进行下一个施工阶段
+            if (receivingInfo.getType().equals("首款")){
+                projectIssueService.upDataByprogress(receivingInfo.getProjectId(),5);
+            } else if (receivingInfo.getType().equals("尾款")){
+                //修改项目当前状态 如过修改成尾款 那么进行 回款阶段
+                projectIssueService.upDataByprogress(receivingInfo.getProjectId(),9);
+            }
+        } else {
+            projectIssueService.upDataByprogress(receivingInfo.getProjectId(),7);
+        }
         return insert > 0 ? ResultUtils.success() : ResultUtils.failure();
     }
 

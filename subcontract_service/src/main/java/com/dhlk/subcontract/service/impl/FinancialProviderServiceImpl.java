@@ -4,14 +4,13 @@ import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.FinancialProvider;
 import com.dhlk.subcontract.dao.FinancialProviderDao;
 import com.dhlk.subcontract.service.FinancialProviderService;
+import com.dhlk.subcontract.service.ProjectIssueService;
 import com.dhlk.utils.CheckUtils;
 import com.dhlk.utils.ResultUtils;
-import net.bytebuddy.asm.Advice;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 金融服务商(FinancialProvider)表服务实现类
@@ -23,7 +22,8 @@ import java.util.List;
 public class FinancialProviderServiceImpl implements FinancialProviderService {
     @Resource
     private FinancialProviderDao financialProviderDao;
-
+@Resource
+private ProjectIssueService projectIssueService;
     /**
      * 新增数据
      *
@@ -38,7 +38,12 @@ public class FinancialProviderServiceImpl implements FinancialProviderService {
         } else {
             flag = financialProviderDao.insert(financialProvider);
         }
-
+        // 进行下一个 招募施工阶段
+        if (flag > 0) {
+            projectIssueService.upDataByprogress(financialProvider.getProjectId(),3);
+        } else {
+            projectIssueService.upDataByprogress(financialProvider.getProjectId(),2);
+        }
         return flag > 0 ? ResultUtils.success() : ResultUtils.failure();
     }
 

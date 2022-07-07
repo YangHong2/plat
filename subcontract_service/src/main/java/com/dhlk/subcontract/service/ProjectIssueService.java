@@ -108,4 +108,11 @@ public interface ProjectIssueService {
      * @return
      */
     Result projectRecords(String projectName,Integer id);
+
+    /**
+     * 修改项目进度
+     * @param integer
+     * @return
+     */
+    boolean upDataByprogress(Integer id,Integer integer);
 }

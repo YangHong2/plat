@@ -58,7 +58,7 @@ public class ReceivingInfoVo implements Serializable {
      */
     private Integer projectId;
     /**
-     * 付款类型   首款  尾款  全款
+     * 付款类型   首款  尾款  全款  回款
      */
     private String  type;
 

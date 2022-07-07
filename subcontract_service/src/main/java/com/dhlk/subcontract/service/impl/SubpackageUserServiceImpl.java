@@ -15,6 +15,7 @@ import com.dhlk.systemconst.Const;
 import com.dhlk.utils.CheckUtils;
 import com.dhlk.utils.EncryUtils;
 import com.dhlk.utils.ResultUtils;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,9 +87,10 @@ public class SubpackageUserServiceImpl extends ServiceImpl<SubpackageUserDao, Su
 
     @Override
     public Result findList(String companyName, Integer auditStatus, Integer isBlacklist, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+        Page<SubpackageUser> page=PageHelper.startPage(pageNum, pageSize);
         List<SubpackageUser> subpackageUsers = subpackageUserDao.findList(companyName, auditStatus, isBlacklist);
         PageInfo<SubpackageUser> pageList = new PageInfo<>(subpackageUsers);
+//        pageList.setTotal(page.getTotal());
         return ResultUtils.success(pageList);
     }
 

@@ -154,7 +154,16 @@ public class ProjectIssue implements Serializable {
      */
     @ApiModelProperty(value = "公司名称", hidden = true)
     private String companyName;
-
+    /**
+     *项目进度
+     */
+    @ApiModelProperty(value = "项目进度", hidden = true)
+    private Integer progressInt;
+    /**
+     * 项目进度说明
+     */
+    @ApiModelProperty(value = "项目进度说明", hidden = true)
+    private String progressString;
 
     @ApiModelProperty(hidden = true)
     private Integer financial;

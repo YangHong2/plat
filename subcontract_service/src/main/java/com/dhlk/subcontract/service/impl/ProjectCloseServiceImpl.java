@@ -6,6 +6,7 @@ import com.dhlk.entity.sub.ProjectClose;
 import com.dhlk.enums.ResultEnum;
 import com.dhlk.subcontract.dao.ProjectCloseDao;
 import com.dhlk.subcontract.service.ProjectCloseService;
+import com.dhlk.subcontract.service.ProjectIssueService;
 import com.dhlk.utils.CheckUtils;
 import com.dhlk.utils.DateUtils;
 import com.dhlk.utils.ResultUtils;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -28,6 +30,8 @@ public class ProjectCloseServiceImpl  implements ProjectCloseService {
 
     @Autowired
     private ProjectCloseDao projectCloseDao;
+    @Resource
+    private ProjectIssueService projectIssueService;
 
     /**
      * 通过ID查询单条数据
@@ -89,6 +93,15 @@ public class ProjectCloseServiceImpl  implements ProjectCloseService {
             //修改
             projectClose.setApprovalTime(DateUtils.getCurrentTime());
             flag = projectCloseDao.update(projectClose);
+        }
+        if (flag > 0){
+            if (projectClose.getAuditResult()==1){
+                //将项目修改为关闭状态
+                projectIssueService.upDataByprogress(projectClose.getProjectId(),10);
+            }    if (projectClose.getAuditResult()==0){
+                //将项目修改为关闭状态
+                projectIssueService.upDataByprogress(projectClose.getProjectId(),11);
+            }
         }
         return flag > 0 ? ResultUtils.success() : ResultUtils.failure();
     }
