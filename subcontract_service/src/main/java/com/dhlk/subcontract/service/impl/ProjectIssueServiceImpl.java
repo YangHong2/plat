@@ -78,10 +78,10 @@ public class ProjectIssueServiceImpl implements ProjectIssueService {
             //修改
             flag = projectIssueDao.update(projectIssue);
         }
-        if (flag > 0) {
+/*        if (flag > 0) {
             //项目发布完扣减1000金币
             goldService.updateGoldByUserId(projectIssue.getCompanyId(), -1000.0);
-        }
+        }*/
         return flag > 0 ? ResultUtils.success() : ResultUtils.failure();
     }
 
@@ -237,7 +237,8 @@ public class ProjectIssueServiceImpl implements ProjectIssueService {
 
     @Override
     public Result findRelevance(Integer id, Integer companyId) {
-        return ResultUtils.success(projectIssueDao.findRelevance(id, companyId));
+        List<ProjectIssue> relevance = projectIssueDao.findRelevance(id, companyId);
+        return ResultUtils.success(relevance);
     }
 
     @Override
