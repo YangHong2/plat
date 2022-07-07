@@ -6,6 +6,8 @@ import com.dhlk.entity.basicmodule.User;
 import com.dhlk.entity.sub.SubpackageUser;
 import com.dhlk.service.RedisService;
 import com.dhlk.subcontract.dao.CompanyDao;
+import com.dhlk.subcontract.dao.ProjectIssueDao;
+import com.dhlk.subcontract.dao.ReceivingInfoDao;
 import com.dhlk.subcontract.dao.SubpackageUserDao;
 import com.dhlk.subcontract.service.SubpackageUserService;
 import com.dhlk.subcontract.util.HeaderUtil;
@@ -19,9 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 用户表(SubpackageUser)表服务实现类
@@ -39,6 +39,12 @@ public class SubpackageUserServiceImpl extends ServiceImpl<SubpackageUserDao, Su
     private RedisService redisService;
     @Autowired
     private HeaderUtil headerUtil;
+
+    @Autowired
+    private ProjectIssueDao projectIssueDao;
+
+    @Autowired
+    private ReceivingInfoDao receivingInfoDao;
 
     /**
      * 通过主键删除数据
@@ -89,5 +95,38 @@ public class SubpackageUserServiceImpl extends ServiceImpl<SubpackageUserDao, Su
     @Override
     public Map<String, Set> getPermissionsByLoginName(User user) {
         return null;
+    }
+
+    @Override
+    public Result countUser() {
+        // 计算企业
+        int userCount = subpackageUserDao.findCount();
+        // 计算总金额
+        List<String> money = receivingInfoDao.findMoney();
+        int sunMoney = 0;
+        for (String s : money) {
+            try {
+                /*int i = Integer.parseInt(s);*/
+                float v = Float.parseFloat(s);
+                int bigMoney =(int)v;
+                sunMoney=sunMoney+bigMoney;
+            }catch (Exception e){
+                System.out.println(e);
+            }
+        }
+        /*String s = String.valueOf(sunMoney);
+        char[] chars = s.toCharArray();
+        int length = chars.length;
+        String substring = s.substring(0, length  - 4);
+        int i = Integer.parseInt(substring);*/
+
+        int i = sunMoney/10000;
+        // 计算解决方案
+        int count = projectIssueDao.findCount();
+        Map<String,Integer> countMap = new HashMap();
+        countMap.put("企业",userCount);
+        countMap.put("金额",i);
+        countMap.put("方案",count);
+        return ResultUtils.success(countMap);
     }
 }

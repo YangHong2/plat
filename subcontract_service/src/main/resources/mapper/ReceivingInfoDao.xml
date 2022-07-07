@@ -181,5 +181,10 @@
     <delete id="deleteById">
         delete from dhlk_subcontract_plat.receiving_info where id = #{id}
     </delete>
+
+    <!-- 查询 金额字段-->
+    <select id="findMoney"  resultType="string" >
+        select money from dhlk_subcontract_plat.receiving_info
+    </select>
 </mapper>
 

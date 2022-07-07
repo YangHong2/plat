@@ -120,5 +120,7 @@ public interface SubpackageUserDao extends BaseMapper<SubpackageUser> {
     List<SubpackageUser> findList(@Param("companyName")String companyName,
                                   @Param("auditStatus")Integer auditStatus,
                                   @Param("isBlacklist")Integer isBlacklist);
+
+    int findCount();
 }
 

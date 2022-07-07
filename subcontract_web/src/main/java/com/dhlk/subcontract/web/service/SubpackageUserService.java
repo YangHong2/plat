@@ -35,4 +35,6 @@ public interface SubpackageUserService {
                            @RequestParam(value = "isBlacklist",required = false) Integer isBlacklist,
                            @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                            @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize);
+    @GetMapping("/count")
+    Result countUser();
 }

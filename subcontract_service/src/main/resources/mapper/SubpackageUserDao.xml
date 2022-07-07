@@ -159,6 +159,10 @@
         </if>
     </select>
 
+    <select id="findCount" resultType="integer" >
+        select count(*) from subpackage_user
+    </select>
+
 
 </mapper>
 

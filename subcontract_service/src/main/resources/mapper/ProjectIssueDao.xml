@@ -499,5 +499,9 @@
         where t1.id = #{id}
 
     </select>
+
+    <select id="findCount" resultType="integer">
+        select count(*) from project_issue
+    </select>
 </mapper>
 

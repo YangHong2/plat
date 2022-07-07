@@ -47,4 +47,9 @@ public class SubpackageUserController {
                            @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
         return this.subpackageUserService.findList(companyName,auditStatus,isBlacklist,pageNum,pageSize);
     }
+    @GetMapping("/count")
+    @ApiOperation("企业,金额,方案")
+    public Result countUser(){
+        return subpackageUserService.countUser();
+    }
 }

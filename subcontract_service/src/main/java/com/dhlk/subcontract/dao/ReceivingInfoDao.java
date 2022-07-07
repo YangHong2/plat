@@ -88,5 +88,8 @@ public interface ReceivingInfoDao {
      * @return
      */
     List<ReceivingInfo> selectByProjectId(Integer id);
+
+    List<String> findMoney();
+
 }
 

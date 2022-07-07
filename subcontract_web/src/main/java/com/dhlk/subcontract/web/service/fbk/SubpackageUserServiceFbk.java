@@ -29,4 +29,9 @@ public class SubpackageUserServiceFbk implements SubpackageUserService {
         public Result findList(String companyName, Integer auditStatus, Integer isBlacklist, Integer pageNum, Integer pageSize) {
         return ResultUtils.error(ResultEnum.NETWORK_ERR);
     }
+
+    @Override
+    public Result countUser() {
+        return ResultUtils.error(ResultEnum.NETWORK_ERR);
+    }
 }

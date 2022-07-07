@@ -112,5 +112,7 @@ public interface ProjectIssueDao {
      * @return
      */
     List<ProjectIssue> findName(String name);
+
+    int findCount();
 }
 

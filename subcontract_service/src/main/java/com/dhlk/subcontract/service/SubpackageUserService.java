@@ -37,4 +37,6 @@ public interface SubpackageUserService extends IService<SubpackageUser> {
     Result findList(String companyName, Integer auditStatus,Integer isBlacklist, Integer pageNum, Integer pageSize);
 
     Map<String, Set> getPermissionsByLoginName(User user);
+
+    Result countUser();
 }
