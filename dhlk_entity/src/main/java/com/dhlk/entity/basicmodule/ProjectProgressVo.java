@@ -6,6 +6,8 @@ import lombok.Data;
 @Data
 public class ProjectProgressVo {
 
+    private Integer id;
+
     private Integer projectId;
 
     private Integer plan;

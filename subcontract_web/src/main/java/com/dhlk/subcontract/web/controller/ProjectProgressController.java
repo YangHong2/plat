@@ -2,6 +2,8 @@ package com.dhlk.subcontract.web.controller;
 
 
 import com.dhlk.domain.Result;
+import com.dhlk.entity.basicmodule.ProjectCheck;
+import com.dhlk.entity.basicmodule.ProjectDeliveryVo;
 import com.dhlk.entity.basicmodule.ProjectProgressVo;
 import com.dhlk.subcontract.web.service.ProjectProgressService;
 import io.swagger.annotations.Api;
@@ -33,6 +35,24 @@ public class ProjectProgressController {
     @ApiOperation("添加该项目进度")
     public Result addOne(@RequestBody ProjectProgressVo projectProgressVo){
         return projectProgressService.addOne(projectProgressVo);
+    }
+
+    @PostMapping(value = "/addDelivery")
+    @ApiOperation("提交项目")
+    public Result addDelivery(@RequestBody ProjectDeliveryVo projectDeliveryVo){
+        return projectProgressService.addDelivery(projectDeliveryVo);
+    }
+
+    @GetMapping(value = "/findAllById")
+    @ApiOperation("查询已提交项目")
+    public Result findAllById(@RequestParam(value = "projectId") Integer projectId){
+        return projectProgressService.findAllById(projectId);
+    }
+
+    @PostMapping(value = "/check")
+    @ApiOperation("审核")
+    public Result check(@RequestBody ProjectCheck projectCheck){
+        return projectProgressService.check(projectCheck);
     }
 
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlk.subcontract.dao.ProjectDeliveryDao">
+    <resultMap type="com.dhlk.entity.sub.ProjectDelivery" id="ProjectDeliveryMap">
+        <id column="id" property="id"/>
+        <result column="project_id" property="projectId"/>
+        <result column="project_name" property="projectName"/>
+        <result column="project_remark" property="projectRemark"/>
+        <result column="project_path" property="projectPath" />
+        <result  column="project_status" property="projectStatus"/>
+        <result column="project_cause"  property="projectCause"/>
+    </resultMap>
+
+
+    <select id="findAllByProjectId" parameterType="_integer" resultMap="ProjectDeliveryMap">
+        SELECT * FROM project_delivery where project_id =#{projectId}
+    </select>
+
+    <insert id="save" parameterType="com.dhlk.entity.sub.ProjectDelivery">
+        insert into project_delivery(id,project_id,project_Name,project_remark,project_path,project_status,project_cause)
+        values (null,#{projectId},#{projectName},#{projectRemark},#{projectPath},#{projectStatus},null)
+    </insert>
+
+    <update id="updateByProjectId" parameterType="com.dhlk.entity.basicmodule.ProjectCheck">
+        update project_delivery set project_cause=#{projectCause},project_status=#{projectStatus} where project_id=#{projectId}
+    </update>
+
+    <delete id="deleteById" parameterType="integer" >
+        delete from project_delivery where project_id=#{projectId}
+    </delete>
+</mapper>
+

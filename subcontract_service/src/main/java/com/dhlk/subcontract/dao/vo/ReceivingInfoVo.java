@@ -28,7 +28,7 @@ public class ReceivingInfoVo implements Serializable {
     /**
      * 金额
      */
-    private Double money;
+    private String money;
     /**
      * 付款方
      */

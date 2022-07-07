@@ -1,15 +1,14 @@
-package com.dhlk.entity.sub;
+package com.dhlk.entity.basicmodule;
 
 
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
-public class ProjectProgress implements Serializable {
-
+public class ProjectProgressDto implements Serializable {
     private Integer id;
+
     private Integer projectId;
 
     private Integer plan;
@@ -18,6 +17,5 @@ public class ProjectProgress implements Serializable {
 
     private String path;
 
-    private Date createTime;
-
+    private String createTime;
 }
