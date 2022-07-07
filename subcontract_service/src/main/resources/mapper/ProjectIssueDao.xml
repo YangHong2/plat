@@ -26,6 +26,8 @@
         <result property="score" column="score" jdbcType="INTEGER"/>
         <result property="auditResult" column="audit_result" jdbcType="INTEGER"/>
         <result property="noReason" column="no_reason" jdbcType="VARCHAR"/>
+        <result property="progressInt" column="progress_int" jdbcType="INTEGER"/>
+        <result property="progressString" column="progress_string" jdbcType="VARCHAR"/>
         <collection property="file"  column="attachment_addr" select="com.dhlk.subcontract.dao.AttachmentDao.findByDataId"/>
     </resultMap>
 
@@ -54,6 +56,8 @@
         <result property="score" column="score" jdbcType="INTEGER"/>
         <result property="auditResult" column="audit_result" jdbcType="INTEGER"/>
         <result property="noReason" column="no_reason" jdbcType="VARCHAR"/>
+        <result property="progressInt" column="progress_int" jdbcType="INTEGER"/>
+        <result property="progressString" column="progress_string" jdbcType="VARCHAR"/>
         <collection property="financialProvider" column="id" select="com.dhlk.subcontract.dao.FinancialProviderDao.findByProjectId"/>
         <collection property="consultingProvider" column="id" select="com.dhlk.subcontract.dao.ConsultingProviderDao.findByProjectId"/>
         <collection property="devProduce" column="id" select="com.dhlk.subcontract.dao.DevProduceDao.findByProjectId"/>
@@ -67,7 +71,8 @@
     <sql id="Base_Column_List">
         t2.id, t2.project_name, t2.is_approval, t2.project_cycle, t2.delivery_method, t2.payment_method, t2.other_required, t2.project_managerr,
         t2.payment_product, t2.validity, t2.contact_way, t2.project_budget, t2.start_time, t2.project_type, t2.project_related, t2.funds_type,
-        t2.demand_introduce, t2.remark, t2.attachment_addr, t2.company_id, t2.create_time, t2.score, t2.audit_result, t2.no_reason
+        t2.demand_introduce, t2.remark, t2.attachment_addr, t2.company_id, t2.create_time, t2.score, t2.audit_result, t2.no_reason,t2.progress_int,
+    t2.progress_string
     </sql>
 
     <!--查询单个-->
@@ -75,7 +80,7 @@
         select
         id, project_name, is_approval, project_cycle, delivery_method, payment_method, other_required, project_managerr,
         payment_product, validity, contact_way, project_budget, start_time, project_type, project_related, funds_type,
-        demand_introduce, remark, attachment_addr, company_id, create_time, score, audit_result, no_reason
+        demand_introduce, remark, attachment_addr, company_id, create_time, score, audit_result, no_reason,progress_int,progress_string
         from project_issue
         where id = #{id}
     </select>
@@ -85,7 +90,7 @@
         select
         id, project_name, is_approval, project_cycle, delivery_method, payment_method, other_required, project_managerr,
         payment_product, validity, contact_way, project_budget, start_time, project_type, project_related, funds_type,
-        demand_introduce, remark, attachment_addr, company_id, create_time, score, audit_result, no_reason
+        demand_introduce, remark, attachment_addr, company_id, create_time, score, audit_result, no_reason,progress_int,progress_string
         from project_issue
         <where>
             <if test="id != null">
@@ -160,6 +165,11 @@
             <if test="noReason != null and noReason != ''">
                 and no_reason = #{noReason}
             </if>
+            <if test="progressInt != null and progressInt != ''">
+                and progress_int = #{progressInt}
+            </if> <if test="progressString != null and progressString != ''">
+                and progress_string = #{progressString}
+            </if>
         </where>
     </select>
 
@@ -189,7 +199,9 @@
             <if test="companyId != null ">company_id,</if>
             <if test="score != null ">score,</if>
             <if test="auditResult != null ">audit_result,</if>
-            <if test="noReason != null  and noReason != ''">no_reason</if>
+            <if test="noReason != null  and noReason != ''">no_reason,</if>
+            <if test="progressInt != null">progress_int,</if>
+            <if test="progressString != null and progressString != ''">progress_string</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''"> #{id},</if>
@@ -214,7 +226,9 @@
             <if test="companyId != null">#{companyId},</if>
             <if test="score != null">#{score},</if>
             <if test="auditResult != null">#{auditResult},</if>
-            <if test="noReason != null  and noReason != ''">#{noReason}</if>
+            <if test="noReason != null  and noReason != ''">#{noReason},</if>
+            <if test="progressInt != null">#{progressInt},</if>
+            <if test="progressString != null  and progressString != ''">#{progressString}</if>
         </trim>
     </insert>
 
@@ -291,6 +305,12 @@
             </if>
             <if test="noReason != null and noReason != ''">
                 no_reason = #{noReason},
+            </if>
+            <if test="progressInt != null">
+                 progress_int = #{progressInt},
+            </if>
+            <if test="progressString != null and progressString != ''">
+                progress_string = #{progressString},
             </if>
         </set>
         where id = #{id}
@@ -379,7 +399,7 @@
     <select id="findRelevance" resultMap="ProjectIssueRelevanceMap">
         select  id, project_name, is_approval, project_cycle, delivery_method, payment_method, other_required, project_managerr,
         payment_product, validity, contact_way, project_budget, start_time, project_type, project_related, funds_type,
-        demand_introduce, remark, attachment_addr, company_id, create_time, score, audit_result, no_reason
+        demand_introduce, remark, attachment_addr, company_id, create_time, score, audit_result, no_reason,progress_int,progress_string
         from  project_issue where id = #{id} and company_id = #{companyId}
     </select>
 
@@ -402,7 +422,8 @@
     <select id="getRelevance" resultMap="ProjectIssueMap">
     SELECT t2.id, t2.project_name, t2.is_approval, t2.project_cycle, t2.delivery_method, t2.payment_method, t2.other_required, t2.project_managerr,
     t2.payment_product, t2.validity, t2.contact_way, t2.project_budget, t2.start_time, t2.project_type, t2.project_related, t2.funds_type,
-    t2.demand_introduce, t2.remark, t2.attachment_addr, t2.company_id, t2.create_time, t2.score, t2.audit_result, t2.no_reason
+    t2.demand_introduce, t2.remark, t2.attachment_addr, t2.company_id, t2.create_time, t2.score, t2.audit_result, t2.no_reason,t2.progress_int,
+           t2.progress_string
     FROM consulting_provider t1 JOIN project_issue t2 ON t1.project_id = t2.id and t1.company_id = #{companyId}
     </select>
 
@@ -445,6 +466,8 @@
         t1.score,
         t1.audit_result,
         t1.no_reason ,
+        t1.progress_int,
+        t1.progress_string,
         t2.company_name
         FROM
         project_issue t1 LEFT JOIN company t2 on t1.company_id = t2.id
@@ -493,6 +516,8 @@
         t1.score,
         t1.audit_result,
         t1.no_reason ,
+        t1.progress_int,
+        t1.progress_string,
         t2.company_name
         FROM
         project_issue t1 LEFT JOIN company t2 on t1.company_id = t2.id

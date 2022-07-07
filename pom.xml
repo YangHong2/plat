@@ -35,7 +35,7 @@
         <!-- mqtt消息订阅  -->
         <module>dhlk_mqtt_subscribe</module>
         <!-- hadoop的微服务  -->
-        <module>dhlk_hadoop</module>
+<!--        <module>dhlk_hadoop</module>-->
         <!--  hive微服务 -->
         <module>dhlk_hive</module>
         <!--===================================================================-->

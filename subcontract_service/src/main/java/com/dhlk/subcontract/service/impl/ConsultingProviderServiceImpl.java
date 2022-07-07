@@ -4,6 +4,7 @@ import com.dhlk.domain.Result;
 import com.dhlk.entity.sub.ConsultingProvider;
 import com.dhlk.subcontract.dao.ConsultingProviderDao;
 import com.dhlk.subcontract.service.ConsultingProviderService;
+import com.dhlk.subcontract.service.ProjectIssueService;
 import com.dhlk.utils.CheckUtils;
 import com.dhlk.utils.ResultUtils;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,8 @@ public class ConsultingProviderServiceImpl implements ConsultingProviderService 
 
     @Resource
     private ConsultingProviderDao consultingProviderDao;
-
+@Resource
+private ProjectIssueService projectIssueService;
 
     /**
      * 新增数据
@@ -41,7 +43,12 @@ public class ConsultingProviderServiceImpl implements ConsultingProviderService 
         } else {
             flag = consultingProviderDao.insert(consultingProvider);
         }
-
+        // 进行下一个 首付款阶段
+        if (flag > 0) {
+            projectIssueService.upDataByprogress(consultingProvider.getProjectId(),4);
+        } else {
+            projectIssueService.upDataByprogress(consultingProvider.getProjectId(),3);
+        }
         return flag > 0 ? ResultUtils.success() : ResultUtils.failure();
     }
 

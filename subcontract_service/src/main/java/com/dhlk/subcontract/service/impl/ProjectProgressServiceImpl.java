@@ -9,12 +9,14 @@ import com.dhlk.entity.sub.ProjectProgress;
 import com.dhlk.subcontract.dao.ProjectDeliveryDao;
 import com.dhlk.subcontract.dao.ProjectProgressDao;
 import com.dhlk.subcontract.dao.vo.ProjectProgressVo;
+import com.dhlk.subcontract.service.ProjectIssueService;
 import com.dhlk.subcontract.service.ProjectProgressService;
 import com.dhlk.utils.CheckUtils;
 import com.dhlk.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +32,8 @@ public class ProjectProgressServiceImpl implements ProjectProgressService {
 
     @Autowired
     private ProjectDeliveryDao projectDeliveryDao;
-
+@Resource
+private ProjectIssueService projectIssueService;
 
     @Override
     public Result findList(Integer projectId) {
@@ -99,6 +102,8 @@ public class ProjectProgressServiceImpl implements ProjectProgressService {
         if (save==0){
             return ResultUtils.error("添加失败");
         }
+        // 进行下一个 交付阶段
+            projectIssueService.upDataByprogress(projectDeliveryVo.getProjectId(),6);
 
         return ResultUtils.success();
     }
@@ -111,8 +116,15 @@ public class ProjectProgressServiceImpl implements ProjectProgressService {
         if (projectCheck.getProjectStatus()==0||projectCheck.getProjectStatus()>3){
             return ResultUtils.error("审核结果有误");
         }
+
         int i = projectDeliveryDao.updateByProjectId(projectCheck);
         if (i>0){
+            if (projectCheck.getProjectStatus()==1){
+                // 进行下一个 已交付阶段
+                projectIssueService.upDataByprogress(projectCheck.getProjectId(),8);
+            }else {
+                projectIssueService.upDataByprogress(projectCheck.getProjectId(),5);
+            }
             return ResultUtils.success();
         }
         return ResultUtils.error("审核操作失败");

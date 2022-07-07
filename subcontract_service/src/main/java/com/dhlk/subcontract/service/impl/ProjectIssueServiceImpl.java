@@ -69,6 +69,8 @@ public class ProjectIssueServiceImpl implements ProjectIssueService {
         Integer flag = 0;
         //新增
         if (CheckUtils.isNull(projectIssue.getId())) {
+            projectIssue.setProgressInt(2);
+            projectIssue.setProgressString("项目发布");
             flag = projectIssueDao.insert(projectIssue);
         } else {
             ProjectIssue issue = projectIssueDao.queryById(projectIssue.getId());
@@ -228,6 +230,8 @@ public class ProjectIssueServiceImpl implements ProjectIssueService {
                     item.setGress("已完成");
                     return;
                 }
+
+
             });
             PageInfo<DevProduce> devProduce = new PageInfo<>(lists);
             return ResultUtils.success(devProduce);
@@ -360,6 +364,42 @@ public class ProjectIssueServiceImpl implements ProjectIssueService {
         return ResultUtils.success(projectRecordsVO);
     }
 
-
-
+    /**
+     * 修改项目进度
+     *
+     * @return
+     */
+    @Override
+    public boolean upDataByprogress(Integer id,Integer progressInt) {
+        ProjectIssue projectIssue = new ProjectIssue();
+        projectIssue.setId(id);
+        String progressString ="";
+        if (progressInt==1){
+            progressString="项目发布";
+        }else if (progressInt==2){
+            progressString="招募投资中";
+        }else if (progressInt==3){
+            progressString="招募施工中";
+        }else if (progressInt==4){
+            progressString="首付款中";
+        }else if (progressInt==5){
+            progressString="正在施工中";
+        }else if (progressInt==6){
+            progressString="正在交付中";
+        }else if (progressInt==7){
+            progressString="正在交易中";
+        }else if (progressInt==8){
+            progressString="付尾款中";
+        }else if (progressInt==9){
+            progressString="进行回款中";
+        }else if (progressInt==10){
+            progressString="项目已关闭";
+        }else if(progressInt==11){
+            progressString="项目关闭中";
+        }
+        projectIssue.setProgressInt(progressInt);
+        projectIssue.setProgressString(progressString);
+        Integer update = projectIssueDao.update(projectIssue);
+        return update > 0;
+    }
 }
