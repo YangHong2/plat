@@ -156,4 +156,19 @@ public class ProjectIssueController {
                                   @RequestParam(value = "id") Integer id){
         return projectIssueService.projectRecords(projectName,id);
     }
+    /**
+     * 搜索框模糊查询
+     * @param name
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+
+    @ApiOperation("搜索框模糊查询")
+    @GetMapping("/findProjectName")
+    public Result findProjectName(@RequestParam(value = "name", required = false) String name,
+                                  @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+                                  @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
+        return projectIssueService.findProjectName(name, pageNum, pageSize);
+    }
 }

@@ -33,9 +33,8 @@ import javax.annotation.Resource;
 //                                               \ \ `-. \_ __\ /__ _/ .-` / /
 //                                       ======`-.____`-.___\_____/___.-`____.-'======
 //                                                          `=---='
-//
 //                                       .............................................
-//                                              佛祖保佑     此核心代码永无BUG，万一有Bug反正你也找不到我
+//                                        佛祖保佑     此核心代码永无BUG，万一有Bug反正你也找不到我
 //                                      佛曰:
 //                                              写字楼里写字间，写字间里程序员；
 //                                              程序人员写程序，又拿程序换酒钱。
@@ -123,6 +122,19 @@ public class ProjectIssueController {
         return projectIssueService.findProjectManage(name, pageNum, pageSize);
     }
 
+    /**
+     * 搜索框模糊查询
+     * @param name
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/findProjectName")
+    public Result findProjectName(@RequestParam(value = "name", required = false) String name,
+                                    @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+                                    @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
+        return projectIssueService.findProjectName(name, pageNum, pageSize);
+    }
 
     /**
      * 我的项目数量

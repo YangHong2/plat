@@ -112,6 +112,12 @@ public interface ProjectIssueDao {
      * @return
      */
     List<ProjectIssue> findName(String name);
+    /**
+     * 搜索框模糊查询
+     * @param name
+     * @return
+     */
+        List<ProjectIssue> findProjectName(String name);
 
     int findCount();
 }

@@ -8,7 +8,7 @@ import com.dhlk.entity.sub.FinancialProvider;
 import com.dhlk.entity.sub.ProjectIssue;
 import com.dhlk.enums.ResultEnum;
 import com.dhlk.subcontract.dao.*;
-import com.dhlk.subcontract.dao.vo.ProjectIssueVO;
+import com.dhlk.subcontract.dao.vo.ProjectIssueVo;
 import com.dhlk.subcontract.dao.vo.ProjectRecordsVO;
 import com.dhlk.subcontract.service.GoldService;
 import com.dhlk.subcontract.service.ProjectIssueService;
@@ -312,26 +312,26 @@ public class ProjectIssueServiceImpl implements ProjectIssueService {
         if (name == null || name == "") {
             PageHelper.startPage(pageNum, pageSize);
             List<ProjectIssue> list = projectIssueDao.findName(name);
-            List<ProjectIssueVO> listVo = new ArrayList<>();
+            List<ProjectIssueVo> listVo = new ArrayList<>();
             for (ProjectIssue projectIssue : list) {
-                ProjectIssueVO projectIssueVO = new ProjectIssueVO();
+                ProjectIssueVo projectIssueVO = new ProjectIssueVo();
                 BeanUtils.copyProperties(projectIssue, projectIssueVO);
                 projectIssueVO.setCompanyName(companyDao.queryById(projectIssue.getCompanyId()).getCompanyName());
                 listVo.add(projectIssueVO);
             }
-            PageInfo<ProjectIssueVO> projectCloseVo = new PageInfo<ProjectIssueVO>(listVo);
+            PageInfo<ProjectIssueVo> projectCloseVo = new PageInfo<ProjectIssueVo>(listVo);
             return ResultUtils.success(projectCloseVo);
         } else {
             PageHelper.startPage(pageNum, pageSize);
             List<ProjectIssue> list = projectIssueDao.findName(name);
-            List<ProjectIssueVO> listVo = new ArrayList<>();
+            List<ProjectIssueVo> listVo = new ArrayList<>();
             for (ProjectIssue projectIssue : list) {
-                ProjectIssueVO projectIssueVO = new ProjectIssueVO();
+                ProjectIssueVo projectIssueVO = new ProjectIssueVo();
                 BeanUtils.copyProperties(projectIssue, projectIssueVO);
                 projectIssueVO.setCompanyName(companyDao.queryById(projectIssue.getCompanyId()).getCompanyName());
                 listVo.add(projectIssueVO);
             }
-            PageInfo<ProjectIssueVO> projectCloseVo = new PageInfo<ProjectIssueVO>(listVo);
+            PageInfo<ProjectIssueVo> projectCloseVo = new PageInfo<ProjectIssueVo>(listVo);
             return ResultUtils.success(projectCloseVo);
         }
     }
@@ -365,37 +365,73 @@ public class ProjectIssueServiceImpl implements ProjectIssueService {
     }
 
     /**
+     * 搜索框模糊查询
+     * @param name
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public Result findProjectName(String name, Integer pageNum, Integer pageSize) {
+        if (name == null || name == "") {
+            PageHelper.startPage(pageNum, pageSize);
+            List<ProjectIssue> list = projectIssueDao.findProjectName(name);
+            List<ProjectIssueVo> listVo = new ArrayList<>();
+            for (ProjectIssue projectIssue : list) {
+                ProjectIssueVo projectIssueVO = new ProjectIssueVo();
+                BeanUtils.copyProperties(projectIssue, projectIssueVO);
+                projectIssueVO.setCompanyName(companyDao.queryById(projectIssue.getCompanyId()).getCompanyName());
+                listVo.add(projectIssueVO);
+            }
+            PageInfo<ProjectIssueVo> projectCloseVo = new PageInfo<ProjectIssueVo>(listVo);
+            return ResultUtils.success(projectCloseVo);
+        } else {
+            PageHelper.startPage(pageNum, pageSize);
+            List<ProjectIssue> list = projectIssueDao.findProjectName(name);
+            List<ProjectIssueVo> listVo = new ArrayList<>();
+            for (ProjectIssue projectIssue : list) {
+                ProjectIssueVo projectIssueVO = new ProjectIssueVo();
+                BeanUtils.copyProperties(projectIssue, projectIssueVO);
+                projectIssueVO.setCompanyName(companyDao.queryById(projectIssue.getCompanyId()).getCompanyName());
+                listVo.add(projectIssueVO);
+            }
+            PageInfo<ProjectIssueVo> projectCloseVo = new PageInfo<ProjectIssueVo>(listVo);
+            return ResultUtils.success(projectCloseVo);
+        }
+
+    }
+
+    /**
      * 修改项目进度
      *
      * @return
      */
     @Override
-    public boolean upDataByprogress(Integer id,Integer progressInt) {
+    public boolean upDataByprogress(Integer id, Integer progressInt) {
         ProjectIssue projectIssue = new ProjectIssue();
         projectIssue.setId(id);
-        String progressString ="";
-        if (progressInt==1){
-            progressString="项目发布";
-        }else if (progressInt==2){
-            progressString="招募投资中";
-        }else if (progressInt==3){
-            progressString="招募施工中";
-        }else if (progressInt==4){
-            progressString="首付款中";
-        }else if (progressInt==5){
-            progressString="正在施工中";
-        }else if (progressInt==6){
-            progressString="正在交付中";
-        }else if (progressInt==7){
-            progressString="正在交易中";
-        }else if (progressInt==8){
-            progressString="付尾款中";
-        }else if (progressInt==9){
-            progressString="进行回款中";
-        }else if (progressInt==10){
-            progressString="项目已关闭";
-        }else if(progressInt==11){
-            progressString="项目关闭中";
+        String progressString = "";
+        if (progressInt == 1) {
+            progressString = "项目发布";
+        } else if (progressInt == 2) {
+            progressString = "招募投资中";
+        } else if (progressInt == 3) {
+            progressString = "招募施工中";
+        } else if (progressInt == 4) {
+            progressString = "首付款中";
+        } else if (progressInt == 5) {
+            progressString = "正在施工中";
+        } else if (progressInt == 6) {
+            progressString = "正在交付中";
+        } else if (progressInt == 7) {
+            progressString = "正在交易中";
+        } else if (progressInt == 8) {
+            progressString = "付尾款中";
+        } else if (progressInt == 9) {
+            progressString = "进行回款中";
+        } else if (progressInt == 10) {
+            progressString = "项目已关闭";
+        } else if (progressInt == 11) {
+            progressString = "项目关闭中";
         }
         projectIssue.setProgressInt(progressInt);
         projectIssue.setProgressString(progressString);

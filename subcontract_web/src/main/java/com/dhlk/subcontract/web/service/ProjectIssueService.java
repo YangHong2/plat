@@ -114,11 +114,26 @@ public interface ProjectIssueService {
 
     /**
      * 查询项目流程
+     *
      * @param projectName
      * @return
      */
 
     @GetMapping("/projectRecords")
-    public  Result projectRecords(@RequestParam(value = "projectName") String projectName,
-                                  @RequestParam(value = "id") Integer id);
+    public Result projectRecords(@RequestParam(value = "projectName") String projectName,
+                                 @RequestParam(value = "id") Integer id);
+
+    /**
+     * 搜索框模糊查询
+     *
+     * @param name
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/findProjectName")
+    public Result findProjectName(@RequestParam(value = "name", required = false) String name,
+                                  @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+                                  @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize);
+
 }

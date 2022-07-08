@@ -439,6 +439,17 @@
         and project_issue.audit_result=0
     </select>
 
+    <select id="findProjectName" resultMap="ProjectIssueMap">
+        SELECT
+        *
+        FROM
+        project_issue
+        where 1=1
+        <if test="name != null and name != ''">
+            and project_issue.project_name like concat('%/', #{name}, '%') ESCAPE '/'
+        </if>
+        and project_issue.audit_result=1
+    </select>
 
     <select id="search" resultMap="ProjectIssueMap">
         SELECT

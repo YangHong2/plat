@@ -108,6 +108,14 @@ public interface ProjectIssueService {
      * @return
      */
     Result projectRecords(String projectName,Integer id);
+    /**
+     * 搜索框模糊查询
+     * @param name
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public Result findProjectName(String name, Integer pageNum, Integer pageSize);
 
     /**
      * 修改项目进度
